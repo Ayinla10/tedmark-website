@@ -4,6 +4,15 @@ require_once __DIR__ . '/../includes/db.php';
 
 echo "<pre style='background:#1e293b;color:#e2e8f0;padding:20px;font-size:13px;'>";
 
+// Check hero settings specifically
+echo "=== HERO SETTINGS ===\n";
+$heroKeys = ['hero_bg_image','hero_overlay_opacity','hero_badge','hero_h1_line1'];
+foreach ($heroKeys as $k) {
+    $r = fetchOne("SELECT `value` FROM settings WHERE `key` = ?", [$k]);
+    echo "  $k = " . ($r ? $r['value'] : 'NOT FOUND') . "\n";
+}
+echo "\n";
+
 // Test 1: Can we read settings?
 echo "=== READ TEST ===\n";
 $rows = fetchAll("SELECT `key`, `value` FROM settings LIMIT 5");
