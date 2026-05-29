@@ -136,12 +136,12 @@ require_once __DIR__ . '/includes/admin-layout.php';
   <div class="tm-card">
     <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-share-nodes text-green" style="margin-right:8px;"></i>Social Media Links</span></div>
     <div class="form-row">
-      <div class="form-group"><label><i class="fa-brands fa-twitter" style="margin-right:6px;"></i>Twitter / X</label><input type="url" name="settings[social_twitter]" value="<?= si($s,'social_twitter') ?>" placeholder="https://twitter.com/..."></div>
-      <div class="form-group"><label><i class="fa-brands fa-linkedin" style="margin-right:6px;"></i>LinkedIn</label><input type="url" name="settings[social_linkedin]" value="<?= si($s,'social_linkedin') ?>" placeholder="https://linkedin.com/..."></div>
+      <div class="form-group"><label><i class="fa-brands fa-twitter" style="margin-right:6px;"></i>Twitter / X</label><input type="text" name="settings[social_twitter]" value="<?= si($s,'social_twitter') ?>" placeholder="https://twitter.com/..."></div>
+      <div class="form-group"><label><i class="fa-brands fa-linkedin" style="margin-right:6px;"></i>LinkedIn</label><input type="text" name="settings[social_linkedin]" value="<?= si($s,'social_linkedin') ?>" placeholder="https://linkedin.com/..."></div>
     </div>
     <div class="form-row">
-      <div class="form-group"><label><i class="fa-brands fa-instagram" style="margin-right:6px;"></i>Instagram</label><input type="url" name="settings[social_instagram]" value="<?= si($s,'social_instagram') ?>" placeholder="https://instagram.com/..."></div>
-      <div class="form-group"><label><i class="fa-brands fa-facebook" style="margin-right:6px;"></i>Facebook</label><input type="url" name="settings[social_facebook]" value="<?= si($s,'social_facebook') ?>" placeholder="https://facebook.com/..."></div>
+      <div class="form-group"><label><i class="fa-brands fa-instagram" style="margin-right:6px;"></i>Instagram</label><input type="text" name="settings[social_instagram]" value="<?= si($s,'social_instagram') ?>" placeholder="https://instagram.com/..."></div>
+      <div class="form-group"><label><i class="fa-brands fa-facebook" style="margin-right:6px;"></i>Facebook</label><input type="text" name="settings[social_facebook]" value="<?= si($s,'social_facebook') ?>" placeholder="https://facebook.com/..."></div>
     </div>
   </div>
 </div>
