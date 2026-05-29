@@ -7,9 +7,6 @@ require_once __DIR__ . '/../includes/db.php';
 // ── ALL LOGIC BEFORE LAYOUT ──────────────────────────
 $success = $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (empty($_POST['settings'])) {
-        die('<p style="color:red;padding:20px;">ERROR: No settings data received in POST</p>');
-    }
     try {
         foreach ($_POST['settings'] as $key => $value) {
             $existing = fetchOne("SELECT id FROM settings WHERE `key` = ?", [$key]);
@@ -39,7 +36,6 @@ function si($s, $key) { return htmlspecialchars($s[$key] ?? ''); }
 require_once __DIR__ . '/includes/admin-layout.php';
 ?>
 
-<div style="color:#475569;font-size:0.7rem;margin-bottom:8px;">v2</div>
 <?php if ($success): ?><div class="alert alert-success"><i class="fa-solid fa-check"></i> <?= $success ?></div><?php endif; ?>
 <?php if ($error): ?><div class="alert alert-error"><i class="fa-solid fa-times"></i> <?= htmlspecialchars($error) ?></div><?php endif; ?>
 

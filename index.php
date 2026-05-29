@@ -7,9 +7,17 @@ $pageTitle = 'Helping African Businesses Run Smarter With Technology';
 $pageHasDarkHero = true;
 $pageDesc  = 'Tedmark Digital Agency helps African businesses run smarter with technology, automation, business systems, and modern digital infrastructure.';
 
-try { $recentPosts = fetchAll("SELECT p.*, c.name as cat_name FROM blog_posts p LEFT JOIN categories c ON p.category_id=c.id WHERE p.status='published' ORDER BY p.published_at DESC LIMIT 3"); } catch(Exception $e){ $recentPosts=[]; }
-try { $testimonials = fetchAll("SELECT * FROM testimonials WHERE status='active' AND featured=1 ORDER BY sort_order ASC LIMIT 3"); } catch(Exception $e){ $testimonials=[]; }
-try { $projects     = fetchAll("SELECT * FROM projects WHERE status='active' AND featured=1 ORDER BY sort_order ASC LIMIT 6"); } catch(Exception $e){ $projects=[]; }
+// Load settings from DB
+try {
+    $settingsRows = fetchAll("SELECT `key`, `value` FROM settings");
+    $cfg = array_column($settingsRows, 'value', 'key');
+} catch(Exception $e) { $cfg = []; }
+
+function cfg($cfg, $key, $default='') { return htmlspecialchars($cfg[$key] ?? $default); }
+
+try { $recentPosts = fetchAll("SELECT * FROM posts WHERE status='published' ORDER BY published_at DESC LIMIT 3"); } catch(Exception $e){ $recentPosts=[]; }
+try { $testimonials = fetchAll("SELECT * FROM testimonials WHERE status='active' ORDER BY sort_order ASC LIMIT 3"); } catch(Exception $e){ $testimonials=[]; }
+try { $projects     = fetchAll("SELECT * FROM projects WHERE status='active' ORDER BY sort_order ASC LIMIT 6"); } catch(Exception $e){ $projects=[]; }
 
 require_once __DIR__ . '/includes/header.php';
 ?>
@@ -24,40 +32,40 @@ require_once __DIR__ . '/includes/header.php';
             <div class="tm-fade">
                 <div class="tm-trust-badge">
                     <span style="width:8px;height:8px;background:#4ade80;border-radius:50%;display:inline-block;animation:pulse 2s infinite;"></span>
-                    Helping African Businesses Run Smarter
+                    <?= cfg($cfg,'hero_badge','Helping African Businesses Run Smarter') ?>
                 </div>
                 <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2.4rem,4.8vw,3.6rem);font-weight:900;line-height:1.1;color:#fff;margin-bottom:24px;margin-top:20px;letter-spacing:-0.02em;">
-                    We Build Systems.<br>
-                    We Automate Work.<br>
-                    <span class="tm-text-gradient" style="white-space:nowrap;">We Grow Businesses.</span>
+                    <?= cfg($cfg,'hero_h1_line1','We Build Systems.') ?><br>
+                    <?= cfg($cfg,'hero_h1_line2','We Automate Work.') ?><br>
+                    <span class="tm-text-gradient" style="white-space:nowrap;"><?= cfg($cfg,'hero_h1_line3','We Grow Businesses.') ?></span>
                 </h1>
                 <p style="font-size:1.05rem;color:#cbd5e1;line-height:1.8;max-width:500px;margin-bottom:40px;">
-                    We help businesses organize, automate, and digitize their operations using smart systems and modern technology so they can save time, reduce costs, and grow without limits.
+                    <?= cfg($cfg,'hero_subtext','We help businesses organize, automate, and digitize their operations using smart systems and modern technology so they can save time, reduce costs, and grow without limits.') ?>
                 </p>
                 <div style="display:flex;gap:16px;flex-wrap:wrap;">
                     <a href="<?= SITE_URL ?>/consultation.php" class="tm-btn-primary">
-                        Book a Free Strategy Session <i class="fa-solid fa-arrow-right fa-xs"></i>
+                        <?= cfg($cfg,'hero_btn_primary','Book a Free Strategy Session') ?> <i class="fa-solid fa-arrow-right fa-xs"></i>
                     </a>
                     <a href="<?= SITE_URL ?>/solutions.php" class="tm-btn-secondary">
-                        <i class="fa-solid fa-circle-play fa-sm"></i> Explore Our Solutions
+                        <i class="fa-solid fa-circle-play fa-sm"></i> <?= cfg($cfg,'hero_btn_secondary','Explore Our Solutions') ?>
                     </a>
                 </div>
                 <div style="display:flex;gap:28px;margin-top:48px;flex-wrap:nowrap;align-items:center;">
                     <div style="display:flex;align-items:center;gap:10px;">
                         <i class="fa-solid fa-building" style="color:#4ade80;font-size:1.1rem;"></i>
-                        <div><div style="font-size:1.5rem;font-weight:800;color:#fff;line-height:1;">100+</div><div style="font-size:0.75rem;color:#94a3b8;margin-top:2px;">Businesses Transformed</div></div>
+                        <div><div style="font-size:1.5rem;font-weight:800;color:#fff;line-height:1;"><?= cfg($cfg,'stat_1_value','80+') ?></div><div style="font-size:0.75rem;color:#94a3b8;margin-top:2px;"><?= cfg($cfg,'stat_1_label','Projects Delivered') ?></div></div>
                     </div>
                     <div style="display:flex;align-items:center;gap:10px;">
                         <i class="fa-solid fa-rocket" style="color:#4ade80;font-size:1.1rem;"></i>
-                        <div><div style="font-size:1.5rem;font-weight:800;color:#fff;line-height:1;">50+</div><div style="font-size:0.75rem;color:#94a3b8;margin-top:2px;">Projects Delivered</div></div>
+                        <div><div style="font-size:1.5rem;font-weight:800;color:#fff;line-height:1;"><?= cfg($cfg,'stat_2_value','95%') ?></div><div style="font-size:0.75rem;color:#94a3b8;margin-top:2px;"><?= cfg($cfg,'stat_2_label','Client Satisfaction') ?></div></div>
                     </div>
                     <div style="display:flex;align-items:center;gap:10px;">
                         <i class="fa-solid fa-star" style="color:#4ade80;font-size:1.1rem;"></i>
-                        <div><div style="font-size:1.5rem;font-weight:800;color:#fff;line-height:1;">98%</div><div style="font-size:0.75rem;color:#94a3b8;margin-top:2px;">Client Satisfaction</div></div>
+                        <div><div style="font-size:1.5rem;font-weight:800;color:#fff;line-height:1;"><?= cfg($cfg,'stat_3_value','8') ?></div><div style="font-size:0.75rem;color:#94a3b8;margin-top:2px;"><?= cfg($cfg,'stat_3_label','Industries Served') ?></div></div>
                     </div>
                     <div style="display:flex;align-items:center;gap:10px;">
                         <i class="fa-solid fa-headset" style="color:#4ade80;font-size:1.1rem;"></i>
-                        <div><div style="font-size:1.5rem;font-weight:800;color:#fff;line-height:1;">24/7</div><div style="font-size:0.75rem;color:#94a3b8;margin-top:2px;">Support & Partnership</div></div>
+                        <div><div style="font-size:1.5rem;font-weight:800;color:#fff;line-height:1;"><?= cfg($cfg,'stat_4_value','3yrs') ?></div><div style="font-size:0.75rem;color:#94a3b8;margin-top:2px;"><?= cfg($cfg,'stat_4_label','In Business') ?></div></div>
                     </div>
                 </div>
             </div>
