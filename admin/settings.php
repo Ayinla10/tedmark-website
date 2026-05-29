@@ -3,9 +3,8 @@ $pageTitle = 'Settings';
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/db.php';
-require_once __DIR__ . '/includes/admin-layout.php';
 
-// Save
+// ── ALL LOGIC BEFORE LAYOUT ──────────────────────────
 $success = $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
@@ -14,12 +13,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($existing) {
                 query("UPDATE settings SET `value` = ? WHERE `key` = ?", [trim($value), $key]);
             } else {
-                query("INSERT INTO settings (`key`, `value`) VALUES (?, ?)", [$key, trim($value)]);
+                query("INSERT INTO settings (`key`, `value`, `group`) VALUES (?, ?, 'general')", [$key, trim($value)]);
             }
         }
         $success = 'Settings saved successfully!';
     } catch (Exception $e) {
-        $error = 'Error saving settings.';
+        $error = 'Error saving settings: ' . $e->getMessage();
     }
 }
 
@@ -27,18 +26,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $rows = fetchAll("SELECT `key`, `value` FROM settings");
 $s = [];
 foreach ($rows as $r) $s[$r['key']] = $r['value'];
+
+function si($s, $key) { return htmlspecialchars($s[$key] ?? ''); }
+
+// ── NOW OUTPUT HTML ───────────────────────────────────
+require_once __DIR__ . '/includes/admin-layout.php';
 ?>
 
 <?php if ($success): ?><div class="alert alert-success"><i class="fa-solid fa-check"></i> <?= $success ?></div><?php endif; ?>
-<?php if ($error): ?><div class="alert alert-error"><i class="fa-solid fa-times"></i> <?= $error ?></div><?php endif; ?>
+<?php if ($error): ?><div class="alert alert-error"><i class="fa-solid fa-times"></i> <?= htmlspecialchars($error) ?></div><?php endif; ?>
 
 <form method="POST">
-<?php
-function si($s, $key) { return htmlspecialchars($s[$key] ?? ''); }
-?>
 
 <!-- TABS -->
-<div style="display:flex;gap:4px;margin-bottom:24px;border-bottom:1px solid #1e293b;padding-bottom:0;">
+<div style="display:flex;gap:4px;margin-bottom:24px;border-bottom:1px solid #1e293b;">
   <?php foreach(['general'=>'General','homepage'=>'Homepage','cta'=>'CTA Band','footer'=>'Footer','social'=>'Social Media'] as $tab=>$label): ?>
   <button type="button" class="tab-btn" data-tab="<?= $tab ?>" style="padding:10px 18px;border:none;background:none;color:#64748b;font-size:0.85rem;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:'Inter',sans-serif;">
     <?= $label ?>
@@ -89,7 +90,6 @@ function si($s, $key) { return htmlspecialchars($s[$key] ?? ''); }
       <div class="form-group"><label>Overlay Opacity (0.0 - 1.0)</label><input type="text" name="settings[hero_overlay_opacity]" value="<?= si($s,'hero_overlay_opacity') ?: '0.92' ?>" placeholder="0.92"></div>
     </div>
   </div>
-
   <div class="tm-card">
     <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-chart-bar text-green" style="margin-right:8px;"></i>Stats Bar</span></div>
     <div class="tm-grid-4">
@@ -158,7 +158,6 @@ tabs.forEach(btn => {
     document.getElementById('tab-'+btn.dataset.tab).style.display='block';
   });
 });
-// Activate first tab
 tabs[0].click();
 </script>
 
