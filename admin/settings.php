@@ -16,11 +16,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 query("INSERT INTO settings (`key`, `value`, `group`) VALUES (?, ?, 'general')", [$key, trim($value)]);
             }
         }
-        $success = 'Settings saved successfully!';
+        header('Location: ' . SITE_URL . '/admin/settings.php?saved=1');
+        exit;
     } catch (Exception $e) {
         $error = 'Error saving settings: ' . $e->getMessage();
     }
 }
+$success = isset($_GET['saved']) ? 'Settings saved successfully!' : '';
 
 // Load all settings
 $rows = fetchAll("SELECT `key`, `value` FROM settings");
@@ -36,7 +38,7 @@ require_once __DIR__ . '/includes/admin-layout.php';
 <?php if ($success): ?><div class="alert alert-success"><i class="fa-solid fa-check"></i> <?= $success ?></div><?php endif; ?>
 <?php if ($error): ?><div class="alert alert-error"><i class="fa-solid fa-times"></i> <?= htmlspecialchars($error) ?></div><?php endif; ?>
 
-<form method="POST">
+<form method="POST" action="<?= SITE_URL ?>/admin/settings.php">
 
 <!-- TABS -->
 <div style="display:flex;gap:4px;margin-bottom:24px;border-bottom:1px solid #1e293b;">
