@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/hopewwkz/new.tedmarkdigital.com
+    - /bin/cp -rf /home/hopewwkz/tedmark-repo/. $DEPLOYPATH
