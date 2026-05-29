@@ -1,15 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GH">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= isset($pageTitle) ? htmlspecialchars($pageTitle) . ' — ' . SITE_NAME : SITE_NAME . ' | Helping Businesses Run Smarter' ?></title>
-    <meta name="description" content="<?= isset($pageDesc) ? htmlspecialchars($pageDesc) : 'Tedmark Digital Agency helps African businesses run smarter with technology, automation, business systems, and digital infrastructure.' ?>">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="<?= isset($pageTitle) ? htmlspecialchars($pageTitle) . ' — ' . SITE_NAME : SITE_NAME ?>">
-    <meta property="og:description" content="<?= isset($pageDesc) ? htmlspecialchars($pageDesc) : 'Helping African businesses run smarter with technology.' ?>">
-    <meta property="og:url" content="<?= SITE_URL . $_SERVER['REQUEST_URI'] ?>">
-    <meta name="twitter:card" content="summary_large_image">
+<?php
+// ── SEO Engine ────────────────────────────────────────────────
+if (!function_exists('renderSeoTags')) {
+    require_once __DIR__ . '/seo.php';
+}
+// Load $cfg if not already loaded
+if (empty($cfg)) {
+    try {
+        $rows = fetchAll("SELECT `key`, `value` FROM settings");
+        $cfg  = array_column($rows, 'value', 'key');
+    } catch(Exception $e) { $cfg = []; }
+}
+// $seoData can be set on any page before including header.php
+// Fallback to $pageTitle / $pageDesc if no $seoData
+if (empty($seoData)) {
+    $seoData = [];
+    if (!empty($pageTitle))   $seoData['title']       = $pageTitle;
+    if (!empty($pageDesc))    $seoData['description']  = $pageDesc;
+    if (!empty($pageSeoPage)) $seoData['page']         = $pageSeoPage;
+}
+renderSeoTags($cfg, $seoData);
+?>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

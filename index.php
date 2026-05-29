@@ -3,9 +3,10 @@ require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/db.php';
 
-$pageTitle = 'Helping African Businesses Run Smarter With Technology';
+$pageTitle      = 'Helping African Businesses Run Smarter With Technology';
 $pageHasDarkHero = true;
-$pageDesc  = 'Tedmark Digital Agency helps African businesses run smarter with technology, automation, business systems, and modern digital infrastructure.';
+$pageDesc        = 'Tedmark Digital Agency helps African businesses run smarter with technology, automation, business systems, and modern digital infrastructure.';
+$pageSeoPage     = 'home';  // tells SEO engine to load seo_pages WHERE page_key='home'
 
 // Load settings from DB
 try {

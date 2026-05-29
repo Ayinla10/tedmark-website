@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!$name) { $error = 'Industry name is required.'; }
     else {
-        $data = ['name'=>$name,'icon'=>$icon,'description'=>$desc,'status'=>$status,'sort_order'=>$sort];
+        $data = ['title'=>$name,'icon'=>$icon,'description'=>$desc,'status'=>$status,'sort_order'=>$sort];
         if ($editId) {
             $set = implode(',', array_map(fn($k)=>"`$k`=?", array_keys($data)));
             query("UPDATE industries SET $set WHERE id=?", [...array_values($data), $editId]);
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$industries = fetchAll("SELECT * FROM industries ORDER BY sort_order ASC, name ASC");
+$industries = fetchAll("SELECT * FROM industries ORDER BY sort_order ASC, title ASC");
 $e = $editing ?? [];
 
 require_once __DIR__ . '/includes/admin-layout.php';
@@ -68,7 +68,7 @@ require_once __DIR__ . '/includes/admin-layout.php';
               <i class="fa-solid <?= htmlspecialchars($ind['icon'] ?: 'fa-building') ?>"></i>
             </div>
             <div>
-              <div style="font-weight:600;color:#fff;"><?= htmlspecialchars($ind['name']) ?></div>
+              <div style="font-weight:600;color:#fff;"><?= htmlspecialchars($ind['title']) ?></div>
               <?php if ($ind['description']): ?><div style="font-size:0.78rem;color:#64748b;"><?= htmlspecialchars(substr($ind['description'],0,60)) ?>...</div><?php endif; ?>
             </div>
           </div>
@@ -95,7 +95,7 @@ require_once __DIR__ . '/includes/admin-layout.php';
       <?php if ($editing): ?><input type="hidden" name="edit_id" value="<?= $editing['id'] ?>"><?php endif; ?>
       <div class="form-group">
         <label>Industry Name *</label>
-        <input type="text" name="name" value="<?= htmlspecialchars($e['name']??'') ?>" required placeholder="e.g. Healthcare, Finance...">
+        <input type="text" name="name" value="<?= htmlspecialchars($e['title']??'') ?>" required placeholder="e.g. Healthcare, Finance...">
       </div>
       <div class="form-group">
         <label>Font Awesome Icon Class</label>

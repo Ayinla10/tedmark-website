@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /includes/
+Disallow: /database/
+Disallow: /assets/js/
+
+Sitemap: https://new.tedmarkdigital.com/sitemap.xml.php
