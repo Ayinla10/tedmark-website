@@ -7,6 +7,9 @@ require_once __DIR__ . '/../includes/db.php';
 // ── ALL LOGIC BEFORE LAYOUT ──────────────────────────
 $success = $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (empty($_POST['settings'])) {
+        die('<p style="color:red;padding:20px;">ERROR: No settings data received in POST</p>');
+    }
     try {
         foreach ($_POST['settings'] as $key => $value) {
             $existing = fetchOne("SELECT id FROM settings WHERE `key` = ?", [$key]);
