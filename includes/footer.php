@@ -1,3 +1,17 @@
+<?php
+// Load settings if not already loaded
+if (!isset($cfg) || empty($cfg)) {
+    try {
+        $footerRows = fetchAll("SELECT `key`, `value` FROM settings");
+        $cfg = array_column($footerRows, 'value', 'key');
+    } catch(Exception $e) { $cfg = []; }
+}
+$footerTagline = htmlspecialchars($cfg['footer_tagline'] ?? 'Helping African businesses run smarter with technology, automation, and digital systems.');
+$socialTwitter  = htmlspecialchars($cfg['social_twitter']   ?? '#');
+$socialLinkedin = htmlspecialchars($cfg['social_linkedin']  ?? '#');
+$socialInsta    = htmlspecialchars($cfg['social_instagram'] ?? '#');
+$socialFacebook = htmlspecialchars($cfg['social_facebook']  ?? '#');
+?>
 
 <!-- ===== FOOTER ===== -->
 <footer style="background:#020917;padding:56px 0 0;">
@@ -8,13 +22,13 @@
             <div>
                 <img src="<?= SITE_URL ?>/assets/images/tedmark logo copy2.png" alt="Tedmark Digital Agency" style="height:180px;width:auto;display:block;margin-top:-60px;margin-bottom:-10px;margin-left:-8px;">
                 <p style="color:#cbd5e1;font-size:13px;line-height:1.75;max-width:240px;margin-bottom:18px;">
-                    Helping African businesses run smarter with technology, automation, and digital systems.
+                    <?= $footerTagline ?>
                 </p>
                 <div class="tm-social-row">
-                    <a href="#" class="tm-social"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="tm-social"><i class="fa-brands fa-linkedin-in"></i></a>
-                    <a href="#" class="tm-social"><i class="fa-brands fa-x-twitter"></i></a>
-                    <a href="#" class="tm-social"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="<?= $socialFacebook ?>" class="tm-social"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="<?= $socialLinkedin ?>" class="tm-social"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="<?= $socialTwitter ?>" class="tm-social"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="<?= $socialInsta ?>" class="tm-social"><i class="fa-brands fa-instagram"></i></a>
                 </div>
             </div>
 
@@ -57,7 +71,7 @@
     <div style="border-top:1px solid #0f172a;margin-top:40px;padding:18px 0;">
         <div class="tm-container">
             <div class="tm-footer-bottom">
-                <p style="color:#94a3b8;font-size:12px;">&copy; <?= date('Y') ?> Tedmark Digital Agency. All rights reserved.</p>
+                <p style="color:#94a3b8;font-size:12px;">&copy; <?= date('Y') ?> <?= htmlspecialchars($cfg['site_name'] ?? 'Tedmark Digital Agency') ?>. All rights reserved.</p>
                 <div class="tm-footer-legal">
                     <a href="#">Privacy Policy</a>
                     <a href="#">Terms of Service</a>
