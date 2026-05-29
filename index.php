@@ -23,7 +23,12 @@ require_once __DIR__ . '/includes/header.php';
 ?>
 
 <!-- ===== HERO ===== -->
-<section class="tm-hero">
+<?php
+$heroBg    = $cfg['hero_bg_image'] ?? 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1600&q=80&auto=format&fit=crop';
+$heroOp    = $cfg['hero_overlay_opacity'] ?? '0.92';
+$heroStyle = "background: linear-gradient(135deg, rgba(6,11,24,{$heroOp}) 0%, rgba(10,22,40,{$heroOp}) 50%, rgba(13,31,60,{$heroOp}) 100%), url('" . htmlspecialchars($heroBg) . "') center/cover no-repeat;";
+?>
+<section class="tm-hero" style="<?= $heroStyle ?>">
     <div class="tm-grid-lines"></div>
     <div class="tm-container" style="position:relative;z-index:2;padding-top:140px;padding-bottom:80px;">
         <div class="tm-hero-grid">

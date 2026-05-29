@@ -109,9 +109,8 @@ h1, h2, h3, h4, h5, h6,
 
 /* ── Hero ───────────────────────────────────────────── */
 .tm-hero {
-    background:
-        linear-gradient(135deg, rgba(6,11,24,0.92) 0%, rgba(10,22,40,0.88) 50%, rgba(13,31,60,0.92) 100%),
-        url('https://images.unsplash.com/photo-1518770660439-4636190af475?w=1600&q=80&auto=format&fit=crop') center/cover no-repeat;
+    /* background set dynamically via inline style from DB settings */
+    background: linear-gradient(135deg, rgba(6,11,24,0.92) 0%, rgba(10,22,40,0.88) 50%, rgba(13,31,60,0.92) 100%) center/cover no-repeat;
     position: relative; overflow: hidden;
 }
 .tm-hero::before {
