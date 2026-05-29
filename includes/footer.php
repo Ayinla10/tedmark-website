@@ -1,6 +1,6 @@
 
 <!-- ===== FOOTER ===== -->
-<footer style="background:red;padding:56px 0 0;">
+<footer style="background:#020917;padding:56px 0 0;">
     <div class="tm-container">
         <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;align-items:start;">
 
