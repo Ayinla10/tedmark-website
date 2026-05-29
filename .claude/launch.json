@@ -1,0 +1,13 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "tedmark-php",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "C:/Users/Prof/tedmark-digital/start-php.js"
+      ],
+      "port": 8080
+    }
+  ]
+}
