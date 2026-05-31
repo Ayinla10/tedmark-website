@@ -18,7 +18,7 @@ $nav = [
     'testimonials' => ['icon'=>'fa-star',            'label'=>'Testimonials', 'href'=>'testimonials.php'],
     'messages'     => ['icon'=>'fa-envelope',        'label'=>'Messages',     'href'=>'messages.php',     'group'=>'Inbox'],
     'settings'     => ['icon'=>'fa-gear',            'label'=>'Settings',     'href'=>'settings.php',     'group'=>'Settings'],
-    'seo'          => ['icon'=>'fa-magnifying-glass-chart','label'=>'SEO Manager',  'href'=>'seo.php'],
+    'seo'          => ['icon'=>'fa-chart-line',          'label'=>'SEO Manager',  'href'=>'seo.php'],
     'users'        => ['icon'=>'fa-user-shield',     'label'=>'Admin Users',  'href'=>'users.php'],
 ];
 ?>

@@ -145,7 +145,7 @@ require_once __DIR__ . '/includes/admin-layout.php';
     <!-- SEO Panel -->
     <div class="tm-card">
       <div class="tm-card-header">
-        <span class="tm-card-title"><i class="fa-solid fa-magnifying-glass-chart" style="color:#22c55e;margin-right:8px;"></i>SEO</span>
+        <span class="tm-card-title"><i class="fa-solid fa-chart-line" style="color:#22c55e;margin-right:8px;"></i>SEO</span>
         <?php if ($seoScore !== null): ?>
         <div style="display:flex;align-items:center;gap:8px;">
           <?php $sc = $seoScore['score']; $scColor = $sc >= 80 ? '#22c55e' : ($sc >= 50 ? '#f59e0b' : '#f43f5e'); ?>
