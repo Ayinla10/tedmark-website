@@ -39,7 +39,38 @@ $nav = [
   --text:#e2e8f0;--muted:#64748b;--border:#1e293b;
   --card:#1e293b;--input:#0b1528;--radius:10px;--topbar:60px;
 }
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;font-size:0.9rem;}
+/* ── Light mode ───────────────────────── */
+body.light{
+  --bg:#f1f5f9;--sidebar:#fff;
+  --text:#0f172a;--muted:#64748b;--border:#e2e8f0;
+  --card:#fff;--input:#f8fafc;
+}
+body.light .tm-topbar-title{color:#0f172a;}
+body.light .tm-nav-item{color:#475569;}
+body.light .tm-nav-item:hover{color:#0f172a;background:rgba(0,0,0,0.04);}
+body.light .tm-nav-item.active{color:var(--accent);background:rgba(34,197,94,0.08);}
+body.light .tm-sidebar-footer a{color:#64748b;}
+body.light .tm-sidebar-footer a:hover{color:#0f172a;}
+body.light .tm-card-title{color:#0f172a;}
+body.light .tm-stat-value{color:#0f172a;}
+body.light label{color:#475569;}
+body.light input,body.light select,body.light textarea{color:#0f172a;border-color:#e2e8f0;}
+body.light input:focus,body.light select:focus,body.light textarea:focus{border-color:var(--accent);}
+body.light select option{background:#fff;color:#0f172a;}
+body.light .tm-table th{color:#64748b;}
+body.light .tm-table td{border-bottom-color:rgba(226,232,240,0.8);}
+body.light .tm-table tr:hover td{background:rgba(0,0,0,0.02);}
+body.light .btn-ghost{color:#475569;border-color:#e2e8f0;}
+body.light .btn-ghost:hover{color:#0f172a;border-color:#94a3b8;}
+body.light .text-muted{color:#64748b;}
+body.light ::-webkit-scrollbar-track{background:#f1f5f9;}
+body.light ::-webkit-scrollbar-thumb{background:#cbd5e1;}
+body.light .alert-success{color:#166534;}
+body.light .alert-error{color:#9f1239;}
+/* Toggle button */
+.tm-mode-toggle{width:36px;height:36px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.9rem;transition:all .15s;flex-shrink:0;}
+.tm-mode-toggle:hover{color:var(--accent);border-color:var(--accent);}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;font-size:0.9rem;transition:background .2s,color .2s;}
 /* SIDEBAR */
 .tm-sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--sidebar);height:100vh;position:fixed;top:0;left:0;display:flex;flex-direction:column;border-right:1px solid var(--border);z-index:100;overflow-y:auto;}
 .tm-sidebar-logo{padding:20px 20px 16px;border-bottom:1px solid var(--border);}
@@ -126,6 +157,7 @@ select option{background:var(--input);}
 </style>
 </head>
 <body>
+<script>if(localStorage.getItem('tm_admin_mode')==='light')document.body.classList.add('light');</script>
 
 <aside class="tm-sidebar">
   <div class="tm-sidebar-logo">
@@ -157,6 +189,9 @@ select option{background:var(--input);}
   <div class="tm-topbar">
     <span class="tm-topbar-title"><?= htmlspecialchars($pageTitle ?? 'Admin') ?></span>
     <div class="tm-topbar-right">
+      <button class="tm-mode-toggle" id="modeToggle" title="Toggle light / dark mode" onclick="toggleMode()">
+        <i class="fa-solid fa-moon" id="modeIcon"></i>
+      </button>
       <span class="tm-admin-badge">ADMIN</span>
       <span style="color:#94a3b8;font-size:0.82rem;"><?= htmlspecialchars($admin['name'] ?? 'Admin') ?></span>
     </div>
