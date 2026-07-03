@@ -22,8 +22,8 @@ require_once __DIR__ . '/includes/header.php';
     <div class="tm-container" style="position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;">
         <div>
             <div class="tm-label">About Us</div>
-            <h1 style="font-size:clamp(2rem,4vw,2.8rem);font-weight:900;color:#fff;margin:16px 0 20px;line-height:1.2;">We Help African Businesses Run Smarter</h1>
-            <p style="font-size:1.05rem;color:#94a3b8;line-height:1.75;margin-bottom:32px;">Tedmark Digital Agency was founded with one purpose: to give African businesses access to the same quality of technology, automation, and digital infrastructure that global companies rely on every day.</p>
+            <h1 style="font-size:clamp(2rem,4vw,2.8rem);font-weight:900;color:#fff;margin:16px 0 20px;line-height:1.2;"><?= htmlspecialchars($cfg['about_hero_heading']??'We Help African Businesses Run Smarter') ?></h1>
+            <p style="font-size:1.05rem;color:#94a3b8;line-height:1.75;margin-bottom:32px;"><?= htmlspecialchars($cfg['about_hero_subtext']??'Tedmark Digital Agency was founded with one purpose: to give African businesses access to the same quality of technology, automation, and digital infrastructure that global companies rely on every day.') ?></p>
             <div style="display:flex;gap:32px;">
                 <div><div style="font-size:2rem;font-weight:900;color:#fff;"><?= htmlspecialchars($cfg['stat_1_value']??'80+') ?></div><div style="font-size:0.8rem;color:#475569;"><?= htmlspecialchars($cfg['stat_1_label']??'Clients Served') ?></div></div>
                 <div style="width:1px;background:#1e293b;"></div>
@@ -34,7 +34,7 @@ require_once __DIR__ . '/includes/header.php';
         </div>
         <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:32px;">
             <div style="font-size:0.75rem;font-weight:800;color:#22c55e;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;">Our Mission</div>
-            <p style="font-size:1.1rem;color:#e2e8f0;line-height:1.75;font-style:italic;">"To make enterprise-grade technology accessible to every African business — regardless of size, sector, or location."</p>
+            <p style="font-size:1.1rem;color:#e2e8f0;line-height:1.75;font-style:italic;">"<?= htmlspecialchars($cfg['about_mission']??'To make enterprise-grade technology accessible to every African business — regardless of size, sector, or location.') ?>"</p>
         </div>
     </div>
 </section>
@@ -45,10 +45,14 @@ require_once __DIR__ . '/includes/header.php';
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;" class="tm-fade">
             <div>
                 <div class="tm-label">Our Story</div>
-                <h2 class="tm-section-title" style="margin-bottom:20px;">Built From Real Frustration</h2>
-                <p style="font-size:1rem;color:#334155;line-height:1.8;margin-bottom:18px;">We started Tedmark Digital after watching talented African business owners lose time, money, and customers because they lacked the right systems. Manual invoicing, lost customer data, no inventory visibility — problems that technology solved elsewhere decades ago.</p>
-                <p style="font-size:1rem;color:#334155;line-height:1.8;margin-bottom:18px;">We decided to close that gap. We've since helped over 80 businesses across Ghana, Nigeria, Kenya, and beyond transform their operations with custom technology that fits their exact context and budget.</p>
-                <p style="font-size:1rem;color:#334155;line-height:1.8;">We don't sell generic software. We build what each business actually needs — and we stay to make sure it works.</p>
+                <h2 class="tm-section-title" style="margin-bottom:20px;"><?= htmlspecialchars($cfg['about_story_heading']??'Built From Real Frustration') ?></h2>
+                <p style="font-size:1rem;color:#334155;line-height:1.8;margin-bottom:18px;"><?= htmlspecialchars($cfg['about_story_p1']??'We started Tedmark Digital after watching talented African business owners lose time, money, and customers because they lacked the right systems. Manual invoicing, lost customer data, no inventory visibility — problems that technology solved elsewhere decades ago.') ?></p>
+                <?php if(!empty($cfg['about_story_p2'])): ?>
+                <p style="font-size:1rem;color:#334155;line-height:1.8;margin-bottom:18px;"><?= htmlspecialchars($cfg['about_story_p2']) ?></p>
+                <?php endif; ?>
+                <?php if(!empty($cfg['about_story_p3'])): ?>
+                <p style="font-size:1rem;color:#334155;line-height:1.8;"><?= htmlspecialchars($cfg['about_story_p3']) ?></p>
+                <?php endif; ?>
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
                 <?php
