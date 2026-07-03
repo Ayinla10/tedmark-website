@@ -5,11 +5,14 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+html { overflow-x: hidden; max-width: 100%; }
+
 body {
     font-family: 'Inter', sans-serif;
     color: #0f172a;
     background: #ffffff;
     overflow-x: hidden;
+    max-width: 100%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -337,6 +340,11 @@ h1, h2, h3, h4, h5, h6,
     .tm-footer-grid { grid-template-columns:1fr 1fr; }
 }
 
+/* ── TABLET (max 1024px) ────────────────────────────── */
+@media (max-width:1024px) {
+    .tm-logo img { height:64px !important; width:auto !important; }
+}
+
 /* ── TABLET (max 900px) ─────────────────────────────── */
 @media (max-width:900px) {
     .tm-container { padding:0 24px; }
@@ -357,6 +365,14 @@ h1, h2, h3, h4, h5, h6,
     .tm-section-title { font-size:24px; }
     .tm-section-sub   { font-size:14px; }
     .tm-nav-inner     { height:68px; }
+
+    /* Fix oversized logo on mobile */
+    .tm-logo img { height:48px !important; width:auto !important; }
+
+    /* Hamburger must show */
+    .tm-hamburger { display:flex !important; }
+    .tm-btn-nav   { display:none !important; }
+    .tm-nav-links { display:none !important; }
 
     /* Page hero */
     .tm-page-hero { padding:100px 0 44px; }
