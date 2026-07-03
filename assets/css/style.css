@@ -340,110 +340,82 @@ h1, h2, h3, h4, h5, h6,
 /* ── TABLET (max 900px) ─────────────────────────────── */
 @media (max-width:900px) {
     .tm-container { padding:0 24px; }
-
-    /* Page hero */
     .tm-page-hero { padding:120px 0 52px; }
-    .tm-page-hero .tm-container[style*="grid-template-columns:1fr 1fr"],
-    .tm-page-hero .tm-container > div[style*="grid-template-columns"] {
-        grid-template-columns:1fr !important;
-    }
-
-    /* About hero 2-col */
-    .tm-page-hero .tm-container[style*="display:grid"] { grid-template-columns:1fr !important; gap:32px !important; }
-
-    /* Services alternating rows */
     .tm-svc-row { grid-template-columns:1fr !important; gap:28px !important; }
     .tm-svc-row > div { order:unset !important; }
-
-    /* Footer */
     .tm-footer-grid { grid-template-columns:1fr 1fr; gap:28px; }
+    /* All inline grids → single col at tablet */
+    [style*="grid-template-columns"] { grid-template-columns:1fr !important; }
+    /* Restore auto-fill grids for cards */
+    [style*="grid-template-columns:repeat(auto-fill"] { grid-template-columns:repeat(auto-fill,minmax(260px,1fr)) !important; }
+    [style*="grid-template-columns:repeat(auto-fit"]  { grid-template-columns:repeat(auto-fit,minmax(220px,1fr)) !important; }
 }
 
 /* ── MOBILE (max 640px) ─────────────────────────────── */
 @media (max-width:640px) {
     .tm-container { padding:0 16px; }
     .tm-section-title { font-size:24px; }
-    .tm-section-sub { font-size:14px; }
-
-    /* Navbar */
-    .tm-nav-inner { height:68px; }
+    .tm-section-sub   { font-size:14px; }
+    .tm-nav-inner     { height:68px; }
 
     /* Page hero */
     .tm-page-hero { padding:100px 0 44px; }
-    .tm-page-hero h1 { font-size:1.8rem !important; }
+    .tm-page-hero h1 { font-size:1.75rem !important; }
     .tm-page-hero p  { font-size:0.95rem !important; }
 
-    /* Hero buttons — stack vertically */
-    div[style*="display:flex"][style*="gap:16px"] .tm-btn-primary,
-    div[style*="display:flex"][style*="gap:16px"] .tm-btn-secondary {
-        width:100%;
-        justify-content:center;
+    /* ── THE NUCLEAR OPTION: all inline grids → 1 col ── */
+    [style*="grid-template-columns"] {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
     }
 
-    /* ALL inline grid-template-columns → single column */
-    [style*="grid-template-columns:1fr 1fr"],
-    [style*="grid-template-columns:1fr 1.6fr"],
-    [style*="grid-template-columns:1fr 2fr"],
-    [style*="grid-template-columns:2fr 1fr"],
-    [style*="grid-template-columns:1fr 1fr 1fr"],
-    [style*="grid-template-columns:2fr 1fr 3fr"],
-    [style*="grid-template-columns:1fr 2fr;"],
-    [style*="grid-template-columns:repeat(2"],
-    .tm-svc-row,
-    .tm-footer-grid { grid-template-columns:1fr !important; gap:20px !important; }
+    /* Stats band keeps 2 cols */
+    .tm-stats-band [style*="grid-template-columns"] {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 20px !important;
+    }
 
-    /* Undo order overrides on mobile */
-    [style*="order:1"], [style*="order:2"] { order:unset !important; }
+    /* Process steps keep 2 cols */
+    [style*="minmax(200px"] {
+        grid-template-columns: 1fr 1fr !important;
+    }
 
-    /* About hero stat row */
-    div[style*="display:flex"][style*="gap:32px"] { gap:16px !important; flex-wrap:wrap; }
+    /* Undo CSS order overrides so content stacks naturally */
+    [style*="order:"] { order: unset !important; }
 
-    /* Cards — remove 3D hover on touch */
-    .tm-card:hover, .tm-port-card:hover { transform:none; }
+    /* Flex rows that should stack */
+    [style*="display:flex"][style*="gap:16px"]:not(.tm-btn-primary):not(.tm-btn-secondary):not(.tm-label):not(.tm-trust-badge) {
+        flex-wrap: wrap;
+    }
+    /* Stat row in about hero */
+    [style*="display:flex"][style*="gap:32px"] { gap:14px !important; flex-wrap:wrap; }
 
-    /* Stats band */
-    .tm-stats-band div[style*="grid-template-columns"] { grid-template-columns:1fr 1fr !important; gap:24px !important; }
+    /* Section vertical padding */
+    section[style*="padding:96px"] { padding:56px 0 !important; }
+    section[style*="padding:80px"] { padding:48px 0 !important; }
 
-    /* Portfolio filter buttons — wrap */
-    div[style*="justify-content:center"][style*="gap:10px"] { gap:6px !important; }
-    .tm-filter-btn { padding:6px 12px; font-size:12px; }
+    /* Dark CTA inner card */
+    [style*="padding:52px"] { padding:28px 18px !important; }
+    [style*="padding:36px"] { padding:24px 18px !important; }
 
-    /* Contact form grid */
-    form > div[style*="grid-template-columns:1fr 1fr"] { grid-template-columns:1fr !important; }
-
-    /* Blog grid cards */
-    div[style*="grid-template-columns:repeat(auto-fill,minmax(320px"] { grid-template-columns:1fr !important; }
-
-    /* Industries / services auto-fill grids */
-    div[style*="grid-template-columns:repeat(auto-fill,minmax"] { grid-template-columns:1fr !important; }
-    div[style*="grid-template-columns:repeat(auto-fit,minmax"] { grid-template-columns:1fr !important; }
-
-    /* Process steps — 2 cols on mobile instead of 5 */
-    div[style*="grid-template-columns:repeat(auto-fit,minmax(200px"] { grid-template-columns:1fr 1fr !important; }
+    /* Newsletter form stack */
+    form#newsletter-form { flex-direction:column !important; }
+    form#newsletter-form input { min-width:unset !important; width:100% !important; }
 
     /* Footer */
     .tm-footer-grid { grid-template-columns:1fr !important; }
     .tm-footer-bottom { flex-direction:column; text-align:center; }
-    .tm-footer-legal { justify-content:center; flex-wrap:wrap; gap:12px; }
+    .tm-footer-legal  { justify-content:center; flex-wrap:wrap; gap:12px; }
 
-    /* Buttons full width in hero */
+    /* Buttons */
     .tm-btn-primary, .tm-btn-secondary { font-size:14px; padding:12px 20px; }
 
-    /* CTA section padding */
-    .tm-cta-dark { padding:52px 0; }
-    section[style*="padding:96px 0"] { padding:60px 0 !important; }
-    section[style*="padding:80px 0"] { padding:52px 0 !important; }
+    /* Filter buttons */
+    .tm-filter-btn { padding:6px 12px; font-size:12px; }
 
-    /* Newsletter form */
-    form#newsletter-form { flex-direction:column; }
-    form#newsletter-form input { min-width:unset !important; }
+    /* Remove 3D card tilt on touch */
+    .tm-card:hover, .tm-port-card:hover { transform:none !important; }
 
-    /* Consultation dark card padding */
-    div[style*="padding:52px"] { padding:28px 20px !important; }
-
-    /* Values grid on about page */
-    div[style*="grid-template-columns:1fr 1fr"][style*="gap:16px"] { grid-template-columns:1fr !important; }
-
-    /* Back to top button position */
+    /* Back to top */
     .tm-btt { bottom:16px; right:16px; width:40px; height:40px; font-size:13px; }
 }
