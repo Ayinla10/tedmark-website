@@ -2,8 +2,9 @@
 require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/db.php';
-$pageTitle = 'Portfolio';
-$pageDesc  = 'View our portfolio of websites, business systems, e-commerce stores, and digital solutions built for African businesses.';
+$pageTitle   = 'Portfolio';
+$pageDesc    = 'View our portfolio of websites, business systems, e-commerce stores, and digital solutions built for African businesses.';
+$pageSeoPage = 'portfolio';
 try { $projects = fetchAll("SELECT * FROM projects WHERE status='active' ORDER BY sort_order ASC"); } catch(Exception $e){ $projects=[]; }
 require_once __DIR__ . '/includes/header.php';
 ?>
@@ -42,28 +43,40 @@ require_once __DIR__ . '/includes/header.php';
         ];
         $display = !empty($projects) ? $projects : $fallback;
         foreach($display as $proj):
-            $isDynamic = isset($proj['category']);
+            $isDb    = isset($proj['category']) && !isset($proj['cat']);
+            $cat     = $isDb ? ($proj['category']??'') : $proj['cat'];
+            $icon    = $isDb ? ($proj['icon']??'fa-solid fa-briefcase') : $proj['icon'];
+            $color   = $isDb ? ($proj['color']??'#22c55e') : $proj['color'];
+            $bg      = $isDb ? ($proj['bg']??'linear-gradient(135deg,#0f172a,#1e293b)') : $proj['bg'];
+            $result  = $isDb ? ($proj['result']??'') : ($proj['result']??'');
+            $client  = $isDb ? ($proj['client']??'') : ($proj['client']??'');
+            $year    = $isDb ? ($proj['year']??'') : ($proj['year']??'');
+            $desc    = $isDb ? ($proj['description']??'') : ($proj['desc']??'');
+            $tagList = $isDb
+                ? array_filter(array_map('trim', explode(',', $proj['tags']??$proj['category']??'')))
+                : ($proj['tags']??[]);
+            if(empty($tagList) && $cat) $tagList = [$cat];
         ?>
-        <div class="tm-port-card tm-fade" data-category="<?= $isDynamic ? htmlspecialchars($proj['category']) : $proj['cat'] ?>" style="padding:0;">
-            <div style="height:200px;background:<?= $isDynamic ? '#1e293b' : $proj['bg'] ?>;display:flex;align-items:center;justify-content:center;position:relative;">
-                <i class="<?= $isDynamic ? 'fa-solid fa-briefcase' : $proj['icon'] ?>" style="font-size:3rem;color:<?= $isDynamic ? '#22c55e' : $proj['color'] ?>;opacity:0.5;"></i>
-                <?php if(!$isDynamic && isset($proj['result'])): ?>
+        <div class="tm-port-card tm-fade" data-category="<?= htmlspecialchars($cat) ?>" style="padding:0;">
+            <div style="height:200px;<?= !empty($proj['cover_image']) ? 'background:url('.htmlspecialchars($proj['cover_image']).') center/cover no-repeat;' : 'background:'.$bg.';' ?>display:flex;align-items:center;justify-content:center;position:relative;">
+                <?php if(empty($proj['cover_image'])): ?>
+                <i class="<?= htmlspecialchars($icon) ?>" style="font-size:3rem;color:<?= htmlspecialchars($color) ?>;opacity:0.5;"></i>
+                <?php endif; ?>
+                <?php if($result): ?>
                 <div style="position:absolute;bottom:12px;left:12px;background:rgba(0,0,0,0.6);color:#22c55e;font-size:0.72rem;font-weight:700;padding:5px 10px;border-radius:6px;backdrop-filter:blur(4px);">
-                    <i class="fa-solid fa-arrow-trend-up fa-xs"></i> <?= $proj['result'] ?>
+                    <i class="fa-solid fa-arrow-trend-up fa-xs"></i> <?= htmlspecialchars($result) ?>
                 </div>
                 <?php endif; ?>
             </div>
             <div style="padding:20px 24px 24px;">
                 <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:8px;">
-                    <h3 style="font-size:1rem;font-weight:800;color:#0f172a;line-height:1.3;"><?= htmlspecialchars($isDynamic ? $proj['title'] : $proj['title']) ?></h3>
-                    <?php if(!$isDynamic): ?>
-                    <span style="font-size:0.72rem;color:#94a3b8;white-space:nowrap;margin-left:8px;"><?= $proj['year'] ?></span>
-                    <?php endif; ?>
+                    <h3 style="font-size:1rem;font-weight:800;color:#0f172a;line-height:1.3;"><?= htmlspecialchars($proj['title']) ?></h3>
+                    <?php if($year): ?><span style="font-size:0.72rem;color:#94a3b8;white-space:nowrap;margin-left:8px;"><?= htmlspecialchars($year) ?></span><?php endif; ?>
                 </div>
-                <?php if(!$isDynamic): ?><p style="font-size:0.75rem;color:#16a34a;font-weight:600;margin-bottom:8px;"><?= $proj['client'] ?></p><?php endif; ?>
-                <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin-bottom:14px;"><?= htmlspecialchars($isDynamic ? ($proj['description']??'') : $proj['desc']) ?></p>
+                <?php if($client): ?><p style="font-size:0.75rem;color:#16a34a;font-weight:600;margin-bottom:8px;"><?= htmlspecialchars($client) ?></p><?php endif; ?>
+                <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin-bottom:14px;"><?= htmlspecialchars($desc) ?></p>
                 <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                    <?php $tags = $isDynamic ? [$proj['category']] : $proj['tags']; foreach($tags as $tag): ?>
+                    <?php foreach($tagList as $tag): ?>
                     <span class="tm-port-tag"><?= htmlspecialchars($tag) ?></span>
                     <?php endforeach; ?>
                 </div>

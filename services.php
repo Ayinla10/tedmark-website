@@ -2,8 +2,13 @@
 require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/db.php';
-$pageTitle = 'Services';
-$pageDesc  = 'Business technology solutions for African companies — systems, automation, web development, e-commerce, digital marketing, and branding.';
+$pageTitle   = 'Services';
+$pageDesc    = 'Business technology solutions for African companies — systems, automation, web development, e-commerce, digital marketing, and branding.';
+$pageSeoPage = 'services';
+
+try { $dbServices = fetchAll("SELECT * FROM services WHERE status='active' ORDER BY sort_order ASC"); }
+catch(Exception $e) { $dbServices = []; }
+
 require_once __DIR__ . '/includes/header.php';
 ?>
 
@@ -20,28 +25,32 @@ require_once __DIR__ . '/includes/header.php';
 <section style="padding:96px 0;background:#f8fafc;">
     <div class="tm-container">
         <?php
-        $services = [
-            ['icon'=>'fa-solid fa-gears','color'=>'#22c55e','bg'=>'rgba(34,197,94,0.1)','title'=>'Business Systems','subtitle'=>'ERPs, CRMs & Operational Platforms','desc'=>'Custom-built systems that replace spreadsheets, manual records, and disconnected apps. We build ERPs, inventory management, HR systems, customer relationship platforms, and any workflow-specific tools your business needs.','features'=>['Custom ERP development','Inventory &amp; stock management','HR &amp; payroll systems','Customer management (CRM)','Multi-branch management','Reporting &amp; dashboards']],
-            ['icon'=>'fa-solid fa-robot','color'=>'#a78bfa','bg'=>'rgba(139,92,246,0.1)','title'=>'Automation','subtitle'=>'Workflows, Triggers & Scheduled Tasks','desc'=>'We automate the repetitive, time-consuming tasks that are eating your team\'s productivity. From invoice generation to report delivery, customer follow-ups to data syncing — if it\'s repetitive, we can automate it.','features'=>['Invoice &amp; payment automation','Email &amp; SMS campaigns','Report generation &amp; delivery','Data sync between platforms','Approval workflow automation','API integrations']],
-            ['icon'=>'fa-solid fa-code','color'=>'#60a5fa','bg'=>'rgba(96,165,250,0.1)','title'=>'Web Development','subtitle'=>'Sites, Portals & Web Applications','desc'=>'Fast, modern websites and web applications that look great, perform excellently, and convert visitors into customers. Built with clean code, optimised for mobile, and designed to rank on search engines.','features'=>['Corporate &amp; business websites','Web applications &amp; portals','Landing pages','Progressive web apps','WordPress development','Performance optimisation']],
-            ['icon'=>'fa-solid fa-cart-shopping','color'=>'#fb923c','bg'=>'rgba(251,146,60,0.1)','title'=>'E-Commerce','subtitle'=>'Online Stores & Marketplaces','desc'=>'We build online stores that actually sell — with seamless checkout, local payment integration (MTN MoMo, Vodafone Cash, bank cards), inventory sync, and delivery management built in.','features'=>['Custom online stores','Mobile-first design','Local payment gateways','Inventory management','Order &amp; delivery tracking','Multi-vendor marketplaces']],
-            ['icon'=>'fa-solid fa-bullhorn','color'=>'#f43f5e','bg'=>'rgba(244,63,94,0.1)','title'=>'Digital Marketing','subtitle'=>'SEO, Social Media & Paid Ads','desc'=>'We help you get found online, build a following, and convert traffic into revenue. Strategy-led digital marketing campaigns that deliver measurable results for African businesses.','features'=>['Search engine optimisation','Social media management','Google &amp; Meta ad campaigns','Content marketing','Email marketing','Analytics &amp; reporting']],
-            ['icon'=>'fa-solid fa-palette','color'=>'#f59e0b','bg'=>'rgba(245,158,11,0.1)','title'=>'Branding &amp; Design','subtitle'=>'Identity, UI/UX & Visual Systems','desc'=>'Professional brand identity that builds trust and stands out in your market. From logo design to full visual systems, pitch decks, and marketing materials — we make your business look world-class.','features'=>['Logo &amp; brand identity','UI/UX design','Brand guidelines','Marketing collateral','Pitch deck design','Social media templates']],
-            ['icon'=>'fa-solid fa-headset','color'=>'#14b8a6','bg'=>'rgba(20,184,166,0.1)','title'=>'IT Consulting','subtitle'=>'Strategy, Audits & Advisory','desc'=>'Not sure where to start? We help you map out your digital journey — auditing your current setup, identifying gaps, and creating a prioritised roadmap for digital transformation.','features'=>['Digital transformation strategy','IT infrastructure audit','Technology stack advice','Vendor selection','Change management','Staff training']],
+        $servicesFallback = [
+            ['icon'=>'fa-solid fa-gears','color'=>'#22c55e','bg'=>'rgba(34,197,94,0.1)','title'=>'Business Systems','subtitle'=>'ERPs, CRMs & Operational Platforms','description'=>'Custom-built systems that replace spreadsheets, manual records, and disconnected apps. We build ERPs, inventory management, HR systems, customer relationship platforms, and any workflow-specific tools your business needs.','features'=>'Custom ERP development,Inventory & stock management,HR & payroll systems,Customer management (CRM),Multi-branch management,Reporting & dashboards'],
+            ['icon'=>'fa-solid fa-robot','color'=>'#a78bfa','bg'=>'rgba(139,92,246,0.1)','title'=>'Automation','subtitle'=>'Workflows, Triggers & Scheduled Tasks','description'=>'We automate the repetitive, time-consuming tasks that are eating your team\'s productivity. From invoice generation to report delivery, customer follow-ups to data syncing — if it\'s repetitive, we can automate it.','features'=>'Invoice & payment automation,Email & SMS campaigns,Report generation & delivery,Data sync between platforms,Approval workflow automation,API integrations'],
+            ['icon'=>'fa-solid fa-code','color'=>'#60a5fa','bg'=>'rgba(96,165,250,0.1)','title'=>'Web Development','subtitle'=>'Sites, Portals & Web Applications','description'=>'Fast, modern websites and web applications that look great, perform excellently, and convert visitors into customers. Built with clean code, optimised for mobile, and designed to rank on search engines.','features'=>'Corporate & business websites,Web applications & portals,Landing pages,Progressive web apps,WordPress development,Performance optimisation'],
+            ['icon'=>'fa-solid fa-cart-shopping','color'=>'#fb923c','bg'=>'rgba(251,146,60,0.1)','title'=>'E-Commerce','subtitle'=>'Online Stores & Marketplaces','description'=>'We build online stores that actually sell — with seamless checkout, local payment integration (MTN MoMo, Vodafone Cash, bank cards), inventory sync, and delivery management built in.','features'=>'Custom online stores,Mobile-first design,Local payment gateways,Inventory management,Order & delivery tracking,Multi-vendor marketplaces'],
+            ['icon'=>'fa-solid fa-bullhorn','color'=>'#f43f5e','bg'=>'rgba(244,63,94,0.1)','title'=>'Digital Marketing','subtitle'=>'SEO, Social Media & Paid Ads','description'=>'We help you get found online, build a following, and convert traffic into revenue. Strategy-led digital marketing campaigns that deliver measurable results for African businesses.','features'=>'Search engine optimisation,Social media management,Google & Meta ad campaigns,Content marketing,Email marketing,Analytics & reporting'],
+            ['icon'=>'fa-solid fa-palette','color'=>'#f59e0b','bg'=>'rgba(245,158,11,0.1)','title'=>'Branding & Design','subtitle'=>'Identity, UI/UX & Visual Systems','description'=>'Professional brand identity that builds trust and stands out in your market. From logo design to full visual systems, pitch decks, and marketing materials — we make your business look world-class.','features'=>'Logo & brand identity,UI/UX design,Brand guidelines,Marketing collateral,Pitch deck design,Social media templates'],
+            ['icon'=>'fa-solid fa-headset','color'=>'#14b8a6','bg'=>'rgba(20,184,166,0.1)','title'=>'IT Consulting','subtitle'=>'Strategy, Audits & Advisory','description'=>'Not sure where to start? We help you map out your digital journey — auditing your current setup, identifying gaps, and creating a prioritised roadmap for digital transformation.','features'=>'Digital transformation strategy,IT infrastructure audit,Technology stack advice,Vendor selection,Change management,Staff training'],
         ];
-        foreach($services as $idx => $svc): ?>
+        $services = !empty($dbServices) ? $dbServices : $servicesFallback;
+        foreach($services as $idx => $svc):
+            $feats = array_filter(array_map('trim', explode(',', $svc['features']??'')));
+            $bg    = $svc['bg'] ?? 'rgba(34,197,94,0.1)';
+        ?>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;padding:64px 0;<?= $idx > 0 ? 'border-top:1px solid #f1f5f9;' : '' ?>" class="tm-svc-row tm-fade">
             <div style="<?= $idx % 2 === 1 ? 'order:2;' : '' ?>">
                 <div style="display:inline-flex;align-items:center;gap:12px;margin-bottom:20px;">
-                    <div style="width:52px;height:52px;border-radius:14px;background:<?= $svc['bg'] ?>;display:flex;align-items:center;justify-content:center;">
-                        <i class="<?= $svc['icon'] ?>" style="font-size:1.4rem;color:<?= $svc['color'] ?>;"></i>
+                    <div style="width:52px;height:52px;border-radius:14px;background:<?= htmlspecialchars($bg) ?>;display:flex;align-items:center;justify-content:center;">
+                        <i class="<?= htmlspecialchars($svc['icon']??'fa-solid fa-star') ?>" style="font-size:1.4rem;color:<?= htmlspecialchars($svc['color']??'#22c55e') ?>;"></i>
                     </div>
                     <div>
-                        <div class="tm-label" style="margin-bottom:0;"><?= $svc['title'] ?></div>
-                        <div style="font-size:0.8rem;color:#94a3b8;"><?= $svc['subtitle'] ?></div>
+                        <div class="tm-label" style="margin-bottom:0;"><?= htmlspecialchars($svc['title']) ?></div>
+                        <div style="font-size:0.8rem;color:#94a3b8;"><?= htmlspecialchars($svc['subtitle']??'') ?></div>
                     </div>
                 </div>
-                <p style="font-size:1rem;color:#334155;line-height:1.75;margin-bottom:28px;"><?= $svc['desc'] ?></p>
+                <p style="font-size:1rem;color:#334155;line-height:1.75;margin-bottom:28px;"><?= htmlspecialchars($svc['description']??$svc['desc']??'') ?></p>
                 <a href="<?= SITE_URL ?>/consultation.php" class="tm-btn-green">
                     Discuss This Service <i class="fa-solid fa-arrow-right fa-xs"></i>
                 </a>
@@ -50,10 +59,10 @@ require_once __DIR__ . '/includes/header.php';
                 <div style="background:#fff;border:1.5px solid #f1f5f9;border-radius:16px;padding:28px;box-shadow:0 4px 24px rgba(0,0,0,0.04);">
                     <div style="font-size:0.75rem;font-weight:800;color:#64748b;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;">What's included</div>
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-                        <?php foreach($svc['features'] as $feat): ?>
+                        <?php foreach($feats as $feat): ?>
                         <div style="display:flex;align-items:center;gap:8px;font-size:0.875rem;color:#374151;">
                             <i class="fa-solid fa-circle-check" style="color:#16a34a;font-size:0.75rem;flex-shrink:0;"></i>
-                            <?= $feat ?>
+                            <?= htmlspecialchars($feat) ?>
                         </div>
                         <?php endforeach; ?>
                     </div>

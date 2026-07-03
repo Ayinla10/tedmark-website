@@ -3,8 +3,15 @@ require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/db.php';
 
-$pageTitle = 'Contact Us';
-$pageDesc  = 'Get in touch with Tedmark Digital Agency. Book a free consultation or send us a message about your business technology needs.';
+$pageTitle   = 'Contact Us';
+$pageDesc    = 'Get in touch with Tedmark Digital Agency. Book a free consultation or send us a message about your business technology needs.';
+$pageSeoPage = 'contact';
+
+// Load settings
+try {
+    $rows = fetchAll("SELECT `key`, `value` FROM settings");
+    $cfg  = array_column($rows, 'value', 'key');
+} catch(Exception $e) { $cfg = []; }
 
 $success = $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -15,14 +22,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $message = trim($_POST['message'] ?? '');
     if ($name && $email && $message) {
         try {
-            insert('contact_submissions', [
-                'name'=>$name,'email'=>$email,'phone'=>$phone,
-                'subject'=>$subject,'message'=>$message,'created_at'=>date('Y-m-d H:i:s')
-            ]);
-            $success = 'Message sent! We\'ll get back to you within 24 hours.';
-        } catch(Exception $e) {
-            $success = 'Message sent! We\'ll get back to you within 24 hours.';
-        }
+            query(
+                "INSERT INTO messages (name,email,phone,subject,message,ip,created_at) VALUES (?,?,?,?,?,?,?)",
+                [$name, $email, $phone, $subject, $message, $_SERVER['REMOTE_ADDR']??'', date('Y-m-d H:i:s')]
+            );
+        } catch(Exception $e) { /* log silently */ }
+        $success = 'Message sent! We\'ll get back to you within 24 hours.';
     } else {
         $error = 'Please fill in all required fields.';
     }
@@ -49,10 +54,13 @@ require_once __DIR__ . '/includes/header.php';
                 <h2 style="font-size:1.4rem;font-weight:800;color:#0f172a;margin-bottom:8px;">Contact Information</h2>
                 <p style="font-size:0.9rem;color:#64748b;margin-bottom:32px;line-height:1.6;">Reach us via any of the channels below or fill in the form and we'll respond within 24 hours.</p>
                 <?php
+                $cfgPhone   = $cfg['site_phone']   ?? '+233 XX XXX XXXX';
+                $cfgEmail   = $cfg['site_email']   ?? 'hello@tedmarkdigital.com';
+                $cfgAddress = $cfg['site_address'] ?? 'Accra, Ghana';
                 $contacts = [
-                    ['icon'=>'fa-solid fa-phone','label'=>'Phone / WhatsApp','value'=>'+233 59 123 4567','href'=>'tel:+233591234567'],
-                    ['icon'=>'fa-solid fa-envelope','label'=>'Email','value'=>'hello@tedmarkdigital.com','href'=>'mailto:hello@tedmarkdigital.com'],
-                    ['icon'=>'fa-solid fa-location-dot','label'=>'Location','value'=>'Accra, Ghana','href'=>'#'],
+                    ['icon'=>'fa-solid fa-phone','label'=>'Phone / WhatsApp','value'=>$cfgPhone,'href'=>'tel:'.preg_replace('/[^+\d]/','',$cfgPhone)],
+                    ['icon'=>'fa-solid fa-envelope','label'=>'Email','value'=>$cfgEmail,'href'=>'mailto:'.$cfgEmail],
+                    ['icon'=>'fa-solid fa-location-dot','label'=>'Location','value'=>$cfgAddress,'href'=>'#'],
                     ['icon'=>'fa-solid fa-clock','label'=>'Office Hours','value'=>'Mon – Fri, 8am – 6pm GMT','href'=>null],
                 ];
                 foreach($contacts as $c): ?>
@@ -75,10 +83,16 @@ require_once __DIR__ . '/includes/header.php';
                 <div style="padding-top:24px;border-top:1px solid #f1f5f9;">
                     <div style="font-size:0.75rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;">Follow Us</div>
                     <div style="display:flex;gap:10px;">
-                        <a href="#" style="width:40px;height:40px;border-radius:9px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;color:#64748b;font-size:1rem;text-decoration:none;transition:all .2s;" onmouseover="this.style.background='#16a34a';this.style.color='white'" onmouseout="this.style.background='#f1f5f9';this.style.color='#64748b'"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="#" style="width:40px;height:40px;border-radius:9px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;color:#64748b;font-size:1rem;text-decoration:none;transition:all .2s;" onmouseover="this.style.background='#16a34a';this.style.color='white'" onmouseout="this.style.background='#f1f5f9';this.style.color='#64748b'"><i class="fa-brands fa-linkedin-in"></i></a>
-                        <a href="#" style="width:40px;height:40px;border-radius:9px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;color:#64748b;font-size:1rem;text-decoration:none;transition:all .2s;" onmouseover="this.style.background='#16a34a';this.style.color='white'" onmouseout="this.style.background='#f1f5f9';this.style.color='#64748b'"><i class="fa-brands fa-x-twitter"></i></a>
-                        <a href="#" style="width:40px;height:40px;border-radius:9px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;color:#64748b;font-size:1rem;text-decoration:none;transition:all .2s;" onmouseover="this.style.background='#16a34a';this.style.color='white'" onmouseout="this.style.background='#f1f5f9';this.style.color='#64748b'"><i class="fa-brands fa-instagram"></i></a>
+                        <?php
+                        $socials = [
+                            ['href'=>$cfg['social_facebook']??'#','icon'=>'fa-brands fa-facebook-f'],
+                            ['href'=>$cfg['social_linkedin']??'#','icon'=>'fa-brands fa-linkedin-in'],
+                            ['href'=>$cfg['social_twitter']??'#','icon'=>'fa-brands fa-x-twitter'],
+                            ['href'=>$cfg['social_instagram']??'#','icon'=>'fa-brands fa-instagram'],
+                        ];
+                        foreach($socials as $s): ?>
+                        <a href="<?= htmlspecialchars($s['href']) ?>" style="width:40px;height:40px;border-radius:9px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;color:#64748b;font-size:1rem;text-decoration:none;transition:all .2s;" onmouseover="this.style.background='#16a34a';this.style.color='white'" onmouseout="this.style.background='#f1f5f9';this.style.color='#64748b'"><i class="<?= $s['icon'] ?>"></i></a>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>

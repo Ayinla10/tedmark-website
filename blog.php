@@ -2,13 +2,13 @@
 require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/db.php';
-$pageTitle = 'Blog';
-$pageDesc  = 'Business technology insights, guides, and case studies for African entrepreneurs and business leaders.';
+$pageTitle   = 'Blog';
+$pageDesc    = 'Business technology insights, guides, and case studies for African entrepreneurs and business leaders.';
+$pageSeoPage = 'blog';
 
 try {
-    $posts = fetchAll("SELECT p.*, c.name as cat_name, c.slug as cat_slug FROM blog_posts p LEFT JOIN categories c ON p.category_id=c.id WHERE p.status='published' ORDER BY p.published_at DESC LIMIT 12");
-    $cats  = fetchAll("SELECT * FROM categories ORDER BY name ASC");
-} catch(Exception $e){ $posts=[]; $cats=[]; }
+    $posts = fetchAll("SELECT * FROM posts WHERE status='published' ORDER BY published_at DESC LIMIT 12");
+} catch(Exception $e){ $posts=[]; }
 
 require_once __DIR__ . '/includes/header.php';
 ?>
@@ -28,12 +28,16 @@ require_once __DIR__ . '/includes/header.php';
         <?php if(!empty($posts)): ?>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:28px;">
             <?php foreach($posts as $post): ?>
-            <a href="<?= SITE_URL ?>/blog-post.php?slug=<?= htmlspecialchars($post['slug']) ?>" style="text-decoration:none;display:block;" class="tm-card tm-fade" style="display:block;">
-                <div style="height:180px;background:linear-gradient(135deg,#0f172a,#1e293b);border-radius:8px;margin:-24px -24px 20px;display:flex;align-items:center;justify-content:center;">
+            <a href="<?= SITE_URL ?>/blog-post.php?slug=<?= htmlspecialchars($post['slug']) ?>" style="text-decoration:none;display:block;" class="tm-card tm-fade">
+                <div style="height:180px;border-radius:8px;margin:-24px -24px 20px;overflow:hidden;<?= empty($post['featured_image']) ? 'background:linear-gradient(135deg,#0f172a,#1e293b);display:flex;align-items:center;justify-content:center;' : '' ?>">
+                    <?php if(!empty($post['featured_image'])): ?>
+                    <img src="<?= htmlspecialchars($post['featured_image']) ?>" style="width:100%;height:100%;object-fit:cover;display:block;" alt="<?= htmlspecialchars($post['title']) ?>">
+                    <?php else: ?>
                     <i class="fa-solid fa-newspaper" style="font-size:2.5rem;color:#22c55e;opacity:0.4;"></i>
+                    <?php endif; ?>
                 </div>
                 <div style="margin-bottom:10px;">
-                    <span style="font-size:0.7rem;font-weight:700;color:#16a34a;letter-spacing:.08em;text-transform:uppercase;"><?= htmlspecialchars($post['cat_name']??'Blog') ?></span>
+                    <span style="font-size:0.7rem;font-weight:700;color:#16a34a;letter-spacing:.08em;text-transform:uppercase;"><?= htmlspecialchars($post['category']??'Blog') ?></span>
                     <span style="color:#e2e8f0;margin:0 8px;">·</span>
                     <span style="font-size:0.7rem;color:#94a3b8;"><?= date('M j, Y', strtotime($post['published_at']??'now')) ?></span>
                 </div>

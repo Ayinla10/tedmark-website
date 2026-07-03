@@ -2,8 +2,18 @@
 require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/db.php';
-$pageTitle = 'About Us';
-$pageDesc  = 'Learn about Tedmark Digital Agency — our mission, values, team, and why we are the trusted partner for African businesses running smarter with technology.';
+$pageTitle   = 'About Us';
+$pageDesc    = 'Learn about Tedmark Digital Agency — our mission, values, team, and why we are the trusted partner for African businesses running smarter with technology.';
+$pageSeoPage = 'about';
+
+try {
+    $rows = fetchAll("SELECT `key`, `value` FROM settings");
+    $cfg  = array_column($rows, 'value', 'key');
+} catch(Exception $e) { $cfg = []; }
+
+try { $teamRows = fetchAll("SELECT * FROM team_members WHERE status='active' ORDER BY sort_order ASC"); }
+catch(Exception $e) { $teamRows = []; }
+
 require_once __DIR__ . '/includes/header.php';
 ?>
 
@@ -15,11 +25,11 @@ require_once __DIR__ . '/includes/header.php';
             <h1 style="font-size:clamp(2rem,4vw,2.8rem);font-weight:900;color:#fff;margin:16px 0 20px;line-height:1.2;">We Help African Businesses Run Smarter</h1>
             <p style="font-size:1.05rem;color:#94a3b8;line-height:1.75;margin-bottom:32px;">Tedmark Digital Agency was founded with one purpose: to give African businesses access to the same quality of technology, automation, and digital infrastructure that global companies rely on every day.</p>
             <div style="display:flex;gap:32px;">
-                <div><div style="font-size:2rem;font-weight:900;color:#fff;">80+</div><div style="font-size:0.8rem;color:#475569;">Clients Served</div></div>
+                <div><div style="font-size:2rem;font-weight:900;color:#fff;"><?= htmlspecialchars($cfg['stat_1_value']??'80+') ?></div><div style="font-size:0.8rem;color:#475569;"><?= htmlspecialchars($cfg['stat_1_label']??'Clients Served') ?></div></div>
                 <div style="width:1px;background:#1e293b;"></div>
-                <div><div style="font-size:2rem;font-weight:900;color:#fff;">5+</div><div style="font-size:0.8rem;color:#475569;">Years Experience</div></div>
+                <div><div style="font-size:2rem;font-weight:900;color:#fff;"><?= htmlspecialchars($cfg['stat_4_value']??'5+') ?></div><div style="font-size:0.8rem;color:#475569;">Years Experience</div></div>
                 <div style="width:1px;background:#1e293b;"></div>
-                <div><div style="font-size:2rem;font-weight:900;color:#fff;">8</div><div style="font-size:0.8rem;color:#475569;">Industries</div></div>
+                <div><div style="font-size:2rem;font-weight:900;color:#fff;"><?= htmlspecialchars($cfg['stat_3_value']??'8') ?></div><div style="font-size:0.8rem;color:#475569;"><?= htmlspecialchars($cfg['stat_3_label']??'Industries') ?></div></div>
             </div>
         </div>
         <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:32px;">
@@ -72,20 +82,25 @@ require_once __DIR__ . '/includes/header.php';
         </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:28px;">
             <?php
-            $team = [
-                ['name'=>'Mark Asante','role'=>'Founder &amp; CEO','icon'=>'fa-solid fa-user-tie','desc'=>'10+ years building technology for African businesses. Leads strategy and client relationships.'],
-                ['name'=>'Ama Boateng','role'=>'Lead Developer','icon'=>'fa-solid fa-code','desc'=>'Full-stack engineer specialising in business systems and automation. 8 years experience.'],
-                ['name'=>'Kofi Mensah','role'=>'Design Lead','icon'=>'fa-solid fa-palette','desc'=>'UI/UX designer and brand strategist. Creates the visual systems our clients love.'],
-                ['name'=>'Efua Owusu','role'=>'Digital Marketing Lead','icon'=>'fa-solid fa-chart-line','desc'=>'Data-driven marketer helping clients grow their online presence and drive revenue.'],
+            $teamFallback = [
+                ['name'=>'Mark Asante','role'=>'Founder &amp; CEO','avatar'=>'','bio'=>'10+ years building technology for African businesses. Leads strategy and client relationships.'],
+                ['name'=>'Ama Boateng','role'=>'Lead Developer','avatar'=>'','bio'=>'Full-stack engineer specialising in business systems and automation. 8 years experience.'],
+                ['name'=>'Kofi Mensah','role'=>'Design Lead','avatar'=>'','bio'=>'UI/UX designer and brand strategist. Creates the visual systems our clients love.'],
+                ['name'=>'Efua Owusu','role'=>'Digital Marketing Lead','avatar'=>'','bio'=>'Data-driven marketer helping clients grow their online presence and drive revenue.'],
             ];
-            foreach($team as $t): ?>
+            $displayTeam = !empty($teamRows) ? $teamRows : $teamFallback;
+            foreach($displayTeam as $t): ?>
             <div class="tm-card tm-fade" style="text-align:center;">
+                <?php if(!empty($t['avatar'])): ?>
+                <img src="<?= htmlspecialchars($t['avatar']) ?>" alt="<?= htmlspecialchars($t['name']) ?>" style="width:72px;height:72px;border-radius:50%;object-fit:cover;margin:0 auto 16px;display:block;">
+                <?php else: ?>
                 <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#16a34a,#22c55e);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
-                    <i class="<?= $t['icon'] ?>" style="font-size:1.5rem;color:#fff;"></i>
+                    <i class="fa-solid fa-user" style="font-size:1.5rem;color:#fff;"></i>
                 </div>
-                <h3 style="font-size:1rem;font-weight:800;color:#0f172a;margin-bottom:4px;"><?= $t['name'] ?></h3>
-                <p style="font-size:0.78rem;font-weight:600;color:#16a34a;margin-bottom:12px;"><?= $t['role'] ?></p>
-                <p style="font-size:0.85rem;color:#64748b;line-height:1.6;"><?= $t['desc'] ?></p>
+                <?php endif; ?>
+                <h3 style="font-size:1rem;font-weight:800;color:#0f172a;margin-bottom:4px;"><?= htmlspecialchars($t['name']) ?></h3>
+                <p style="font-size:0.78rem;font-weight:600;color:#16a34a;margin-bottom:12px;"><?= htmlspecialchars($t['role']??'') ?></p>
+                <p style="font-size:0.85rem;color:#64748b;line-height:1.6;"><?= htmlspecialchars($t['bio']??$t['desc']??'') ?></p>
             </div>
             <?php endforeach; ?>
         </div>

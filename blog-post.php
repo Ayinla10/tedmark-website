@@ -47,18 +47,16 @@ $post       = null;
 $isFallback = false;
 
 try {
-    $post = fetchOne("SELECT p.*, c.name as cat_name, c.slug as cat_slug, a.name as author_name
-                      FROM blog_posts p
-                      LEFT JOIN categories c ON p.category_id = c.id
-                      LEFT JOIN admins a ON p.author_id = a.id
+    $post = fetchOne("SELECT p.*, u.name as author_name
+                      FROM posts p
+                      LEFT JOIN users u ON p.author_id = u.id
                       WHERE p.slug = ? AND p.status = 'published'", [$slug]);
     if ($post) {
-        query("UPDATE blog_posts SET views = views + 1 WHERE id = ?", [$post['id']]);
-        $related = fetchAll("SELECT p.*, c.name as cat_name FROM blog_posts p
-                             LEFT JOIN categories c ON p.category_id = c.id
-                             WHERE p.status = 'published' AND p.id != ? AND p.category_id = ?
-                             ORDER BY p.published_at DESC LIMIT 2",
-                            [$post['id'], $post['category_id']]);
+        query("UPDATE posts SET views = views + 1 WHERE id = ?", [$post['id']]);
+        $related = fetchAll("SELECT * FROM posts
+                             WHERE status = 'published' AND id != ? AND category = ?
+                             ORDER BY published_at DESC LIMIT 2",
+                            [$post['id'], $post['category']]);
     }
 } catch (Exception $e) { $post = null; }
 
@@ -71,22 +69,23 @@ if (!$post) {
 if (!$post) { header('Location: ' . SITE_URL . '/blog.php'); exit; }
 
 // ── Derived values ────────────────────────────────────────────────────────
-$title      = htmlspecialchars($isFallback ? $post['title']       : $post['title']);
-$excerpt    = htmlspecialchars($isFallback ? $post['excerpt']      : ($post['excerpt'] ?? ''));
-$author     = htmlspecialchars($isFallback ? $post['author_name']  : ($post['author_name'] ?? 'Tedmark Team'));
-$category   = htmlspecialchars($isFallback ? $post['cat_name']     : ($post['cat_name'] ?? 'Article'));
-$pubDate    = $isFallback ? $post['published_at'] : ($post['published_at'] ?? $post['created_at'] ?? date('Y-m-d'));
-$readTime   = $isFallback ? $post['read_time']    : max(1, (int)(str_word_count(strip_tags($post['content'] ?? '')) / 200));
-$views      = number_format($isFallback ? $post['views'] : ($post['views'] ?? 0));
-$hasAudio   = $isFallback ? ($post['has_audio'] ?? false) : !empty($post['audio_url']);
-$audioUrl   = $isFallback ? ($post['audio_url'] ?? '')   : ($post['audio_url'] ?? '');
-$content    = $isFallback ? $post['content'] : ($post['content'] ?? '');
-$tags       = $isFallback ? ($post['tags'] ?? []) : array_filter(array_map('trim', explode(',', $post['seo_keywords'] ?? '')));
-$postUrl    = SITE_URL . '/blog-post.php?slug=' . urlencode($isFallback ? $post['slug'] : ($post['slug'] ?? $slug));
+$title      = htmlspecialchars($post['title']);
+$excerpt    = htmlspecialchars($post['excerpt'] ?? '');
+$author     = htmlspecialchars($post['author_name'] ?? 'Tedmark Team');
+$category   = htmlspecialchars($isFallback ? ($post['cat_name'] ?? 'Article') : ($post['category'] ?? 'Article'));
+$pubDate    = $post['published_at'] ?? $post['created_at'] ?? date('Y-m-d');
+$body       = $isFallback ? ($post['content'] ?? '') : ($post['body'] ?? '');
+$readTime   = $isFallback ? $post['read_time'] : max(1, (int)($post['read_time'] ?? ceil(str_word_count(strip_tags($body)) / 200)));
+$views      = number_format($post['views'] ?? 0);
+$hasAudio   = !empty($post['audio_url']) || !empty($post['has_audio']);
+$audioUrl   = $post['audio_url'] ?? '';
+$tags       = array_filter(array_map('trim', explode(',', $post['tags'] ?? '')));
+$postUrl    = SITE_URL . '/blog-post.php?slug=' . urlencode($post['slug'] ?? $slug);
 
-$pageTitle  = $title . ' — Blog';
-$pageDesc   = $excerpt;
+$pageTitle       = $post['title'] . ' — Blog';
+$pageDesc        = strip_tags($post['excerpt'] ?? '');
 $pageHasDarkHero = false;
+$seoData         = ['post' => $post];
 
 require_once __DIR__ . '/includes/header.php';
 ?>
@@ -244,17 +243,18 @@ require_once __DIR__ . '/includes/header.php';
 <!-- ===== FEATURED IMAGE ===== -->
 <?php
 $imgUrl = '';
-if (!$isFallback && !empty($post['featured_image'])) {
-    $imgUrl = UPLOAD_URL . $post['featured_image'];
+if (!empty($post['featured_image'])) {
+    $imgUrl = $post['featured_image'];
+} elseif (!empty($post['og_image'])) {
+    $imgUrl = $post['og_image'];
 } else {
-    // Unsplash fallback based on category
     $catImages = [
-        'Automation'      => 'photo-1518770660439-4636190af475',
-        'Web Development' => 'photo-1555066931-4365d14bab8c',
-        'Business Systems'=> 'photo-1460925895917-afdab827c52f',
-        'Digital Marketing'=>'photo-1611974789855-9c2a0a7236a3',
+        'Automation'       => 'photo-1518770660439-4636190af475',
+        'Web Development'  => 'photo-1555066931-4365d14bab8c',
+        'Business Systems' => 'photo-1460925895917-afdab827c52f',
+        'Digital Marketing'=> 'photo-1611974789855-9c2a0a7236a3',
     ];
-    $imgId  = $catImages[$post['cat_name'] ?? ''] ?? 'photo-1504868584819-f8e8b4b6d7e3';
+    $imgId  = $catImages[$post['category'] ?? $post['cat_name'] ?? ''] ?? 'photo-1504868584819-f8e8b4b6d7e3';
     $imgUrl = "https://images.unsplash.com/{$imgId}?w=1200&q=80&auto=format&fit=crop";
 }
 ?>
@@ -297,7 +297,7 @@ if (!$isFallback && !empty($post['featured_image'])) {
 
                 <!-- Article body -->
                 <div class="tm-post-body" id="post-body">
-                    <?= $content ?>
+                    <?= $body ?>
                 </div>
 
                 <!-- Tags -->
@@ -392,10 +392,10 @@ if (!$isFallback && !empty($post['featured_image'])) {
             <h2 style="font-size:1.4rem;font-weight:900;color:#0f172a;margin:0 0 36px;">Keep Reading</h2>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;">
                 <?php foreach(array_slice($related, 0, 2) as $r):
-                    $rSlug = $isFallback ? $r['slug'] : ($r['slug'] ?? '');
-                    $rTitle = htmlspecialchars($isFallback ? $r['title'] : $r['title']);
-                    $rCat   = htmlspecialchars($isFallback ? $r['cat_name'] : ($r['cat_name'] ?? 'Article'));
-                    $rExcerpt = htmlspecialchars(substr(strip_tags($isFallback ? $r['excerpt'] : ($r['excerpt'] ?? '')), 0, 110));
+                    $rSlug    = $r['slug'] ?? '';
+                    $rTitle   = htmlspecialchars($r['title']);
+                    $rCat     = htmlspecialchars($r['category'] ?? ($r['cat_name'] ?? 'Article'));
+                    $rExcerpt = htmlspecialchars(substr(strip_tags($r['excerpt'] ?? ''), 0, 110));
                 ?>
                 <a href="<?= SITE_URL ?>/blog-post.php?slug=<?= urlencode($rSlug) ?>"
                    style="background:#fff;border:1px solid #f1f5f9;border-radius:20px;overflow:hidden;text-decoration:none;display:block;transition:transform .25s,box-shadow .25s;"
