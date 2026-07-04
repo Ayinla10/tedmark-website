@@ -1,14 +1,16 @@
-# Disable LiteSpeed/browser caching for CSS & JS while actively developing
+# Disable LiteSpeed/browser caching site-wide while actively developing
 <IfModule mod_headers.c>
-    <FilesMatch "\.(css|js)$">
+    <FilesMatch "\.(css|js|php)$">
         Header set Cache-Control "no-cache, no-store, must-revalidate"
         Header set Pragma "no-cache"
         Header set Expires 0
+        Header set X-LiteSpeed-Cache-Control "no-cache"
     </FilesMatch>
 </IfModule>
 
 <IfModule LiteSpeed>
-    <FilesMatch "\.(css|js)$">
+    <FilesMatch "\.(css|js|php)$">
         CacheDisable public
     </FilesMatch>
+    CacheLookup off
 </IfModule>
