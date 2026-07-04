@@ -10,7 +10,11 @@ if ($_isLive) {
     define('DB_NAME', 'hopewwkz_tedmark');
     define('DB_USER', 'hopewwkz_tedmark');
     define('DB_PASS', 'D[J;v{1qsaQQWS1N');
-    define('SITE_URL', 'https://new.tedmarkdigital.com');
+    // Auto-detect the actual domain being visited so the same codebase
+    // works correctly on both tedmarkdigital.com and new.tedmarkdigital.com
+    // without needing to hand-edit this file after every Git deploy.
+    $_scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    define('SITE_URL', $_scheme . '://' . $_SERVER['HTTP_HOST']);
 } else {
     // ── LOCAL ─────────────────────────────────────────
     define('DB_HOST', 'localhost');
