@@ -49,7 +49,7 @@ require_once __DIR__ . '/includes/header.php';
 
             <!-- Info -->
             <div>
-                <h2 class="tm2-h2" style="font-size:1.4rem;margin-bottom:8px;">Contact Information</h2>
+                <h2 class="tm2-h2" style="font-size:1.4rem;font-weight:700;margin-bottom:8px;">Contact Information</h2>
                 <p class="tm2-sub" style="margin-bottom:32px;">Reach us via any of the channels below or fill in the form and we'll respond within 24 hours.</p>
                 <?php
                 $cfgPhone   = $cfg['site_phone']   ?? '+233 XX XXX XXXX';
@@ -65,7 +65,7 @@ require_once __DIR__ . '/includes/header.php';
                 <div style="display:flex;gap:14px;margin-bottom:24px;align-items:flex-start;">
                     <div class="tm2-card-icon" style="margin-bottom:0;flex-shrink:0;"><i class="<?= $c['icon'] ?>"></i></div>
                     <div>
-                        <div style="font-size:0.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;"><?= $c['label'] ?></div>
+                        <div style="font-size:0.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;"><?= $c['label'] ?></div>
                         <?php if($c['href']): ?>
                         <a href="<?= $c['href'] ?>" style="font-size:0.95rem;font-weight:600;color:var(--text);text-decoration:none;"><?= $c['value'] ?></a>
                         <?php else: ?>
@@ -77,7 +77,7 @@ require_once __DIR__ . '/includes/header.php';
 
                 <!-- Social -->
                 <div style="padding-top:24px;border-top:1px solid var(--border);">
-                    <div style="font-size:0.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;">Follow Us</div>
+                    <div style="font-size:0.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;">Follow Us</div>
                     <div class="tm2-social-row">
                         <?php
                         $socials = [
