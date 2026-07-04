@@ -70,12 +70,7 @@ require_once __DIR__ . '/includes/header.php';
                     <?php if($year): ?><span style="font-size:0.72rem;color:var(--muted);white-space:nowrap;margin-left:8px;flex-shrink:0;"><?= htmlspecialchars($year) ?></span><?php endif; ?>
                 </div>
                 <h3 style="margin-bottom:8px;"><?= htmlspecialchars($proj['title']) ?></h3>
-                <p style="margin-bottom:14px;"><?= htmlspecialchars($desc) ?><?= $client ? ' for '.htmlspecialchars($client) : '' ?>.</p>
-                <?php if($isDb && !empty($proj['slug'])): ?>
-                <a href="<?= SITE_URL ?>/portfolio-item.php?slug=<?= htmlspecialchars($proj['slug']) ?>" class="tm2-port-link">View Case Study <i class="fa-solid fa-arrow-right fa-2xs"></i></a>
-                <?php else: ?>
-                <a href="<?= SITE_URL ?>/consultation.php" class="tm2-port-link">View Case Study <i class="fa-solid fa-arrow-right fa-2xs"></i></a>
-                <?php endif; ?>
+                <p><?= htmlspecialchars($desc) ?><?= $client ? ' for '.htmlspecialchars($client) : '' ?>.</p>
             </div>
         </div>
         <?php endforeach; ?>
