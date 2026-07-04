@@ -27,7 +27,7 @@ require_once __DIR__ . '/includes/header.php';
         </div>
 
         <!-- Grid -->
-        <div class="tm2-grid tm2-grid-3">
+        <div class="tm2-grid tm2-grid-2">
         <?php
         $fallback = [
             ['slug'=>'retailpro-website','cat'=>'web','icon'=>'fa-solid fa-globe','color'=>'#60a5fa','bg'=>'linear-gradient(135deg,#0f172a,#1e3a5f)','title'=>'RetailPro Website','client'=>'RetailPro GH','year'=>'2024','desc'=>'Modern e-commerce website with 340% increase in online sales within 3 months of launch.','tags'=>['Web','E-Commerce'],'result'=>'+340% online sales'],
@@ -57,30 +57,24 @@ require_once __DIR__ . '/includes/header.php';
         ?>
         <div class="tm2-card tm2-port-card" data-category="<?= htmlspecialchars($cat) ?>">
             <div class="tm2-port-media" style="<?= !empty($proj['cover_image']) ? 'background:url('.htmlspecialchars($proj['cover_image']).') center/cover no-repeat;' : 'background:radial-gradient(circle at 30% 30%,'.htmlspecialchars($color).'22,var(--bg-soft) 75%);' ?>">
-                <?php if($cat): ?>
-                <span class="tm2-port-chip"><?= htmlspecialchars(ucfirst($cat)) ?></span>
+                <?php if($result): ?>
+                <span class="tm2-port-chip"><?= htmlspecialchars($result) ?></span>
                 <?php endif; ?>
                 <?php if(empty($proj['cover_image'])): ?>
                 <i class="<?= htmlspecialchars($icon) ?>" style="font-size:2.3rem;color:<?= htmlspecialchars($color) ?>;opacity:0.85;"></i>
                 <?php endif; ?>
-                <?php if($result): ?>
-                <div class="tm2-port-result"><i class="fa-solid fa-arrow-trend-up fa-xs"></i> <?= htmlspecialchars($result) ?></div>
-                <?php endif; ?>
             </div>
             <div class="tm2-port-body">
-                <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:6px;">
-                    <h3 style="margin-bottom:0;"><?= htmlspecialchars($proj['title']) ?></h3>
+                <div style="display:flex;justify-content:space-between;align-items:start;">
+                    <div class="tm2-port-meta"><?= htmlspecialchars(implode(' • ', array_map('strtoupper', $tagList))) ?></div>
                     <?php if($year): ?><span style="font-size:0.72rem;color:var(--muted);white-space:nowrap;margin-left:8px;flex-shrink:0;"><?= htmlspecialchars($year) ?></span><?php endif; ?>
                 </div>
-                <?php if($client): ?><p style="font-size:0.75rem;color:var(--accent);font-weight:700;margin-bottom:10px;"><?= htmlspecialchars($client) ?></p><?php endif; ?>
-                <p style="margin-bottom:14px;"><?= htmlspecialchars($desc) ?></p>
-                <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px;">
-                    <?php foreach($tagList as $tag): ?>
-                    <span class="tm2-tag"><?= htmlspecialchars($tag) ?></span>
-                    <?php endforeach; ?>
-                </div>
+                <h3 style="margin-bottom:8px;"><?= htmlspecialchars($proj['title']) ?></h3>
+                <p style="margin-bottom:14px;"><?= htmlspecialchars($desc) ?><?= $client ? ' for '.htmlspecialchars($client) : '' ?>.</p>
                 <?php if($isDb && !empty($proj['slug'])): ?>
                 <a href="<?= SITE_URL ?>/portfolio-item.php?slug=<?= htmlspecialchars($proj['slug']) ?>" class="tm2-port-link">View Case Study <i class="fa-solid fa-arrow-right fa-2xs"></i></a>
+                <?php else: ?>
+                <a href="<?= SITE_URL ?>/consultation.php" class="tm2-port-link">View Case Study <i class="fa-solid fa-arrow-right fa-2xs"></i></a>
                 <?php endif; ?>
             </div>
         </div>
@@ -90,10 +84,13 @@ require_once __DIR__ . '/includes/header.php';
 </section>
 
 <!-- STATS -->
-<section class="tm2-section" style="padding-top:0;">
+<section class="tm2-section" style="background:var(--bg-soft);">
     <div class="tm2-container tm2-stats">
-        <?php foreach([['80+','Completed Projects'],['8','Industries Served'],['95%','Client Satisfaction'],['4.9★','Average Rating']] as $s): ?>
-        <div><div class="num accent"><?= $s[0] ?></div><div class="lbl"><?= $s[1] ?></div></div>
+        <?php foreach([['fa-solid fa-circle-check','80+','Completed Projects'],['fa-solid fa-building','8','Industries Served'],['fa-solid fa-face-smile','95%','Client Satisfaction'],['fa-solid fa-star','4.9★','Average Rating']] as $s): ?>
+        <div>
+            <div class="tm2-card-icon" style="margin:0 auto 10px;"><i class="<?= $s[0] ?>"></i></div>
+            <div class="num accent"><?= $s[1] ?></div><div class="lbl"><?= $s[2] ?></div>
+        </div>
         <?php endforeach; ?>
     </div>
 </section>
