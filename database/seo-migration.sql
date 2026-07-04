@@ -3,8 +3,6 @@
 -- Run this ONCE in phpMyAdmin on database: hopewwkz_tedmark
 -- ============================================================
 
-SET NAMES utf8mb4;
-
 -- ─────────────────────────────────────────
 -- PER-PAGE SEO TABLE (static pages)
 -- ─────────────────────────────────────────
@@ -63,4 +61,4 @@ INSERT IGNORE INTO `settings` (`key`, `value`, `group`) VALUES
 ('schema_price_range',       '$$',             'schema'),
 ('schema_opens',             '08:00',          'schema'),
 ('schema_closes',            '18:00',          'schema'),
-('robots_txt_content',       'User-agent: *\r\nAllow: /\r\nDisallow: /admin/\r\nDisallow: /includes/\r\nDisallow: /database/\r\nDisallow: /assets/\r\n\r\nSitemap: https://new.tedmarkdigital.com/sitemap.xml.php', 'seo');
+('robots_txt_content',       'User-agent: *\r\nAllow: /\r\nDisallow: /admin/\r\nDisallow: /includes/\r\nDisallow: /database/\r\n\r\nSitemap: https://new.tedmarkdigital.com/sitemap.xml.php', 'seo');

@@ -38,7 +38,7 @@ renderSeoTags($cfg, $seoData);
     <!-- Custom CSS -->
     <link rel="stylesheet" href="<?= SITE_URL ?>/assets/css/style.css?v=<?= filemtime(__DIR__.'/../assets/css/style.css') ?>">
     <link rel="stylesheet" href="<?= SITE_URL ?>/assets/css/mobile.css?v=<?= filemtime(__DIR__.'/../assets/css/mobile.css') ?>">
-    <link rel="stylesheet" href="<?= SITE_URL ?>/assets/css/theme.css?v=<?= filemtime(__DIR__.'/../assets/css/theme.css') ?>">
+    <link rel="stylesheet" href="<?= SITE_URL ?>/assets/css/theme-v2.css?v=<?= filemtime(__DIR__.'/../assets/css/theme-v2.css') ?>">
 </head>
 <body>
 
