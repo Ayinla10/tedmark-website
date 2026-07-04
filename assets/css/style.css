@@ -269,7 +269,8 @@ h1, h2, h3, h4, h5, h6,
 .tm-cta-dark { background:linear-gradient(135deg,#060b18 0%,#0a1628 100%); padding:80px 0; }
 
 /* ── Footer ──────────────────────────────────────────── */
-.tm-footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr 1fr; gap:32px; }
+.tm-footer-grid { display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; }
+.tm-footer-logo { height:120px; width:auto; }
 .tm-footer-heading { font-weight:900; color:white; font-size:13px; margin-bottom:14px; text-transform:uppercase; letter-spacing:0.05em; }
 .tm-footer-list { list-style:none; display:flex; flex-direction:column; gap:9px; }
 .tm-footer-list a, .tm-footer-list span { color:#cbd5e1; font-size:12px; font-weight:500; text-decoration:none; transition:color 0.2s; }
@@ -342,7 +343,10 @@ h1, h2, h3, h4, h5, h6,
 
 /* ── TABLET (max 1024px) ────────────────────────────── */
 @media (max-width:1024px) {
-    .tm-logo img { height:64px !important; width:auto !important; }
+    .tm-logo img  { height:64px !important; width:auto !important; }
+    .tm-footer-logo { height:90px !important; }
+    .tm-footer-grid { grid-template-columns:1fr 1fr !important; gap:28px !important; }
+    .tm-hero-visual { display:none !important; }
 }
 
 /* ── TABLET (max 900px) ─────────────────────────────── */
@@ -366,13 +370,18 @@ h1, h2, h3, h4, h5, h6,
     .tm-section-sub   { font-size:14px; }
     .tm-nav-inner     { height:68px; }
 
-    /* Fix oversized logo on mobile */
-    .tm-logo img { height:48px !important; width:auto !important; }
+    /* Logo */
+    .tm-logo img    { height:44px !important; width:auto !important; }
+    .tm-footer-logo { height:70px !important; }
+    .tm-footer-grid { grid-template-columns:1fr !important; gap:24px !important; }
 
-    /* Hamburger must show */
+    /* Hamburger */
     .tm-hamburger { display:flex !important; }
     .tm-btn-nav   { display:none !important; }
     .tm-nav-links { display:none !important; }
+
+    /* Hero visual hidden on mobile too */
+    .tm-hero-visual { display:none !important; }
 
     /* Fix any inline flex-wrap:nowrap causing overflow */
     [style*="flex-wrap:nowrap"] { flex-wrap:wrap !important; }

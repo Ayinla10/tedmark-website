@@ -16,11 +16,11 @@ $socialFacebook = htmlspecialchars($cfg['social_facebook']  ?? '#');
 <!-- ===== FOOTER ===== -->
 <footer style="background:#020917;padding:56px 0 0;">
     <div class="tm-container">
-        <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;align-items:start;">
+        <div class="tm-footer-grid" style="align-items:start;">
 
             <!-- Brand -->
             <div>
-                <img src="<?= SITE_URL ?>/assets/images/tedmark logo copy2.png" alt="Tedmark Digital Agency" style="height:180px;width:auto;display:block;margin-top:-60px;margin-bottom:-10px;margin-left:-8px;">
+                <img src="<?= SITE_URL ?>/assets/images/tedmark logo copy2.png" alt="Tedmark Digital Agency" class="tm-footer-logo" style="height:120px;width:auto;display:block;margin-top:-40px;margin-bottom:-10px;margin-left:-8px;">
                 <p style="color:#cbd5e1;font-size:13px;line-height:1.75;max-width:240px;margin-bottom:18px;">
                     <?= $footerTagline ?>
                 </p>

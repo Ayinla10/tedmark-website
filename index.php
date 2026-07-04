@@ -56,7 +56,7 @@ $heroStyle = "background: linear-gradient(135deg, rgba(6,11,24,{$heroOp}) 0%, rg
                         <i class="fa-solid fa-circle-play fa-sm"></i> <?= cfg($cfg,'hero_btn_secondary','Explore Our Solutions') ?>
                     </a>
                 </div>
-                <div style="display:flex;gap:28px;margin-top:48px;flex-wrap:nowrap;align-items:center;">
+                <div style="display:flex;gap:20px;margin-top:48px;flex-wrap:wrap;align-items:center;">
                     <div style="display:flex;align-items:center;gap:10px;">
                         <i class="fa-solid fa-building" style="color:#4ade80;font-size:1.1rem;"></i>
                         <div><div style="font-size:1.5rem;font-weight:800;color:#fff;line-height:1;"><?= cfg($cfg,'stat_1_value','80+') ?></div><div style="font-size:0.75rem;color:#94a3b8;margin-top:2px;"><?= cfg($cfg,'stat_1_label','Projects Delivered') ?></div></div>
@@ -77,7 +77,7 @@ $heroStyle = "background: linear-gradient(135deg, rgba(6,11,24,{$heroOp}) 0%, rg
             </div>
 
             <!-- Right: Dashboard mockup (white / light) -->
-            <div style="position:relative;animation:tm-float 6s ease-in-out infinite;">
+            <div class="tm-hero-visual" style="position:relative;animation:tm-float 6s ease-in-out infinite;">
                 <!-- Outer glow ring -->
                 <div style="position:absolute;inset:-12px;border-radius:28px;background:radial-gradient(ellipse at 60% 40%,rgba(74,222,128,0.18),transparent 70%);pointer-events:none;"></div>
 

@@ -35,7 +35,7 @@ renderSeoTags($cfg, $seoData);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="<?= SITE_URL ?>/assets/css/style.css?v=<?= filemtime(__DIR__.'/../assets/css/style.css') ?>">
+    <link rel="stylesheet" href="<?= SITE_URL ?>/assets/css/style.css?v=20260704c">
 </head>
 <body>
 
