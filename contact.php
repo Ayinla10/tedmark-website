@@ -24,7 +24,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $formTime = (int)($_POST['form_time'] ?? 0);
     $elapsed  = time() - $formTime;
 
-    if (!empty($honeypot) || $elapsed < 3) {
+    // Additional spam heuristics: excessive links, or a name that looks like a URL/keyword stuffing
+    $urlCount   = preg_match_all('/https?:\/\/|www\./i', $message . ' ' . $name);
+    $looksSpam  = $urlCount >= 2 || preg_match('/\b(seo|backlink|crypto|casino|viagra|forex)\b/i', $message . ' ' . $subject);
+
+    if (!empty($honeypot) || $elapsed < 3 || $looksSpam) {
         // Silently pretend success — don't tip off the bot
         $success = 'Message sent! We\'ll get back to you within 24 hours.';
     } elseif ($name && $email && $message) {
