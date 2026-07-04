@@ -20,7 +20,7 @@ require_once __DIR__ . '/includes/header.php';
 </section>
 
 <!-- SERVICES -->
-<section class="tm2-section">
+<section class="tm2-section" style="background:var(--bg-soft);">
     <div class="tm2-container">
         <?php
         $servicesFallback = [

@@ -6,7 +6,7 @@
 
 :root {
     --bg:        #ffffff;
-    --bg-soft:   #f7f8fa;
+    --bg-soft:   #eef9f1;
     --card:      #ffffff;
     --border:    #eceef1;
     --text:      #0b0f14;
@@ -96,7 +96,7 @@ body {
 .tm2-mobile-menu a:hover { background: var(--bg-soft); }
 
 /* ── Inner Page Hero (centered, minimal, reused everywhere) ── */
-.tm2-page-hero { padding: 140px 16px 56px; text-align: center; background: var(--bg); }
+.tm2-page-hero { padding: 140px 16px 56px; text-align: center; background: var(--bg-soft); }
 .tm2-page-hero h1 {
     font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800;
     font-size: clamp(1.8rem, 5vw, 2.8rem); line-height: 1.15; letter-spacing: -0.01em;
