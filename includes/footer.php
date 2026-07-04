@@ -51,6 +51,6 @@ $socialFacebook = htmlspecialchars($cfg['social_facebook']  ?? '#');
 </button>
 
 <!-- Main JS -->
-<script src="<?= SITE_URL ?>/assets/js/main.js?v=<?= filemtime(__DIR__.'/../assets/js/main.js') ?>"></script>
+<script src="<?= SITE_URL ?>/assets/js/app-v2.js?v=<?= filemtime(__DIR__.'/../assets/js/app-v2.js') ?>"></script>
 </body>
 </html>
