@@ -11,18 +11,16 @@ require_once __DIR__ . '/includes/header.php';
 ?>
 
 <!-- PAGE HERO -->
-<section class="tm-page-hero" style="background:linear-gradient(135deg,rgba(6,11,24,0.93) 0%,rgba(10,22,40,0.90) 100%),url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=80&auto=format&fit=crop') center/cover no-repeat;">
-    <div class="tm-container" style="text-align:center;position:relative;z-index:2;">
-        <div class="tm-label" style="justify-content:center;">Industries</div>
-        <h1 style="font-size:clamp(2rem,5vw,3rem);font-weight:900;color:#fff;margin:16px 0 20px;line-height:1.15;">Built for the Sectors<br>Driving Africa Forward</h1>
-        <p style="font-size:1.1rem;color:#94a3b8;max-width:620px;margin:0 auto;line-height:1.7;">We've worked across 8+ industries and understand the unique challenges, regulations, and workflows of each one.</p>
-    </div>
+<section class="tm2-page-hero">
+    <div class="tm2-badge"><span></span> Industries</div>
+    <h1>Built for the Sectors Driving Africa Forward</h1>
+    <p>We've worked across 8+ industries and understand the unique challenges, regulations, and workflows of each one.</p>
 </section>
 
 <!-- INDUSTRIES GRID -->
-<section style="padding:96px 0;background:#f8fafc;">
-    <div class="tm-container">
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:28px;">
+<section class="tm2-section">
+    <div class="tm2-container">
+        <div class="tm2-grid tm2-grid-3">
         <?php
         $indFallback = [
             ['icon'=>'fa-solid fa-graduation-cap','color'=>'#22c55e','title'=>'Education','description'=>'From primary schools to universities, we build school management systems that handle admissions, results, parent communication, and fee collection.'],
@@ -39,18 +37,12 @@ require_once __DIR__ . '/includes/header.php';
             $indColor = $ind['color'] ?? '#22c55e';
             $indBg    = 'rgba('.implode(',', array_map('hexdec', str_split(ltrim($indColor,'#'),2))).', 0.1)';
         ?>
-        <div class="tm-card tm-fade">
-            <div style="display:flex;align-items:flex-start;gap:16px;margin-bottom:16px;">
-                <div style="width:48px;height:48px;border-radius:12px;background:<?= $indBg ?>;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                    <i class="<?= htmlspecialchars($ind['icon']??'fa-solid fa-building') ?>" style="font-size:1.2rem;color:<?= htmlspecialchars($indColor) ?>;"></i>
-                </div>
-                <div>
-                    <h3 style="font-size:1.05rem;font-weight:800;color:#0f172a;line-height:1.2;"><?= htmlspecialchars($ind['title']) ?></h3>
-                </div>
-            </div>
-            <p style="font-size:0.875rem;color:#64748b;line-height:1.65;margin-bottom:16px;"><?= htmlspecialchars($ind['description']??'') ?></p>
-            <div style="display:flex;align-items:center;justify-content:flex-end;padding-top:14px;border-top:1px solid #f1f5f9;">
-                <a href="<?= SITE_URL ?>/consultation.php" style="font-size:0.8rem;font-weight:700;color:#16a34a;text-decoration:none;">Get started <i class="fa-solid fa-arrow-right fa-2xs"></i></a>
+        <div class="tm2-card">
+            <div class="tm2-card-icon"><i class="<?= htmlspecialchars($ind['icon']??'fa-solid fa-building') ?>"></i></div>
+            <h3><?= htmlspecialchars($ind['title']) ?></h3>
+            <p style="margin-bottom:16px;"><?= htmlspecialchars($ind['description']??'') ?></p>
+            <div style="display:flex;align-items:center;justify-content:flex-end;padding-top:14px;border-top:1px solid var(--border);">
+                <a href="<?= SITE_URL ?>/consultation.php" style="font-size:0.8rem;font-weight:700;color:var(--accent);text-decoration:none;">Get started <i class="fa-solid fa-arrow-right fa-2xs"></i></a>
             </div>
         </div>
         <?php endforeach; ?>

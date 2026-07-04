@@ -10,26 +10,24 @@ require_once __DIR__ . '/includes/header.php';
 ?>
 
 <!-- PAGE HERO -->
-<section class="tm-page-hero" style="background:linear-gradient(135deg,rgba(6,11,24,0.93) 0%,rgba(10,22,40,0.90) 100%),url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1600&q=80&auto=format&fit=crop') center/cover no-repeat;">
-    <div class="tm-container" style="text-align:center;position:relative;z-index:2;">
-        <div class="tm-label" style="justify-content:center;">Our Work</div>
-        <h1 style="font-size:clamp(2rem,5vw,3rem);font-weight:900;color:#fff;margin:16px 0 20px;line-height:1.15;">Results We've Delivered</h1>
-        <p style="font-size:1.1rem;color:#94a3b8;max-width:560px;margin:0 auto;line-height:1.7;">Real projects, real outcomes for real African businesses across sectors and sizes.</p>
-    </div>
+<section class="tm2-page-hero">
+    <div class="tm2-badge"><span></span> Our Work</div>
+    <h1>Results We've Delivered</h1>
+    <p>Real projects, real outcomes for real African businesses across sectors and sizes.</p>
 </section>
 
 <!-- PORTFOLIO -->
-<section style="padding:96px 0;background:#f8fafc;">
-    <div class="tm-container">
+<section class="tm2-section">
+    <div class="tm2-container">
         <!-- Filter -->
-        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:48px;">
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:40px;">
             <?php foreach(['all'=>'All Work','web'=>'Web','systems'=>'Systems','ecommerce'=>'E-Commerce','branding'=>'Branding','automation'=>'Automation'] as $k=>$v): ?>
             <button class="tm-filter-btn<?= $k==='all'?' active':'' ?>" data-filter="<?= $k ?>"><?= $v ?></button>
             <?php endforeach; ?>
         </div>
 
         <!-- Grid -->
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:28px;">
+        <div class="tm2-grid tm2-grid-3">
         <?php
         $fallback = [
             ['slug'=>'retailpro-website','cat'=>'web','icon'=>'fa-solid fa-globe','color'=>'#60a5fa','bg'=>'linear-gradient(135deg,#0f172a,#1e3a5f)','title'=>'RetailPro Website','client'=>'RetailPro GH','year'=>'2024','desc'=>'Modern e-commerce website with 340% increase in online sales within 3 months of launch.','tags'=>['Web','E-Commerce'],'result'=>'+340% online sales'],
@@ -57,24 +55,24 @@ require_once __DIR__ . '/includes/header.php';
                 : ($proj['tags']??[]);
             if(empty($tagList) && $cat) $tagList = [$cat];
         ?>
-        <div class="tm-port-card tm-fade" data-category="<?= htmlspecialchars($cat) ?>" style="padding:0;">
-            <div style="height:200px;<?= !empty($proj['cover_image']) ? 'background:url('.htmlspecialchars($proj['cover_image']).') center/cover no-repeat;' : 'background:'.$bg.';' ?>display:flex;align-items:center;justify-content:center;position:relative;">
+        <div class="tm2-card" data-category="<?= htmlspecialchars($cat) ?>" style="padding:0;overflow:hidden;">
+            <div style="height:180px;<?= !empty($proj['cover_image']) ? 'background:url('.htmlspecialchars($proj['cover_image']).') center/cover no-repeat;' : 'background:var(--bg-soft);' ?>display:flex;align-items:center;justify-content:center;position:relative;">
                 <?php if(empty($proj['cover_image'])): ?>
-                <i class="<?= htmlspecialchars($icon) ?>" style="font-size:3rem;color:<?= htmlspecialchars($color) ?>;opacity:0.5;"></i>
+                <i class="<?= htmlspecialchars($icon) ?>" style="font-size:2.5rem;color:var(--accent);opacity:0.7;"></i>
                 <?php endif; ?>
                 <?php if($result): ?>
-                <div style="position:absolute;bottom:12px;left:12px;background:rgba(0,0,0,0.6);color:#22c55e;font-size:0.72rem;font-weight:700;padding:5px 10px;border-radius:6px;backdrop-filter:blur(4px);">
+                <div style="position:absolute;bottom:12px;left:12px;background:rgba(0,0,0,0.6);color:var(--accent);font-size:0.72rem;font-weight:700;padding:5px 10px;border-radius:6px;backdrop-filter:blur(4px);">
                     <i class="fa-solid fa-arrow-trend-up fa-xs"></i> <?= htmlspecialchars($result) ?>
                 </div>
                 <?php endif; ?>
             </div>
-            <div style="padding:20px 24px 24px;">
+            <div style="padding:20px;">
                 <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:8px;">
-                    <h3 style="font-size:1rem;font-weight:800;color:#0f172a;line-height:1.3;"><?= htmlspecialchars($proj['title']) ?></h3>
-                    <?php if($year): ?><span style="font-size:0.72rem;color:#94a3b8;white-space:nowrap;margin-left:8px;"><?= htmlspecialchars($year) ?></span><?php endif; ?>
+                    <h3 style="margin-bottom:0;"><?= htmlspecialchars($proj['title']) ?></h3>
+                    <?php if($year): ?><span style="font-size:0.72rem;color:var(--muted);white-space:nowrap;margin-left:8px;"><?= htmlspecialchars($year) ?></span><?php endif; ?>
                 </div>
-                <?php if($client): ?><p style="font-size:0.75rem;color:#16a34a;font-weight:600;margin-bottom:8px;"><?= htmlspecialchars($client) ?></p><?php endif; ?>
-                <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin-bottom:14px;"><?= htmlspecialchars($desc) ?></p>
+                <?php if($client): ?><p style="font-size:0.75rem;color:var(--accent);font-weight:600;margin-bottom:8px;"><?= htmlspecialchars($client) ?></p><?php endif; ?>
+                <p style="margin-bottom:14px;"><?= htmlspecialchars($desc) ?></p>
                 <div style="display:flex;gap:6px;flex-wrap:wrap;">
                     <?php foreach($tagList as $tag): ?>
                     <span class="tm-port-tag"><?= htmlspecialchars($tag) ?></span>
@@ -88,13 +86,11 @@ require_once __DIR__ . '/includes/header.php';
 </section>
 
 <!-- STATS -->
-<section class="tm-stats-band">
-    <div class="tm-container">
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:32px;text-align:center;">
-            <?php foreach([['80+','Completed Projects'],['8','Industries Served'],['95%','Client Satisfaction'],['4.9★','Average Rating']] as $s): ?>
-            <div><div style="font-size:2.2rem;font-weight:900;color:#fff;"><?= $s[0] ?></div><div style="font-size:0.85rem;color:rgba(255,255,255,0.65);margin-top:6px;"><?= $s[1] ?></div></div>
-            <?php endforeach; ?>
-        </div>
+<section class="tm2-section" style="padding-top:0;">
+    <div class="tm2-container tm2-stats">
+        <?php foreach([['80+','Completed Projects'],['8','Industries Served'],['95%','Client Satisfaction'],['4.9★','Average Rating']] as $s): ?>
+        <div><div class="num accent"><?= $s[0] ?></div><div class="lbl"><?= $s[1] ?></div></div>
+        <?php endforeach; ?>
     </div>
 </section>
 

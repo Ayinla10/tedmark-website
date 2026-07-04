@@ -13,17 +13,15 @@ require_once __DIR__ . '/includes/header.php';
 ?>
 
 <!-- PAGE HERO -->
-<section class="tm-page-hero" style="background:linear-gradient(135deg,rgba(6,11,24,0.93) 0%,rgba(10,22,40,0.90) 100%),url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1600&q=80&auto=format&fit=crop') center/cover no-repeat;">
-    <div class="tm-container" style="text-align:center;position:relative;z-index:2;">
-        <div class="tm-label" style="justify-content:center;">What We Do</div>
-        <h1 style="font-size:clamp(2rem,5vw,3rem);font-weight:900;color:#fff;margin:16px 0 20px;line-height:1.15;">Everything Your Business<br>Needs to Thrive Digitally</h1>
-        <p style="font-size:1.1rem;color:#94a3b8;max-width:600px;margin:0 auto;line-height:1.7;">End-to-end digital transformation — from strategy through implementation to ongoing support.</p>
-    </div>
+<section class="tm2-page-hero">
+    <div class="tm2-badge"><span></span> What We Do</div>
+    <h1>Everything Your Business Needs to Thrive Digitally</h1>
+    <p>End-to-end digital transformation — from strategy through implementation to ongoing support.</p>
 </section>
 
 <!-- SERVICES -->
-<section style="padding:96px 0;background:#f8fafc;">
-    <div class="tm-container">
+<section class="tm2-section">
+    <div class="tm2-container">
         <?php
         $servicesFallback = [
             ['icon'=>'fa-solid fa-gears','color'=>'#22c55e','bg'=>'rgba(34,197,94,0.1)','title'=>'Business Systems','subtitle'=>'ERPs, CRMs & Operational Platforms','description'=>'Custom-built systems that replace spreadsheets, manual records, and disconnected apps. We build ERPs, inventory management, HR systems, customer relationship platforms, and any workflow-specific tools your business needs.','features'=>'Custom ERP development,Inventory & stock management,HR & payroll systems,Customer management (CRM),Multi-branch management,Reporting & dashboards'],
@@ -39,33 +37,29 @@ require_once __DIR__ . '/includes/header.php';
             $feats = array_filter(array_map('trim', explode(',', $svc['features']??'')));
             $bg    = $svc['bg'] ?? 'rgba(34,197,94,0.1)';
         ?>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;padding:64px 0;<?= $idx > 0 ? 'border-top:1px solid #f1f5f9;' : '' ?>" class="tm-svc-row tm-fade">
-            <div style="<?= $idx % 2 === 1 ? 'order:2;' : '' ?>">
+        <div class="tm2-grid tm2-grid-2 tm-svc-row" style="align-items:center;padding:48px 0;<?= $idx > 0 ? 'border-top:1px solid var(--border);' : '' ?>">
+            <div>
                 <div style="display:inline-flex;align-items:center;gap:12px;margin-bottom:20px;">
-                    <div style="width:52px;height:52px;border-radius:14px;background:<?= htmlspecialchars($bg) ?>;display:flex;align-items:center;justify-content:center;">
-                        <i class="<?= htmlspecialchars($svc['icon']??'fa-solid fa-star') ?>" style="font-size:1.4rem;color:<?= htmlspecialchars($svc['color']??'#22c55e') ?>;"></i>
-                    </div>
+                    <div class="tm2-card-icon" style="margin-bottom:0;"><i class="<?= htmlspecialchars($svc['icon']??'fa-solid fa-star') ?>"></i></div>
                     <div>
-                        <div class="tm-label" style="margin-bottom:0;"><?= htmlspecialchars($svc['title']) ?></div>
-                        <div style="font-size:0.8rem;color:#94a3b8;"><?= htmlspecialchars($svc['subtitle']??'') ?></div>
+                        <div style="font-weight:800;color:var(--text);"><?= htmlspecialchars($svc['title']) ?></div>
+                        <div style="font-size:0.8rem;color:var(--text-soft);"><?= htmlspecialchars($svc['subtitle']??'') ?></div>
                     </div>
                 </div>
-                <p style="font-size:1rem;color:#334155;line-height:1.75;margin-bottom:28px;"><?= htmlspecialchars($svc['description']??$svc['desc']??'') ?></p>
-                <a href="<?= SITE_URL ?>/consultation.php" class="tm-btn-green">
+                <p style="font-size:1rem;color:var(--text-soft);line-height:1.75;margin-bottom:28px;"><?= htmlspecialchars($svc['description']??$svc['desc']??'') ?></p>
+                <a href="<?= SITE_URL ?>/consultation.php" class="tm2-btn tm2-btn-primary">
                     Discuss This Service <i class="fa-solid fa-arrow-right fa-xs"></i>
                 </a>
             </div>
-            <div style="<?= $idx % 2 === 1 ? 'order:1;' : '' ?>">
-                <div style="background:#fff;border:1.5px solid #f1f5f9;border-radius:16px;padding:28px;box-shadow:0 4px 24px rgba(0,0,0,0.04);">
-                    <div style="font-size:0.75rem;font-weight:800;color:#64748b;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;">What's included</div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-                        <?php foreach($feats as $feat): ?>
-                        <div style="display:flex;align-items:center;gap:8px;font-size:0.875rem;color:#374151;">
-                            <i class="fa-solid fa-circle-check" style="color:#16a34a;font-size:0.75rem;flex-shrink:0;"></i>
-                            <?= htmlspecialchars($feat) ?>
-                        </div>
-                        <?php endforeach; ?>
+            <div class="tm2-card">
+                <div style="font-size:0.75rem;font-weight:800;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;">What's included</div>
+                <div class="tm2-grid tm2-grid-2" style="gap:10px;">
+                    <?php foreach($feats as $feat): ?>
+                    <div style="display:flex;align-items:center;gap:8px;font-size:0.875rem;color:var(--text);">
+                        <i class="fa-solid fa-circle-check" style="color:var(--accent);font-size:0.75rem;flex-shrink:0;"></i>
+                        <?= htmlspecialchars($feat) ?>
                     </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
@@ -74,29 +68,25 @@ require_once __DIR__ . '/includes/header.php';
 </section>
 
 <!-- HOW IT WORKS BAND -->
-<section style="padding:80px 0;background:#fff;">
-    <div class="tm-container">
-        <div style="text-align:center;max-width:600px;margin:0 auto 48px;">
-            <div class="tm-label">Our Process</div>
-            <h2 class="tm-section-title">Simple, Transparent Process</h2>
+<section class="tm2-section">
+    <div class="tm2-container">
+        <div class="tm2-section-head">
+            <div class="tm2-eyebrow">Our Process</div>
+            <h2 class="tm2-h2">Simple, Transparent Process</h2>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;">
+        <div class="tm2-grid tm2-grid-4">
             <?php
             $steps = [
                 ['num'=>'01','icon'=>'fa-solid fa-phone','title'=>'Free Call','desc'=>'30-minute discovery call to understand your needs.'],
                 ['num'=>'02','icon'=>'fa-solid fa-file-lines','title'=>'Proposal','desc'=>'Custom proposal with timeline, scope, and pricing.'],
                 ['num'=>'03','icon'=>'fa-solid fa-hammer','title'=>'Build','desc'=>'Agile development with weekly progress updates.'],
                 ['num'=>'04','icon'=>'fa-solid fa-rocket','title'=>'Launch','desc'=>'Deployment, training, and full handover.'],
-                ['num'=>'05','icon'=>'fa-solid fa-headset','title'=>'Support','desc'=>'Ongoing maintenance and support packages.'],
             ];
             foreach($steps as $s): ?>
-            <div class="tm-fade" style="text-align:center;">
-                <div class="tm-step-num"><?= $s['num'] ?></div>
-                <div style="width:44px;height:44px;border-radius:12px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;margin:12px auto;">
-                    <i class="<?= $s['icon'] ?>" style="color:#16a34a;font-size:1.1rem;"></i>
-                </div>
-                <h3 style="font-size:0.95rem;font-weight:700;color:#0f172a;margin-bottom:6px;"><?= $s['title'] ?></h3>
-                <p style="font-size:0.82rem;color:#64748b;line-height:1.55;"><?= $s['desc'] ?></p>
+            <div class="tm2-card" style="text-align:center;">
+                <div class="tm2-card-icon" style="margin:0 auto 14px;"><i class="<?= $s['icon'] ?>"></i></div>
+                <h3><?= $s['title'] ?></h3>
+                <p><?= $s['desc'] ?></p>
             </div>
             <?php endforeach; ?>
         </div>
@@ -104,12 +94,5 @@ require_once __DIR__ . '/includes/header.php';
 </section>
 
 <?php require_once __DIR__ . '/includes/cta-band.php'; ?>
-
-<style>
-@media(max-width:768px){
-    .tm-svc-row { grid-template-columns:1fr !important; }
-    .tm-svc-row > div { order:unset !important; }
-}
-</style>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
