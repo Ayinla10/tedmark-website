@@ -30,8 +30,8 @@ require_once __DIR__ . '/includes/header.php';
         <span></span> <?= cfg($cfg,'hero_badge','Helping African Businesses Run Smarter') ?>
     </div>
     <h1>
-        <?= cfg($cfg,'hero_h1_line1','We Build Systems.') ?>
-        <?= cfg($cfg,'hero_h1_line2','We Automate Work.') ?>
+        <?= cfg($cfg,'hero_h1_line1','We Build Systems.') ?><br>
+        <?= cfg($cfg,'hero_h1_line2','We Automate Work.') ?><br>
         <?= cfg($cfg,'hero_h1_line3','We Grow Businesses.') ?>
     </h1>
     <p>
