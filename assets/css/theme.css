@@ -27,9 +27,9 @@ html[data-theme="dark"] {
     --text:      #f5f5f5;
     --text-soft: #a3a3a3;
     --muted:     #6b6b6b;
-    --accent:    #d7f24c;
+    --accent:    #f5a623;
     --accent-ink:#0a0a0a;
-    --accent-soft: rgba(215,242,76,0.12);
+    --accent-soft: rgba(245,166,35,0.12);
     --shadow:    0 1px 2px rgba(0,0,0,0.3), 0 8px 32px rgba(0,0,0,0.4);
 }
 
