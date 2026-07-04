@@ -23,176 +23,56 @@ try { $projects     = fetchAll("SELECT * FROM projects WHERE status='active' ORD
 require_once __DIR__ . '/includes/header.php';
 ?>
 
-<!-- ===== HERO ===== -->
-<?php
-$heroBg    = $cfg['hero_bg_image'] ?? 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1600&q=80&auto=format&fit=crop';
-$heroOp    = $cfg['hero_overlay_opacity'] ?? '0.92';
-$heroStyle = "background: linear-gradient(135deg, rgba(6,11,24,{$heroOp}) 0%, rgba(10,22,40,{$heroOp}) 50%, rgba(13,31,60,{$heroOp}) 100%), url('" . htmlspecialchars($heroBg) . "') center/cover no-repeat;";
-?>
-<section class="tm-hero" style="<?= $heroStyle ?>">
-    <div class="tm-grid-lines"></div>
-    <div class="tm-container" style="position:relative;z-index:2;padding-top:140px;padding-bottom:80px;">
-        <div class="tm-hero-grid">
-
-            <!-- Left copy -->
-            <div class="tm-fade">
-                <div class="tm-trust-badge">
-                    <span style="width:8px;height:8px;background:#4ade80;border-radius:50%;display:inline-block;animation:pulse 2s infinite;"></span>
-                    <?= cfg($cfg,'hero_badge','Helping African Businesses Run Smarter') ?>
-                </div>
-                <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2.4rem,4.8vw,3.6rem);font-weight:900;line-height:1.1;color:#fff;margin-bottom:24px;margin-top:20px;letter-spacing:-0.02em;">
-                    <?= cfg($cfg,'hero_h1_line1','We Build Systems.') ?><br>
-                    <?= cfg($cfg,'hero_h1_line2','We Automate Work.') ?><br>
-                    <span class="tm-text-gradient"><?= cfg($cfg,'hero_h1_line3','We Grow Businesses.') ?></span>
-                </h1>
-                <p style="font-size:1.05rem;color:#cbd5e1;line-height:1.8;max-width:500px;margin-bottom:40px;">
-                    <?= cfg($cfg,'hero_subtext','We help businesses organize, automate, and digitize their operations using smart systems and modern technology so they can save time, reduce costs, and grow without limits.') ?>
-                </p>
-                <div style="display:flex;gap:16px;flex-wrap:wrap;">
-                    <a href="<?= SITE_URL ?>/consultation.php" class="tm-btn-primary">
-                        <?= cfg($cfg,'hero_btn_primary','Book a Free Strategy Session') ?> <i class="fa-solid fa-arrow-right fa-xs"></i>
-                    </a>
-                    <a href="<?= SITE_URL ?>/solutions.php" class="tm-btn-secondary">
-                        <i class="fa-solid fa-circle-play fa-sm"></i> <?= cfg($cfg,'hero_btn_secondary','Explore Our Solutions') ?>
-                    </a>
-                </div>
-                <div style="display:flex;gap:20px;margin-top:48px;flex-wrap:wrap;align-items:center;">
-                    <div style="display:flex;align-items:center;gap:10px;">
-                        <i class="fa-solid fa-building" style="color:#4ade80;font-size:1.1rem;"></i>
-                        <div><div style="font-size:1.5rem;font-weight:800;color:#fff;line-height:1;"><?= cfg($cfg,'stat_1_value','80+') ?></div><div style="font-size:0.75rem;color:#94a3b8;margin-top:2px;"><?= cfg($cfg,'stat_1_label','Projects Delivered') ?></div></div>
-                    </div>
-                    <div style="display:flex;align-items:center;gap:10px;">
-                        <i class="fa-solid fa-rocket" style="color:#4ade80;font-size:1.1rem;"></i>
-                        <div><div style="font-size:1.5rem;font-weight:800;color:#fff;line-height:1;"><?= cfg($cfg,'stat_2_value','95%') ?></div><div style="font-size:0.75rem;color:#94a3b8;margin-top:2px;"><?= cfg($cfg,'stat_2_label','Client Satisfaction') ?></div></div>
-                    </div>
-                    <div style="display:flex;align-items:center;gap:10px;">
-                        <i class="fa-solid fa-star" style="color:#4ade80;font-size:1.1rem;"></i>
-                        <div><div style="font-size:1.5rem;font-weight:800;color:#fff;line-height:1;"><?= cfg($cfg,'stat_3_value','8') ?></div><div style="font-size:0.75rem;color:#94a3b8;margin-top:2px;"><?= cfg($cfg,'stat_3_label','Industries Served') ?></div></div>
-                    </div>
-                    <div style="display:flex;align-items:center;gap:10px;">
-                        <i class="fa-solid fa-headset" style="color:#4ade80;font-size:1.1rem;"></i>
-                        <div><div style="font-size:1.5rem;font-weight:800;color:#fff;line-height:1;"><?= cfg($cfg,'stat_4_value','3yrs') ?></div><div style="font-size:0.75rem;color:#94a3b8;margin-top:2px;"><?= cfg($cfg,'stat_4_label','In Business') ?></div></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right: Dashboard mockup (white / light) -->
-            <div class="tm-hero-visual" style="position:relative;animation:tm-float 6s ease-in-out infinite;">
-                <!-- Outer glow ring -->
-                <div style="position:absolute;inset:-12px;border-radius:28px;background:radial-gradient(ellipse at 60% 40%,rgba(74,222,128,0.18),transparent 70%);pointer-events:none;"></div>
-
-                <div style="background:#ffffff;border-radius:22px;padding:24px;box-shadow:0 32px 80px rgba(0,0,0,0.35),0 0 0 1px rgba(255,255,255,0.12);">
-                    <!-- Header bar -->
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid #f1f5f9;">
-                        <div style="display:flex;align-items:center;gap:8px;">
-                            <div style="width:28px;height:28px;background:#dcfce7;border-radius:8px;display:flex;align-items:center;justify-content:center;">
-                                <i class="fa-solid fa-chart-line" style="font-size:12px;color:#16a34a;"></i>
-                            </div>
-                            <div style="font-size:0.82rem;font-weight:700;color:#0f172a;">Business Dashboard</div>
-                        </div>
-                        <div style="display:flex;gap:5px;">
-                            <span style="width:9px;height:9px;border-radius:50%;background:#ef4444;display:inline-block;"></span>
-                            <span style="width:9px;height:9px;border-radius:50%;background:#f59e0b;display:inline-block;"></span>
-                            <span style="width:9px;height:9px;border-radius:50%;background:#22c55e;display:inline-block;"></span>
-                        </div>
-                    </div>
-
-                    <!-- Metric cards -->
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
-                        <div style="background:#f8fafc;border-radius:12px;padding:14px;border:1px solid #e2e8f0;">
-                            <div style="font-size:0.68rem;color:#64748b;margin-bottom:5px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;">Monthly Revenue</div>
-                            <div style="font-size:1.35rem;font-weight:800;color:#15803d;">GH₵ 48,200</div>
-                            <div style="font-size:0.68rem;color:#16a34a;margin-top:4px;font-weight:600;"><i class="fa-solid fa-arrow-up fa-2xs"></i> +23% this month</div>
-                        </div>
-                        <div style="background:#f8fafc;border-radius:12px;padding:14px;border:1px solid #e2e8f0;">
-                            <div style="font-size:0.68rem;color:#64748b;margin-bottom:5px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;">Active Clients</div>
-                            <div style="font-size:1.35rem;font-weight:800;color:#0f172a;">142</div>
-                            <div style="font-size:0.68rem;color:#16a34a;margin-top:4px;font-weight:600;"><i class="fa-solid fa-arrow-up fa-2xs"></i> +8 new this week</div>
-                        </div>
-                    </div>
-
-                    <!-- Chart bars -->
-                    <div style="background:#f8fafc;border-radius:12px;padding:16px;border:1px solid #e2e8f0;margin-bottom:12px;">
-                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-                            <div style="font-size:0.68rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.04em;">Weekly Performance</div>
-                            <div style="font-size:0.65rem;font-weight:700;color:#16a34a;background:#dcfce7;padding:2px 8px;border-radius:99px;">↑ 18%</div>
-                        </div>
-                        <div style="display:flex;gap:7px;align-items:flex-end;height:52px;">
-                            <?php foreach([38,58,44,82,62,92,74] as $h): ?>
-                            <div style="flex:1;background:linear-gradient(180deg,#4ade80,#16a34a);border-radius:4px 4px 0 0;height:<?= $h ?>%;"></div>
-                            <?php endforeach; ?>
-                        </div>
-                        <div style="display:flex;gap:7px;margin-top:6px;">
-                            <?php foreach(['M','T','W','T','F','S','S'] as $d): ?>
-                            <div style="flex:1;text-align:center;font-size:0.6rem;color:#94a3b8;font-weight:600;"><?= $d ?></div>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-
-                    <!-- Live automation row -->
-                    <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:#f0fdf4;border-radius:10px;border:1px solid #bbf7d0;">
-                        <div style="width:7px;height:7px;border-radius:50%;background:#22c55e;flex-shrink:0;box-shadow:0 0 0 3px rgba(34,197,94,0.25);animation:pulse 2s infinite;"></div>
-                        <div style="font-size:0.76rem;color:#166534;flex:1;font-weight:500;">Automation running: Invoice dispatch</div>
-                        <div style="font-size:0.68rem;color:#16a34a;font-weight:700;background:#dcfce7;padding:2px 8px;border-radius:99px;">Live</div>
-                    </div>
-                </div>
-
-                <!-- Floating badge -->
-                <div style="position:absolute;bottom:-18px;left:-18px;background:#f59e0b;color:#000;border-radius:12px;padding:10px 16px;font-size:0.78rem;font-weight:700;box-shadow:0 8px 24px rgba(245,158,11,0.45);animation:tm-float2 4s ease-in-out infinite;white-space:nowrap;">
-                    <i class="fa-solid fa-bolt"></i> 3x faster operations
-                </div>
-            </div>
-        </div>
+<!-- ===== HERO (centered, minimal) ===== -->
+<section class="tm2-hero">
+    <div class="tm2-hero-glow"></div>
+    <div class="tm2-badge">
+        <span></span> <?= cfg($cfg,'hero_badge','Helping African Businesses Run Smarter') ?>
     </div>
-</section>
+    <h1>
+        <?= cfg($cfg,'hero_h1_line1','We Build Systems.') ?>
+        <?= cfg($cfg,'hero_h1_line2','We Automate Work.') ?>
+        <?= cfg($cfg,'hero_h1_line3','We Grow Businesses.') ?>
+    </h1>
+    <p>
+        <?= cfg($cfg,'hero_subtext','We help businesses organize, automate, and digitize their operations using smart systems and modern technology so they can save time, reduce costs, and grow without limits.') ?>
+    </p>
 
-<!-- ===== CLIENT LOGOS ===== -->
-<section style="background:#060d1a;padding:40px 0;border-bottom:1px solid #0f172a;">
-    <div class="tm-container">
-        <p style="text-align:center;font-size:0.78rem;color:#94a3b8;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:28px;">Trusted by businesses across Africa</p>
-        <div style="display:flex;justify-content:center;align-items:center;gap:40px;flex-wrap:wrap;">
-            <?php
-            $logos = [
-                ['icon'=>'fa-solid fa-store','name'=>'RetailPro GH'],
-                ['icon'=>'fa-solid fa-hospital','name'=>'MediTrack'],
-                ['icon'=>'fa-solid fa-graduation-cap','name'=>'EduLink'],
-                ['icon'=>'fa-solid fa-utensils','name'=>'FoodFlow'],
-                ['icon'=>'fa-solid fa-building','name'=>'PropEstate'],
-                ['icon'=>'fa-solid fa-truck','name'=>'LogiMove'],
-            ];
-            foreach($logos as $l): ?>
-            <div style="display:flex;align-items:center;gap:8px;">
-                <i class="<?= $l['icon'] ?>" style="font-size:1.1rem;color:#4ade80;"></i>
-                <span style="font-size:0.85rem;font-weight:700;color:#cbd5e1;letter-spacing:.04em;"><?= $l['name'] ?></span>
-            </div>
-            <?php endforeach; ?>
-        </div>
+    <form class="tm2-email-form" id="hero-email-form">
+        <input type="email" name="email" placeholder="your@email.com" required>
+        <button type="submit"><?= cfg($cfg,'hero_btn_primary','Book a Free Session') ?></button>
+    </form>
+
+    <div class="tm2-logos">
+        <?php
+        $logos = ['RetailPro GH','MediTrack','EduLink','FoodFlow','PropEstate','LogiMove'];
+        foreach($logos as $l): ?>
+        <span><?= $l ?></span>
+        <?php endforeach; ?>
     </div>
 </section>
 
 <!-- ===== PROBLEMS ===== -->
-<section style="padding:96px 0;background:#f8fafc;">
-    <div class="tm-container">
-        <div style="text-align:center;max-width:640px;margin:0 auto 60px;">
-            <div class="tm-label">The Problem</div>
-            <h2 class="tm-section-title">Sound Familiar?</h2>
-            <p class="tm-section-sub">Most African businesses are held back by the same operational bottlenecks. We fix all of them.</p>
+<section class="tm2-section">
+    <div class="tm2-container">
+        <div class="tm2-section-head">
+            <div class="tm2-eyebrow">The Problem</div>
+            <h2 class="tm2-h2">Sound Familiar?</h2>
+            <p class="tm2-sub">Most African businesses are held back by the same operational bottlenecks. We fix all of them.</p>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;">
+        <div class="tm2-grid tm2-grid-4">
             <?php
             $problems = [
-                ['icon'=>'fa-solid fa-gears','color'=>'#ef4444','bg'=>'#fef2f2','title'=>'Manual Processes','desc'=>'Hours lost to repetitive tasks that could be automated — data entry, invoicing, reporting.'],
-                ['icon'=>'fa-solid fa-layer-group','color'=>'#f59e0b','bg'=>'#fffbeb','title'=>'Scattered Information','desc'=>'Customer data, finances, and operations spread across spreadsheets and paper files.'],
-                ['icon'=>'fa-solid fa-comment-slash','color'=>'#8b5cf6','bg'=>'#f5f3ff','title'=>'Poor Communication','desc'=>'Team silos, missed follow-ups, and inconsistent customer experiences costing you sales.'],
-                ['icon'=>'fa-solid fa-chart-line','color'=>'#3b82f6','bg'=>'#eff6ff','title'=>'Lack of Visibility','desc'=>'No real-time dashboards or reports — you\'re making decisions without accurate data.'],
+                ['icon'=>'fa-solid fa-gears','title'=>'Manual Processes','desc'=>'Hours lost to repetitive tasks that could be automated — data entry, invoicing, reporting.'],
+                ['icon'=>'fa-solid fa-layer-group','title'=>'Scattered Information','desc'=>'Customer data, finances, and operations spread across spreadsheets and paper files.'],
+                ['icon'=>'fa-solid fa-comment-slash','title'=>'Poor Communication','desc'=>'Team silos, missed follow-ups, and inconsistent customer experiences costing you sales.'],
+                ['icon'=>'fa-solid fa-chart-line','title'=>'Lack of Visibility','desc'=>'No real-time dashboards or reports — you\'re making decisions without accurate data.'],
             ];
             foreach($problems as $p): ?>
-            <div class="tm-card tm-fade" style="text-align:center;">
-                <div style="width:56px;height:56px;border-radius:14px;background:<?= $p['bg'] ?>;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
-                    <i class="<?= $p['icon'] ?>" style="font-size:1.4rem;color:<?= $p['color'] ?>;"></i>
-                </div>
-                <h3 style="font-size:1rem;font-weight:700;color:#0f172a;margin-bottom:8px;"><?= $p['title'] ?></h3>
-                <p style="font-size:0.875rem;color:#64748b;line-height:1.6;"><?= $p['desc'] ?></p>
+            <div class="tm2-card">
+                <div class="tm2-card-icon"><i class="<?= $p['icon'] ?>"></i></div>
+                <h3><?= $p['title'] ?></h3>
+                <p><?= $p['desc'] ?></p>
             </div>
             <?php endforeach; ?>
         </div>
@@ -200,39 +80,47 @@ $heroStyle = "background: linear-gradient(135deg, rgba(6,11,24,{$heroOp}) 0%, rg
 </section>
 
 <!-- ===== SERVICES ===== -->
-<section style="padding:96px 0;background:#fff;">
-    <div class="tm-container">
-        <div style="text-align:center;max-width:640px;margin:0 auto 60px;">
-            <div class="tm-label">What We Do</div>
-            <h2 class="tm-section-title">Everything Your Business Needs to Thrive Digitally</h2>
-            <p class="tm-section-sub">End-to-end digital transformation — from strategy to implementation to ongoing support.</p>
+<section class="tm2-section">
+    <div class="tm2-container">
+        <div class="tm2-section-head">
+            <div class="tm2-eyebrow">What We Do</div>
+            <h2 class="tm2-h2">Everything Your Business Needs to Thrive Digitally</h2>
+            <p class="tm2-sub">End-to-end digital transformation — from strategy to implementation to ongoing support.</p>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:28px;">
+        <div class="tm2-grid tm2-grid-4">
             <?php
             $services = [
-                ['icon'=>'fa-solid fa-gears','color'=>'#22c55e','bg'=>'rgba(34,197,94,0.1)','title'=>'Business Systems','desc'=>'Custom ERPs, inventory management, HR systems, and operational platforms tailored for your business.','link'=>'/services.php'],
-                ['icon'=>'fa-solid fa-robot','color'=>'#a78bfa','bg'=>'rgba(139,92,246,0.1)','title'=>'Automation','desc'=>'Automate invoicing, reporting, communications, and workflows to save 10+ hours per week.','link'=>'/services.php'],
-                ['icon'=>'fa-solid fa-code','color'=>'#60a5fa','bg'=>'rgba(59,130,246,0.1)','title'=>'Web Development','desc'=>'Fast, modern websites and web applications that convert visitors into paying customers.','link'=>'/services.php'],
-                ['icon'=>'fa-solid fa-cart-shopping','color'=>'#fb923c','bg'=>'rgba(251,146,60,0.1)','title'=>'E-Commerce','desc'=>'Online stores with payments, inventory, and shipping — ready to sell across Africa and beyond.','link'=>'/services.php'],
+                ['icon'=>'fa-solid fa-gears','title'=>'Business Systems','desc'=>'Custom ERPs, inventory management, HR systems, and operational platforms tailored for your business.'],
+                ['icon'=>'fa-solid fa-robot','title'=>'Automation','desc'=>'Automate invoicing, reporting, communications, and workflows to save 10+ hours per week.'],
+                ['icon'=>'fa-solid fa-code','title'=>'Web Development','desc'=>'Fast, modern websites and web applications that convert visitors into paying customers.'],
+                ['icon'=>'fa-solid fa-cart-shopping','title'=>'E-Commerce','desc'=>'Online stores with payments, inventory, and shipping — ready to sell across Africa and beyond.'],
             ];
             foreach($services as $s): ?>
-            <div class="tm-card tm-fade" style="border-top:3px solid <?= $s['color'] ?>;">
-                <div class="tm-svc-icon" style="background:<?= $s['bg'] ?>;color:<?= $s['color'] ?>;margin-bottom:20px;">
-                    <i class="<?= $s['icon'] ?>"></i>
-                </div>
-                <h3 style="font-size:1.1rem;font-weight:700;color:#0f172a;margin-bottom:10px;"><?= $s['title'] ?></h3>
-                <p style="font-size:0.875rem;color:#64748b;line-height:1.6;margin-bottom:20px;"><?= $s['desc'] ?></p>
-                <a href="<?= SITE_URL . $s['link'] ?>" style="font-size:0.85rem;font-weight:600;color:#16a34a;display:inline-flex;align-items:center;gap:6px;">
+            <div class="tm2-card">
+                <div class="tm2-card-icon"><i class="<?= $s['icon'] ?>"></i></div>
+                <h3><?= $s['title'] ?></h3>
+                <p><?= $s['desc'] ?></p>
+                <a href="<?= SITE_URL ?>/services.php" style="font-size:0.85rem;font-weight:700;color:var(--accent);display:inline-flex;align-items:center;gap:6px;margin-top:14px;text-decoration:none;">
                     Learn more <i class="fa-solid fa-arrow-right fa-2xs"></i>
                 </a>
             </div>
             <?php endforeach; ?>
         </div>
-        <div style="text-align:center;margin-top:48px;">
-            <a href="<?= SITE_URL ?>/services.php" class="tm-btn-green">
+        <div style="text-align:center;margin-top:40px;">
+            <a href="<?= SITE_URL ?>/services.php" class="tm2-btn tm2-btn-primary">
                 View All Services <i class="fa-solid fa-arrow-right fa-xs"></i>
             </a>
         </div>
+    </div>
+</section>
+
+<!-- ===== STATS ===== -->
+<section class="tm2-section" style="padding-top:0;">
+    <div class="tm2-container tm2-stats">
+        <div><div class="num accent"><?= cfg($cfg,'stat_1_value','80+') ?></div><div class="lbl"><?= cfg($cfg,'stat_1_label','Projects Delivered') ?></div></div>
+        <div><div class="num accent"><?= cfg($cfg,'stat_2_value','95%') ?></div><div class="lbl"><?= cfg($cfg,'stat_2_label','Client Satisfaction') ?></div></div>
+        <div><div class="num accent"><?= cfg($cfg,'stat_3_value','8') ?></div><div class="lbl"><?= cfg($cfg,'stat_3_label','Industries Served') ?></div></div>
+        <div><div class="num accent"><?= cfg($cfg,'stat_4_value','3yrs') ?></div><div class="lbl"><?= cfg($cfg,'stat_4_label','In Business') ?></div></div>
     </div>
 </section>
 

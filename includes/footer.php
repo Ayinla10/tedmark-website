@@ -13,69 +13,33 @@ $socialInsta    = htmlspecialchars($cfg['social_instagram'] ?? '#');
 $socialFacebook = htmlspecialchars($cfg['social_facebook']  ?? '#');
 ?>
 
-<!-- ===== FOOTER ===== -->
-<footer style="background:#020917;padding:56px 0 0;">
-    <div class="tm-container">
-        <div class="tm-footer-grid" style="align-items:start;">
-
-            <!-- Brand -->
-            <div>
-                <img src="<?= SITE_URL ?>/assets/images/tedmark logo copy2.png" alt="Tedmark Digital Agency" class="tm-footer-logo" style="height:120px;width:auto;display:block;margin-top:-40px;margin-bottom:-10px;margin-left:-8px;">
-                <p style="color:#cbd5e1;font-size:13px;line-height:1.75;max-width:240px;margin-bottom:18px;">
-                    <?= $footerTagline ?>
-                </p>
-                <div class="tm-social-row">
-                    <a href="<?= $socialFacebook ?>" class="tm-social"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="<?= $socialLinkedin ?>" class="tm-social"><i class="fa-brands fa-linkedin-in"></i></a>
-                    <a href="<?= $socialTwitter ?>" class="tm-social"><i class="fa-brands fa-x-twitter"></i></a>
-                    <a href="<?= $socialInsta ?>" class="tm-social"><i class="fa-brands fa-instagram"></i></a>
-                </div>
+<!-- ===== FOOTER (minimal) ===== -->
+<footer class="tm2-footer">
+    <div class="tm2-container">
+        <div class="tm2-footer-top">
+            <a href="<?= SITE_URL ?>/" class="tm2-logo">
+                <img src="<?= SITE_URL ?>/assets/images/tedmark logo copy2.png" alt="Tedmark Digital Agency">
+                <span class="tm2-logo-text">Tedmark</span>
+            </a>
+            <div class="tm2-footer-links">
+                <a href="<?= SITE_URL ?>/about.php">About</a>
+                <a href="<?= SITE_URL ?>/services.php">Services</a>
+                <a href="<?= SITE_URL ?>/portfolio.php">Portfolio</a>
+                <a href="<?= SITE_URL ?>/blog.php">Blog</a>
+                <a href="<?= SITE_URL ?>/contact.php">Contact</a>
             </div>
-
-            <!-- Quick Links -->
-            <div>
-                <h4 class="tm-footer-heading">Quick Links</h4>
-                <ul class="tm-footer-list">
-                    <li><a href="<?= SITE_URL ?>/about.php">About</a></li>
-                    <li><a href="<?= SITE_URL ?>/services.php">Services</a></li>
-                    <li><a href="<?= SITE_URL ?>/portfolio.php">Portfolio</a></li>
-                    <li><a href="<?= SITE_URL ?>/contact.php">Contact</a></li>
-                </ul>
+            <div class="tm2-social-row">
+                <a href="<?= $socialFacebook ?>" class="tm2-social"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="<?= $socialLinkedin ?>" class="tm2-social"><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="<?= $socialTwitter ?>" class="tm2-social"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="<?= $socialInsta ?>" class="tm2-social"><i class="fa-brands fa-instagram"></i></a>
             </div>
-
-            <!-- Services -->
-            <div>
-                <h4 class="tm-footer-heading">Our Services</h4>
-                <ul class="tm-footer-list">
-                    <li><a href="<?= SITE_URL ?>/services.php">Web Development</a></li>
-                    <li><a href="<?= SITE_URL ?>/services.php">Business Systems</a></li>
-                    <li><a href="<?= SITE_URL ?>/services.php">IT Consulting</a></li>
-                    <li><a href="<?= SITE_URL ?>/services.php">E-Commerce</a></li>
-                </ul>
-            </div>
-
-            <!-- Resources -->
-            <div>
-                <h4 class="tm-footer-heading">Resources</h4>
-                <ul class="tm-footer-list">
-                    <li><a href="<?= SITE_URL ?>/contact.php#faq">FAQs</a></li>
-                    <li><a href="<?= SITE_URL ?>/resources.php">Free Resources</a></li>
-                    <li><a href="<?= SITE_URL ?>/resources.php">Templates</a></li>
-                </ul>
-            </div>
-
         </div>
-    </div>
-
-    <!-- Bottom bar -->
-    <div style="border-top:1px solid #0f172a;margin-top:40px;padding:18px 0;">
-        <div class="tm-container">
-            <div class="tm-footer-bottom">
-                <p style="color:#94a3b8;font-size:12px;">&copy; <?= date('Y') ?> <?= htmlspecialchars($cfg['site_name'] ?? 'Tedmark Digital Agency') ?>. All rights reserved.</p>
-                <div class="tm-footer-legal">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                </div>
+        <div class="tm2-footer-bottom">
+            <p>&copy; <?= date('Y') ?> <?= htmlspecialchars($cfg['site_name'] ?? 'Tedmark Digital Agency') ?>. All rights reserved.</p>
+            <div class="tm2-footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
             </div>
         </div>
     </div>

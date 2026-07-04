@@ -1,5 +1,26 @@
 // Tedmark Digital Agency — Main JS
 
+// ── Theme toggle (light/dark) ──────────────────────────
+document.addEventListener('DOMContentLoaded', function () {
+    var current = document.documentElement.getAttribute('data-theme') || 'dark';
+    document.querySelectorAll('.tm2-toggle-icon').forEach(function (icon) {
+        icon.className = 'tm2-toggle-icon fa-solid ' + (current === 'dark' ? 'fa-sun' : 'fa-moon');
+    });
+});
+function toggleTheme() {
+    var html = document.documentElement;
+    var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('tm_theme', next);
+    document.querySelectorAll('.tm2-toggle-icon').forEach(function (icon) {
+        icon.className = 'tm2-toggle-icon fa-solid ' + (next === 'dark' ? 'fa-sun' : 'fa-moon');
+    });
+}
+function toggleMobile2() {
+    var menu = document.getElementById('tm2-mobile-menu');
+    if (menu) menu.classList.toggle('open');
+}
+
 // ── Mobile Layout Fix ─────────────────────────────────
 // Runs at DOMContentLoaded and directly overwrites inline styles on mobile.
 // CSS can't reliably beat inline styles; JS can — it IS the inline style.
@@ -206,6 +227,15 @@ function tmInit() {
             });
         });
     });
+
+    // ── Hero Email Form ────────────────────────────
+    const heroEmailForm = document.getElementById('hero-email-form');
+    if (heroEmailForm) {
+        heroEmailForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            window.location.href = '/consultation.php?email=' + encodeURIComponent(heroEmailForm.email.value);
+        });
+    }
 
     // ── Newsletter Form ────────────────────────────
     const newsletterForm = document.getElementById('newsletter-form');
