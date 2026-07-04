@@ -3,8 +3,6 @@ $pageTitle = 'Portfolio Projects';
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/db.php';
-require_once __DIR__ . '/includes/admin-layout.php';
-
 if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
     query("DELETE FROM projects WHERE id = ?", [$_GET['delete']]);
     header('Location: ' . SITE_URL . '/admin/projects.php?msg=deleted'); exit;
@@ -17,6 +15,7 @@ if (isset($_GET['toggle']) && is_numeric($_GET['toggle'])) {
 
 $projects = fetchAll("SELECT * FROM projects ORDER BY sort_order ASC, created_at DESC");
 $msg = $_GET['msg'] ?? '';
+require_once __DIR__ . '/includes/admin-layout.php';
 ?>
 
 <?php if ($msg==='saved'): ?><div class="alert alert-success"><i class="fa-solid fa-check"></i> Project saved!</div><?php endif; ?>

@@ -28,7 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['ids']) && is_array($
     header('Location: ' . SITE_URL . '/admin/consultations.php?filter=' . urlencode($_POST['current_filter'] ?? 'all') . '&page=' . (int)($_POST['current_page'] ?? 1)); exit;
 }
 
-$filter  = $_GET['filter'] ?? 'all';
+$filterRaw = $_GET['filter'] ?? 'all';
+$filter    = in_array($filterRaw, ['all','pending','confirmed','completed','cancelled'], true) ? $filterRaw : 'all';
 $perPage = 20;
 $page    = max(1, (int)($_GET['page'] ?? 1));
 $offset  = ($page - 1) * $perPage;

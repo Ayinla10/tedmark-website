@@ -2,7 +2,5 @@
 deployment:
   tasks:
     - export SRC=$(pwd)
-    - export TARGET1=/home/hopewwkz/new.tedmarkdigital.com
-    - export TARGET2=/home/hopewwkz/Tedmarkdigital.com
-    - if [ -d "$TARGET1" ] && [ "$SRC" != "$TARGET1" ]; then /bin/cp -rf "$SRC"/. "$TARGET1"/; fi
-    - if [ -d "$TARGET2" ] && [ "$SRC" != "$TARGET2" ]; then /bin/cp -rf "$SRC"/. "$TARGET2"/; fi
+    - export TARGET=/home/hopewwkz/Tedmarkdigital.com
+    - if [ -d "$TARGET" ] && [ "$SRC" != "$TARGET" ]; then /bin/cp -rf "$SRC"/. "$TARGET"/; fi
