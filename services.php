@@ -33,37 +33,32 @@ require_once __DIR__ . '/includes/header.php';
             ['icon'=>'fa-solid fa-headset','color'=>'#14b8a6','bg'=>'rgba(20,184,166,0.1)','title'=>'IT Consulting','subtitle'=>'Strategy, Audits & Advisory','description'=>'Not sure where to start? We help you map out your digital journey — auditing your current setup, identifying gaps, and creating a prioritised roadmap for digital transformation.','features'=>'Digital transformation strategy,IT infrastructure audit,Technology stack advice,Vendor selection,Change management,Staff training'],
         ];
         $services = !empty($dbServices) ? $dbServices : $servicesFallback;
-        foreach($services as $idx => $svc):
-            $feats = array_filter(array_map('trim', explode(',', $svc['features']??'')));
-            $bg    = $svc['bg'] ?? 'rgba(34,197,94,0.1)';
         ?>
-        <div class="tm2-grid tm2-grid-2 tm-svc-row" style="align-items:center;padding:48px 0;<?= $idx > 0 ? 'border-top:1px solid var(--border);' : '' ?>">
-            <div>
-                <div style="display:inline-flex;align-items:center;gap:12px;margin-bottom:20px;">
-                    <div class="tm2-card-icon" style="margin-bottom:0;"><i class="<?= htmlspecialchars($svc['icon']??'fa-solid fa-star') ?>"></i></div>
-                    <div>
-                        <div style="font-weight:800;color:var(--text);"><?= htmlspecialchars($svc['title']) ?></div>
-                        <div style="font-size:0.8rem;color:var(--text-soft);"><?= htmlspecialchars($svc['subtitle']??'') ?></div>
-                    </div>
-                </div>
-                <p style="font-size:1rem;color:var(--text-soft);line-height:1.75;margin-bottom:28px;"><?= htmlspecialchars($svc['description']??$svc['desc']??'') ?></p>
-                <a href="<?= SITE_URL ?>/consultation.php" class="tm2-btn tm2-btn-primary">
-                    Discuss This Service <i class="fa-solid fa-arrow-right fa-xs"></i>
-                </a>
-            </div>
-            <div class="tm2-card">
-                <div style="font-size:0.75rem;font-weight:800;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;">What's included</div>
-                <div class="tm2-grid tm2-grid-2" style="gap:10px;">
+        <div class="tm2-grid tm2-grid-3">
+        <?php foreach($services as $idx => $svc):
+            $feats = array_filter(array_map('trim', explode(',', $svc['features']??'')));
+        ?>
+        <div class="tm2-card">
+            <div class="tm2-card-icon"><i class="<?= htmlspecialchars($svc['icon']??'fa-solid fa-star') ?>"></i></div>
+            <h3><?= htmlspecialchars($svc['title']) ?></h3>
+            <p style="margin-bottom:16px;"><?= htmlspecialchars($svc['description']??$svc['desc']??'') ?></p>
+            <div style="background:var(--bg-soft);border-radius:12px;padding:16px;margin-bottom:16px;">
+                <div style="font-size:0.68rem;font-weight:800;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;">What's included</div>
+                <div class="tm2-grid tm2-grid-2" style="gap:8px;">
                     <?php foreach($feats as $feat): ?>
-                    <div style="display:flex;align-items:center;gap:8px;font-size:0.875rem;color:var(--text);">
-                        <i class="fa-solid fa-circle-check" style="color:var(--accent);font-size:0.75rem;flex-shrink:0;"></i>
+                    <div style="display:flex;align-items:center;gap:6px;font-size:0.8rem;color:var(--text);">
+                        <i class="fa-solid fa-circle-check" style="color:var(--accent);font-size:0.7rem;flex-shrink:0;"></i>
                         <?= htmlspecialchars($feat) ?>
                     </div>
                     <?php endforeach; ?>
                 </div>
             </div>
+            <a href="<?= SITE_URL ?>/consultation.php" class="tm2-btn tm2-btn-primary" style="width:100%;justify-content:center;">
+                Discuss This Service <i class="fa-solid fa-arrow-right fa-xs"></i>
+            </a>
         </div>
         <?php endforeach; ?>
+        </div>
     </div>
 </section>
 
