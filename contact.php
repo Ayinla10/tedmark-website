@@ -15,12 +15,19 @@ try {
 
 $success = $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name    = trim($_POST['name'] ?? '');
-    $email   = trim($_POST['email'] ?? '');
-    $phone   = trim($_POST['phone'] ?? '');
-    $subject = trim($_POST['subject'] ?? '');
-    $message = trim($_POST['message'] ?? '');
-    if ($name && $email && $message) {
+    $name     = trim($_POST['name'] ?? '');
+    $email    = trim($_POST['email'] ?? '');
+    $phone    = trim($_POST['phone'] ?? '');
+    $subject  = trim($_POST['subject'] ?? '');
+    $message  = trim($_POST['message'] ?? '');
+    $honeypot = trim($_POST['website'] ?? ''); // hidden field — bots fill it, humans never see it
+    $formTime = (int)($_POST['form_time'] ?? 0);
+    $elapsed  = time() - $formTime;
+
+    if (!empty($honeypot) || $elapsed < 3) {
+        // Silently pretend success — don't tip off the bot
+        $success = 'Message sent! We\'ll get back to you within 24 hours.';
+    } elseif ($name && $email && $message) {
         try {
             query(
                 "INSERT INTO messages (name,email,phone,subject,message,ip,created_at) VALUES (?,?,?,?,?,?,?)",
@@ -111,6 +118,8 @@ require_once __DIR__ . '/includes/header.php';
                 <?php endif; ?>
 
                 <form method="POST">
+                    <input type="text" name="website" value="" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
+                    <input type="hidden" name="form_time" value="<?= time() ?>">
                     <div class="tm2-grid tm2-grid-2" style="margin-bottom:16px;">
                         <div>
                             <label class="tm2-form-label">Full Name *</label>
