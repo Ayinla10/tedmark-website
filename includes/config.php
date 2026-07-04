@@ -36,7 +36,7 @@ define('MAX_UPLOAD_SIZE', 10 * 1024 * 1024); // 10MB
 define('SESSION_TIMEOUT', 3600); // 1 hour
 define('CSRF_TOKEN_NAME', '_tedmark_csrf');
 
-date_default_timezone_set('Africa/Lagos');
+date_default_timezone_set('Africa/Accra');
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
 

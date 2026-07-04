@@ -24,9 +24,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $formTime = (int)($_POST['form_time'] ?? 0);
     $elapsed  = time() - $formTime;
 
-    // Additional spam heuristics: excessive links, or a name that looks like a URL/keyword stuffing
-    $urlCount   = preg_match_all('/https?:\/\/|www\./i', $message . ' ' . $name);
-    $looksSpam  = $urlCount >= 2 || preg_match('/\b(seo|backlink|crypto|casino|viagra|forex)\b/i', $message . ' ' . $subject);
+    // Additional spam heuristics
+    $combined     = $message . ' ' . $name . ' ' . $subject;
+    $urlCount     = preg_match_all('/https?:\/\/|www\./i', $combined);
+    $hasKeyword   = preg_match('/\b(seo|backlink|crypto|casino|viagra|forex)\b/i', $combined);
+    $hasCyrillic  = preg_match('/[\x{0400}-\x{04FF}]/u', $combined);       // Russian/Ukrainian/etc script — never legitimate for this Ghana-English site
+    $hasCJK       = preg_match('/[\x{4E00}-\x{9FFF}\x{3040}-\x{30FF}]/u', $combined); // Chinese/Japanese script
+    $hasHtmlTag   = preg_match('/<a\s|<script|<\/a>/i', $combined);        // raw HTML links pasted into the message
+    $botLikeName  = preg_match('/_[a-zA-Z0-9]{3,6}$/', $name);             // e.g. "SomeName_pjMl" — common bot-generated suffix
+    $looksSpam    = $urlCount >= 2 || $hasKeyword || $hasCyrillic || $hasCJK || $hasHtmlTag || $botLikeName;
 
     if (!empty($honeypot) || $elapsed < 3 || $looksSpam) {
         // Silently pretend success — don't tip off the bot
