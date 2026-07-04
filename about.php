@@ -30,7 +30,7 @@ require_once __DIR__ . '/includes/header.php';
 </section>
 
 <!-- MISSION -->
-<section class="tm2-section" style="padding-top:0;">
+<section class="tm2-section" style="background:var(--bg);">
     <div class="tm2-container">
         <div class="tm2-cta-band" style="max-width:680px;margin:0 auto;">
             <div class="tm2-eyebrow" style="justify-content:center;">Our Mission</div>
