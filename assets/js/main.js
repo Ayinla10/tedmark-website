@@ -1,5 +1,62 @@
 // Tedmark Digital Agency — Main JS
 
+// ── Mobile Layout Fix ─────────────────────────────────
+// Runs at DOMContentLoaded and directly overwrites inline styles on mobile.
+// CSS can't reliably beat inline styles; JS can — it IS the inline style.
+(function mobileFix() {
+    if (window.innerWidth > 768) return;
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // 1. Every element with an inline grid-template-columns → 1 column
+        document.querySelectorAll('[style]').forEach(function (el) {
+            var s = el.getAttribute('style') || '';
+
+            if (s.indexOf('grid-template-columns') !== -1) {
+                el.style.gridTemplateColumns = '1fr';
+                el.style.gap = '16px';
+            }
+
+            // 2. flex-wrap:nowrap → wrap so rows don't overflow
+            if (s.indexOf('flex-wrap:nowrap') !== -1 || s.indexOf('flex-wrap: nowrap') !== -1) {
+                el.style.flexWrap = 'wrap';
+            }
+
+            // 3. Reduce large paddings on mobile
+            if (s.indexOf('padding:96px') !== -1 || s.indexOf('padding:80px') !== -1) {
+                el.style.padding = '52px 0';
+            }
+            if (s.indexOf('padding:52px') !== -1) {
+                el.style.padding = '28px 18px';
+            }
+        });
+
+        // 4. Hide the decorative hero dashboard on mobile
+        var heroGrid = document.querySelector('.tm-hero-grid');
+        if (heroGrid && heroGrid.children[1]) {
+            heroGrid.children[1].style.display = 'none';
+        }
+
+        // 5. Hero container top padding reduction
+        var heroContainer = document.querySelector('.tm-hero .tm-container');
+        if (heroContainer) {
+            heroContainer.style.paddingTop  = '100px';
+            heroContainer.style.paddingBottom = '48px';
+        }
+
+        // 6. Stack the hero buttons
+        var btnRow = document.querySelector('.tm-hero-grid > div > div[style*="display:flex"][style*="gap:16px"]');
+        if (btnRow) {
+            btnRow.style.flexDirection = 'column';
+            btnRow.style.gap = '12px';
+        }
+
+        // 7. Order overrides — clear any inline order so content stacks naturally
+        document.querySelectorAll('[style*="order:"]').forEach(function (el) {
+            el.style.order = '';
+        });
+    });
+})();
+
 // ── Dropdown toggle (called from inline onclick) ──────
 function toggleDrop() {
     const drop = document.getElementById('services-drop');
