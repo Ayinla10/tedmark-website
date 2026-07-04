@@ -22,7 +22,7 @@ require_once __DIR__ . '/includes/header.php';
         <!-- Filter -->
         <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:40px;">
             <?php foreach(['all'=>'All Work','web'=>'Web','systems'=>'Systems','ecommerce'=>'E-Commerce','branding'=>'Branding','automation'=>'Automation'] as $k=>$v): ?>
-            <button class="tm-filter-btn<?= $k==='all'?' active':'' ?>" data-filter="<?= $k ?>"><?= $v ?></button>
+            <button class="tm2-filter-btn<?= $k==='all'?' active':'' ?>" data-filter="<?= $k ?>"><?= $v ?></button>
             <?php endforeach; ?>
         </div>
 
@@ -55,29 +55,33 @@ require_once __DIR__ . '/includes/header.php';
                 : ($proj['tags']??[]);
             if(empty($tagList) && $cat) $tagList = [$cat];
         ?>
-        <div class="tm2-card" data-category="<?= htmlspecialchars($cat) ?>" style="padding:0;overflow:hidden;">
-            <div style="height:180px;<?= !empty($proj['cover_image']) ? 'background:url('.htmlspecialchars($proj['cover_image']).') center/cover no-repeat;' : 'background:var(--bg-soft);' ?>display:flex;align-items:center;justify-content:center;position:relative;">
+        <div class="tm2-card tm2-port-card" data-category="<?= htmlspecialchars($cat) ?>">
+            <div class="tm2-port-media" style="<?= !empty($proj['cover_image']) ? 'background:url('.htmlspecialchars($proj['cover_image']).') center/cover no-repeat;' : 'background:radial-gradient(circle at 30% 30%,'.htmlspecialchars($color).'22,var(--bg-soft) 75%);' ?>">
+                <?php if($cat): ?>
+                <span class="tm2-port-chip"><?= htmlspecialchars(ucfirst($cat)) ?></span>
+                <?php endif; ?>
                 <?php if(empty($proj['cover_image'])): ?>
-                <i class="<?= htmlspecialchars($icon) ?>" style="font-size:2.5rem;color:var(--accent);opacity:0.7;"></i>
+                <i class="<?= htmlspecialchars($icon) ?>" style="font-size:2.3rem;color:<?= htmlspecialchars($color) ?>;opacity:0.85;"></i>
                 <?php endif; ?>
                 <?php if($result): ?>
-                <div style="position:absolute;bottom:12px;left:12px;background:rgba(0,0,0,0.6);color:var(--accent);font-size:0.72rem;font-weight:700;padding:5px 10px;border-radius:6px;backdrop-filter:blur(4px);">
-                    <i class="fa-solid fa-arrow-trend-up fa-xs"></i> <?= htmlspecialchars($result) ?>
-                </div>
+                <div class="tm2-port-result"><i class="fa-solid fa-arrow-trend-up fa-xs"></i> <?= htmlspecialchars($result) ?></div>
                 <?php endif; ?>
             </div>
-            <div style="padding:20px;">
-                <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:8px;">
+            <div class="tm2-port-body">
+                <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:6px;">
                     <h3 style="margin-bottom:0;"><?= htmlspecialchars($proj['title']) ?></h3>
-                    <?php if($year): ?><span style="font-size:0.72rem;color:var(--muted);white-space:nowrap;margin-left:8px;"><?= htmlspecialchars($year) ?></span><?php endif; ?>
+                    <?php if($year): ?><span style="font-size:0.72rem;color:var(--muted);white-space:nowrap;margin-left:8px;flex-shrink:0;"><?= htmlspecialchars($year) ?></span><?php endif; ?>
                 </div>
-                <?php if($client): ?><p style="font-size:0.75rem;color:var(--accent);font-weight:600;margin-bottom:8px;"><?= htmlspecialchars($client) ?></p><?php endif; ?>
+                <?php if($client): ?><p style="font-size:0.75rem;color:var(--accent);font-weight:700;margin-bottom:10px;"><?= htmlspecialchars($client) ?></p><?php endif; ?>
                 <p style="margin-bottom:14px;"><?= htmlspecialchars($desc) ?></p>
-                <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px;">
                     <?php foreach($tagList as $tag): ?>
-                    <span class="tm-port-tag"><?= htmlspecialchars($tag) ?></span>
+                    <span class="tm2-tag"><?= htmlspecialchars($tag) ?></span>
                     <?php endforeach; ?>
                 </div>
+                <?php if($isDb && !empty($proj['slug'])): ?>
+                <a href="<?= SITE_URL ?>/portfolio-item.php?slug=<?= htmlspecialchars($proj['slug']) ?>" class="tm2-port-link">View Case Study <i class="fa-solid fa-arrow-right fa-2xs"></i></a>
+                <?php endif; ?>
             </div>
         </div>
         <?php endforeach; ?>

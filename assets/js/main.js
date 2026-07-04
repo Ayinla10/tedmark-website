@@ -199,8 +199,8 @@ function tmInit() {
     }
 
     // ── Portfolio Filter ───────────────────────────
-    const filterBtns = document.querySelectorAll('.tm-filter-btn, .filter-btn');
-    const portfolioItems = document.querySelectorAll('.tm-port-card, .portfolio-item');
+    const filterBtns = document.querySelectorAll('.tm-filter-btn, .tm2-filter-btn, .filter-btn');
+    const portfolioItems = document.querySelectorAll('.tm-port-card, .tm2-port-card, .portfolio-item');
 
     filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
