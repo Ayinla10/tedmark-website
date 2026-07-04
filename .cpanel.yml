@@ -1,5 +1,8 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/hopewwkz/new.tedmarkdigital.com
-    - /bin/cp -rf /home/hopewwkz/tedmark-repo/. $DEPLOYPATH
+    - export SRC=$(pwd)
+    - export TARGET1=/home/hopewwkz/new.tedmarkdigital.com
+    - export TARGET2=/home/hopewwkz/Tedmarkdigital.com
+    - if [ -d "$TARGET1" ] && [ "$SRC" != "$TARGET1" ]; then /bin/cp -rf "$SRC"/. "$TARGET1"/; fi
+    - if [ -d "$TARGET2" ] && [ "$SRC" != "$TARGET2" ]; then /bin/cp -rf "$SRC"/. "$TARGET2"/; fi
