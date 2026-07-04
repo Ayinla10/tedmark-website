@@ -1,0 +1,142 @@
+/* ============================================================
+   TEDMARK DIGITAL — Mobile Stylesheet
+   Loaded for ALL users after style.css.
+   Targets ≤ 1024px (tablet) and ≤ 768px (mobile).
+   ============================================================ */
+
+/* ── UNIVERSAL OVERFLOW FIX ─────────────────────────────── */
+html, body {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+}
+* { box-sizing: border-box !important; }
+
+/* No element should be wider than its parent */
+img, video, iframe, table { max-width: 100% !important; }
+
+/* ── TABLET ≤ 1024px ────────────────────────────────────── */
+@media (max-width: 1024px) {
+
+    /* Navbar */
+    .tm-nav-links   { display: none !important; }
+    .tm-btn-nav     { display: none !important; }
+    .tm-hamburger   { display: flex !important; }
+    .tm-logo img    { height: 60px !important; width: auto !important; }
+    .tm-nav-inner   { height: 72px !important; }
+
+    /* Hero */
+    .tm-hero-grid   { grid-template-columns: 1fr !important; gap: 32px !important; }
+    .tm-hero-visual { display: none !important; }
+
+    /* Footer */
+    .tm-footer-grid { grid-template-columns: 1fr 1fr !important; gap: 28px !important; }
+    .tm-footer-logo { height: 80px !important; }
+
+    /* Page hero */
+    .tm-page-hero { padding: 110px 0 52px !important; }
+}
+
+/* ── MOBILE ≤ 768px ─────────────────────────────────────── */
+@media (max-width: 768px) {
+
+    /* Container */
+    .tm-container { padding: 0 16px !important; max-width: 100% !important; }
+
+    /* Navbar */
+    .tm-logo img  { height: 44px !important; }
+    .tm-nav-inner { height: 64px !important; }
+
+    /* Typography */
+    .tm-section-title { font-size: 22px !important; line-height: 1.2 !important; }
+    .tm-section-sub   { font-size: 14px !important; }
+    h1 { font-size: clamp(1.6rem, 6vw, 2.2rem) !important; }
+
+    /* Hero */
+    .tm-hero .tm-container  { padding-top: 88px !important; padding-bottom: 44px !important; }
+    .tm-page-hero           { padding: 96px 0 44px !important; }
+    .tm-page-hero h1        { font-size: clamp(1.6rem, 6vw, 2.2rem) !important; }
+
+    /* Prevent any text from overflowing */
+    h1, h2, h3, p, span, div {
+        white-space: normal !important;
+        word-break: break-word !important;
+    }
+
+    /* ALL inline grids → single column */
+    [style*="grid-template-columns"] {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+
+    /* Restore auto-fill cards to min 280px */
+    [style*="minmax(300px"], [style*="minmax(320px"], [style*="minmax(240px"] {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Fix flex rows that overflow */
+    [style*="flex-wrap:nowrap"],
+    [style*="flex-wrap: nowrap"] {
+        flex-wrap: wrap !important;
+    }
+
+    /* Clear inline order that reverses stacking */
+    [style*="order:1"], [style*="order: 1"],
+    [style*="order:2"], [style*="order: 2"] {
+        order: 0 !important;
+    }
+
+    /* Services alternating layout */
+    .tm-svc-row {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+    }
+    .tm-svc-row > div { order: 0 !important; }
+
+    /* Footer single column */
+    .tm-footer-grid  { grid-template-columns: 1fr !important; }
+    .tm-footer-logo  { height: 60px !important; }
+    .tm-footer-bottom { flex-direction: column !important; text-align: center !important; }
+    .tm-footer-legal  { justify-content: center !important; flex-wrap: wrap !important; }
+
+    /* Buttons */
+    .tm-btn-primary, .tm-btn-secondary {
+        font-size: 14px !important;
+        padding: 12px 18px !important;
+    }
+
+    /* Section padding */
+    section { overflow-x: hidden !important; }
+
+    /* Reduce large paddings */
+    [style*="padding:96px 0"] { padding: 52px 0 !important; }
+    [style*="padding:80px 0"] { padding: 44px 0 !important; }
+    [style*="padding:56px 0"] { padding: 36px 0 !important; }
+
+    /* Newsletter form */
+    #newsletter-form { flex-direction: column !important; }
+    #newsletter-form input { min-width: unset !important; width: 100% !important; }
+
+    /* Dark CTA inner padding */
+    [style*="padding:52px"] { padding: 28px 18px !important; }
+
+    /* Remove 3D card tilt on touch */
+    .tm-card:hover, .tm-port-card:hover {
+        transform: none !important;
+    }
+
+    /* Filter buttons */
+    .tm-filter-btn { padding: 6px 12px !important; font-size: 12px !important; }
+
+    /* Back to top */
+    .tm-btt { bottom: 16px !important; right: 16px !important; }
+
+    /* Stats band — keep 2x2 */
+    .tm-stats-band [style*="grid-template-columns"] {
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    /* Process steps — keep 2 cols */
+    [style*="minmax(200px"] {
+        grid-template-columns: 1fr 1fr !important;
+    }
+}

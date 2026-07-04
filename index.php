@@ -43,7 +43,7 @@ $heroStyle = "background: linear-gradient(135deg, rgba(6,11,24,{$heroOp}) 0%, rg
                 <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2.4rem,4.8vw,3.6rem);font-weight:900;line-height:1.1;color:#fff;margin-bottom:24px;margin-top:20px;letter-spacing:-0.02em;">
                     <?= cfg($cfg,'hero_h1_line1','We Build Systems.') ?><br>
                     <?= cfg($cfg,'hero_h1_line2','We Automate Work.') ?><br>
-                    <span class="tm-text-gradient" style="white-space:nowrap;"><?= cfg($cfg,'hero_h1_line3','We Grow Businesses.') ?></span>
+                    <span class="tm-text-gradient"><?= cfg($cfg,'hero_h1_line3','We Grow Businesses.') ?></span>
                 </h1>
                 <p style="font-size:1.05rem;color:#cbd5e1;line-height:1.8;max-width:500px;margin-bottom:40px;">
                     <?= cfg($cfg,'hero_subtext','We help businesses organize, automate, and digitize their operations using smart systems and modern technology so they can save time, reduce costs, and grow without limits.') ?>

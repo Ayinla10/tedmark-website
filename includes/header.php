@@ -36,6 +36,7 @@ renderSeoTags($cfg, $seoData);
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="<?= SITE_URL ?>/assets/css/style.css?v=20260704c">
+    <link rel="stylesheet" href="<?= SITE_URL ?>/assets/css/mobile.css?v=20260704a">
 </head>
 <body>
 
