@@ -374,6 +374,23 @@ h1, h2, h3, h4, h5, h6,
     .tm-btn-nav   { display:none !important; }
     .tm-nav-links { display:none !important; }
 
+    /* Fix any inline flex-wrap:nowrap causing overflow */
+    [style*="flex-wrap:nowrap"] { flex-wrap:wrap !important; }
+
+    /* Hide dashboard mockup on mobile — decorative only */
+    .tm-hero-grid > div:nth-child(2) { display:none !important; }
+
+    /* Hero grid single column + reduce top padding */
+    .tm-hero-grid { grid-template-columns:1fr !important; gap:32px !important; }
+    .tm-container[style*="padding-top:140px"] { padding-top:100px !important; padding-bottom:48px !important; }
+
+    /* Stats row: wrap and reduce gap */
+    .tm-hero-grid > div:first-child > div[style*="display:flex"][style*="gap:28px"] {
+        gap:16px !important;
+        flex-wrap:wrap !important;
+        margin-top:28px !important;
+    }
+
     /* Page hero */
     .tm-page-hero { padding:100px 0 44px; }
     .tm-page-hero h1 { font-size:1.75rem !important; }
