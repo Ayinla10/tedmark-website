@@ -110,123 +110,133 @@ function toggleMobile() {
 
 function tmInit() {
 
-    // ── AOS Init ──────────────────────────────────
-    if (typeof AOS !== 'undefined') {
-        AOS.init({ duration: 700, easing: 'ease-out-cubic', once: true, offset: 60 });
-    }
+    // ── Portfolio Filter (runs first — must never be blocked by errors below) ──
+    try {
+        const filterBtns = document.querySelectorAll('.tm-filter-btn, .tm2-filter-btn, .filter-btn');
+        const portfolioItems = document.querySelectorAll('.tm-port-card, .tm2-port-card, .portfolio-item');
 
-    // ── Navbar Scroll ─────────────────────────────
-    const navbar = document.getElementById('navbar');
-    if (navbar) {
-        const hasDarkHero = navbar.dataset.darkHero === '1';
-        const onScroll = () => {
-            if (!hasDarkHero || window.scrollY > 20) navbar.classList.add('scrolled');
-            else navbar.classList.remove('scrolled');
-        };
-        window.addEventListener('scroll', onScroll, { passive: true });
-        onScroll();
-    }
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.dataset.filter;
 
-    // ── Fade-in observer ─────────────────────────
-    const fadeEls = document.querySelectorAll('.tm-fade');
-    if (fadeEls.length) {
-        // Fallback: immediately show anything already in/near viewport
-        const showVisible = () => {
-            fadeEls.forEach(el => {
-                const rect = el.getBoundingClientRect();
-                if (rect.top < window.innerHeight + 60) {
-                    el.classList.add('visible');
-                }
-            });
-        };
-        showVisible();
-        setTimeout(showVisible, 150);
-
-        // Observer for scroll-triggered reveals
-        if ('IntersectionObserver' in window) {
-            const fadeObs = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        fadeObs.unobserve(entry.target);
+                portfolioItems.forEach(item => {
+                    const show = filter === 'all' || item.dataset.category === filter;
+                    item.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                    if (show) {
+                        item.style.opacity = '0';
+                        item.style.transform = 'scale(0.95)';
+                        item.style.display = '';
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                            item.style.transform = 'scale(1)';
+                        }, 50);
+                    } else {
+                        item.style.opacity = '0';
+                        item.style.transform = 'scale(0.95)';
+                        setTimeout(() => { item.style.display = 'none'; }, 300);
                     }
                 });
-            }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
-            fadeEls.forEach(el => fadeObs.observe(el));
-        }
-    }
-
-    // ── Back to top visibility ────────────────────
-    const btt = document.getElementById('btt');
-    if (btt) {
-        window.addEventListener('scroll', () => {
-            btt.classList.toggle('visible', window.scrollY > 400);
-        }, { passive: true });
-    }
-
-    // ── Animated Counters ─────────────────────────
-    const counters = document.querySelectorAll('[data-counter]');
-    if (counters.length) {
-        const animateCounter = (el) => {
-            const target = parseFloat(el.dataset.counter);
-            const suffix = el.dataset.suffix || '';
-            const prefix = el.dataset.prefix || '';
-            const duration = 2000;
-            const start = performance.now();
-            const isDecimal = target % 1 !== 0;
-
-            const tick = (now) => {
-                const elapsed = now - start;
-                const progress = Math.min(elapsed / duration, 1);
-                const eased = 1 - Math.pow(1 - progress, 3);
-                const val = target * eased;
-                el.textContent = prefix + (isDecimal ? val.toFixed(1) : Math.floor(val)) + suffix;
-                if (progress < 1) requestAnimationFrame(tick);
-            };
-            requestAnimationFrame(tick);
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !entry.target.dataset.animated) {
-                    entry.target.dataset.animated = 'true';
-                    animateCounter(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-
-        counters.forEach(c => observer.observe(c));
-    }
-
-    // ── Portfolio Filter ───────────────────────────
-    const filterBtns = document.querySelectorAll('.tm-filter-btn, .tm2-filter-btn, .filter-btn');
-    const portfolioItems = document.querySelectorAll('.tm-port-card, .tm2-port-card, .portfolio-item');
-
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            filterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            const filter = btn.dataset.filter;
-
-            portfolioItems.forEach(item => {
-                const show = filter === 'all' || item.dataset.category === filter;
-                item.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                if (show) {
-                    item.style.opacity = '0';
-                    item.style.transform = 'scale(0.95)';
-                    item.style.display = '';
-                    setTimeout(() => {
-                        item.style.opacity = '1';
-                        item.style.transform = 'scale(1)';
-                    }, 50);
-                } else {
-                    item.style.opacity = '0';
-                    item.style.transform = 'scale(0.95)';
-                    setTimeout(() => { item.style.display = 'none'; }, 300);
-                }
             });
         });
-    });
+    } catch (e) { console.error('Portfolio filter init failed:', e); }
+
+    // ── AOS Init ──────────────────────────────────
+    try {
+        if (typeof AOS !== 'undefined') {
+            AOS.init({ duration: 700, easing: 'ease-out-cubic', once: true, offset: 60 });
+        }
+    } catch (e) { console.error('AOS init failed:', e); }
+
+    // ── Navbar Scroll ─────────────────────────────
+    try {
+        const navbar = document.getElementById('navbar');
+        if (navbar) {
+            const hasDarkHero = navbar.dataset.darkHero === '1';
+            const onScroll = () => {
+                if (!hasDarkHero || window.scrollY > 20) navbar.classList.add('scrolled');
+                else navbar.classList.remove('scrolled');
+            };
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
+        }
+    } catch (e) { console.error('Navbar scroll init failed:', e); }
+
+    // ── Fade-in observer ─────────────────────────
+    try {
+        const fadeEls = document.querySelectorAll('.tm-fade');
+        if (fadeEls.length) {
+            const showVisible = () => {
+                fadeEls.forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight + 60) {
+                        el.classList.add('visible');
+                    }
+                });
+            };
+            showVisible();
+            setTimeout(showVisible, 150);
+
+            if ('IntersectionObserver' in window) {
+                const fadeObs = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            fadeObs.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
+                fadeEls.forEach(el => fadeObs.observe(el));
+            }
+        }
+    } catch (e) { console.error('Fade-in observer init failed:', e); }
+
+    // ── Back to top visibility ────────────────────
+    try {
+        const btt = document.getElementById('btt');
+        if (btt) {
+            window.addEventListener('scroll', () => {
+                btt.classList.toggle('visible', window.scrollY > 400);
+            }, { passive: true });
+        }
+    } catch (e) { console.error('Back-to-top init failed:', e); }
+
+    // ── Animated Counters ─────────────────────────
+    try {
+        const counters = document.querySelectorAll('[data-counter]');
+        if (counters.length) {
+            const animateCounter = (el) => {
+                const target = parseFloat(el.dataset.counter);
+                const suffix = el.dataset.suffix || '';
+                const prefix = el.dataset.prefix || '';
+                const duration = 2000;
+                const start = performance.now();
+                const isDecimal = target % 1 !== 0;
+
+                const tick = (now) => {
+                    const elapsed = now - start;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    const val = target * eased;
+                    el.textContent = prefix + (isDecimal ? val.toFixed(1) : Math.floor(val)) + suffix;
+                    if (progress < 1) requestAnimationFrame(tick);
+                };
+                requestAnimationFrame(tick);
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !entry.target.dataset.animated) {
+                        entry.target.dataset.animated = 'true';
+                        animateCounter(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            counters.forEach(c => observer.observe(c));
+        }
+    } catch (e) { console.error('Animated counters init failed:', e); }
 
     // ── Hero Email Form ────────────────────────────
     const heroEmailForm = document.getElementById('hero-email-form');
