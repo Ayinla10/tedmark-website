@@ -124,94 +124,66 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- ===== TOOLS BAND ===== -->
-<section style="background:#f8fafc;padding:56px 0;">
-    <div class="tm-container">
-        <!-- Contained card with 3D perspective -->
-        <div style="max-width:100%;margin:0 auto;background:linear-gradient(135deg,#0d1f3c 0%,#091428 100%);border:1px solid rgba(255,255,255,0.07);border-radius:24px;padding:48px;box-shadow:0 32px 64px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.04),inset 0 1px 0 rgba(255,255,255,0.06);transform-style:preserve-3d;perspective:1000px;position:relative;overflow:hidden;">
-            <!-- subtle glow -->
-            <div style="position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(34,197,94,0.08) 0%,transparent 70%);pointer-events:none;"></div>
-            <!-- grid lines -->
-            <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;border-radius:24px;"></div>
-
-            <div style="display:grid;grid-template-columns:260px 1fr;gap:48px;align-items:center;position:relative;z-index:1;" class="tm-tools-band-grid">
-
-                <!-- Left: heading -->
-                <div class="tm-fade">
-                    <div style="display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#f59e0b;margin-bottom:16px;white-space:nowrap;">
-                        <span style="width:5px;height:5px;border-radius:50%;background:#f59e0b;display:inline-block;"></span>
-                        Powerful Tools for Smarter Decisions
-                    </div>
-                    <h2 style="font-size:1.6rem;font-weight:900;color:#fff;line-height:1.2;margin-bottom:12px;">Try Our Free Business Tools</h2>
-                    <p style="font-size:0.875rem;color:#94a3b8;line-height:1.7;">Get insights about your business and discover opportunities for growth.</p>
-                </div>
-
-                <!-- Right: tool cards row -->
-                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;" class="tm-tools-cards-grid">
-                    <?php
-                    $tools = [
-                        ['icon'=>'fa-solid fa-heart-pulse',       'title'=>'Business Health Checker','desc'=>'Answer a few questions and get a personalized report on your business health.',  'cta'=>'Try Now',              'link'=>'/tools/business-health.php'],
-                        ['icon'=>'fa-solid fa-calculator',         'title'=>'ROI Calculator',          'desc'=>'Calculate how much time and money your business can save with automation.',      'cta'=>'Calculate Now',        'link'=>'/tools/roi-calculator.php'],
-                        ['icon'=>'fa-solid fa-wand-magic-sparkles','title'=>'Solution Recommender',    'desc'=>'Tell us about your business and we\'ll recommend the right solutions for you.','cta'=>'Get Recommendations',  'link'=>'/tools/service-recommender.php'],
-                    ];
-                    foreach($tools as $t): ?>
-                    <div class="tm-fade tm-tool-card" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:22px;transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease,background .3s ease;transform-style:preserve-3d;cursor:pointer;"
-                         onmouseover="this.style.transform='perspective(600px) rotateX(4deg) rotateY(-3deg) translateY(-6px)';this.style.boxShadow='0 20px 40px rgba(0,0,0,0.4),0 0 20px rgba(34,197,94,0.1)';this.style.borderColor='rgba(34,197,94,0.35)';this.style.background='rgba(255,255,255,0.07)'"
-                         onmouseout="this.style.transform='';this.style.boxShadow='';this.style.borderColor='rgba(255,255,255,0.08)';this.style.background='rgba(255,255,255,0.04)'">
-                        <div style="width:42px;height:42px;border-radius:10px;background:rgba(34,197,94,0.12);display:flex;align-items:center;justify-content:center;margin-bottom:14px;">
-                            <i class="<?= $t['icon'] ?>" style="font-size:1.1rem;color:#22c55e;"></i>
-                        </div>
-                        <h3 style="font-size:0.9rem;font-weight:700;color:#fff;margin-bottom:8px;line-height:1.3;"><?= $t['title'] ?></h3>
-                        <p style="font-size:0.8rem;color:#94a3b8;line-height:1.6;margin-bottom:16px;"><?= $t['desc'] ?></p>
-                        <a href="<?= SITE_URL . $t['link'] ?>" style="font-size:0.8rem;font-weight:700;color:#22c55e;display:inline-flex;align-items:center;gap:5px;text-decoration:none;">
-                            <?= $t['cta'] ?> <i class="fa-solid fa-arrow-right fa-2xs"></i>
-                        </a>
-                    </div>
-                    <?php endforeach; ?>
-                </div>
-
+<!-- ===== TOOLS ===== -->
+<section class="tm2-section">
+    <div class="tm2-container">
+        <div class="tm2-section-head">
+            <div class="tm2-eyebrow">Free Tools</div>
+            <h2 class="tm2-h2">Try Our Free Business Tools</h2>
+            <p class="tm2-sub">Get insights about your business and discover opportunities for growth.</p>
+        </div>
+        <div class="tm2-grid tm2-grid-3">
+            <?php
+            $tools = [
+                ['icon'=>'fa-solid fa-heart-pulse',       'title'=>'Business Health Checker','desc'=>'Answer a few questions and get a personalized report on your business health.',  'cta'=>'Try Now',              'link'=>'/tools/business-health.php'],
+                ['icon'=>'fa-solid fa-calculator',         'title'=>'ROI Calculator',          'desc'=>'Calculate how much time and money your business can save with automation.',      'cta'=>'Calculate Now',        'link'=>'/tools/roi-calculator.php'],
+                ['icon'=>'fa-solid fa-wand-magic-sparkles','title'=>'Solution Recommender',    'desc'=>'Tell us about your business and we\'ll recommend the right solutions for you.','cta'=>'Get Recommendations',  'link'=>'/tools/service-recommender.php'],
+            ];
+            foreach($tools as $t): ?>
+            <div class="tm2-card">
+                <div class="tm2-card-icon"><i class="<?= $t['icon'] ?>"></i></div>
+                <h3><?= $t['title'] ?></h3>
+                <p><?= $t['desc'] ?></p>
+                <a href="<?= SITE_URL . $t['link'] ?>" style="font-size:0.85rem;font-weight:700;color:var(--accent);display:inline-flex;align-items:center;gap:6px;margin-top:14px;text-decoration:none;">
+                    <?= $t['cta'] ?> <i class="fa-solid fa-arrow-right fa-2xs"></i>
+                </a>
             </div>
+            <?php endforeach; ?>
         </div>
     </div>
 </section>
-<style>
-@media(max-width:900px){ .tm-tools-band-grid{grid-template-columns:1fr !important} }
-@media(max-width:640px){ .tm-tools-cards-grid{grid-template-columns:1fr !important} }
-</style>
 
 <!-- ===== PORTFOLIO ===== -->
-<section style="padding:96px 0;background:#f8fafc;">
-    <div class="tm-container">
-        <div style="text-align:center;max-width:640px;margin:0 auto 48px;">
-            <div class="tm-label">Our Work</div>
-            <h2 class="tm-section-title">Results We've Delivered</h2>
-            <p class="tm-section-sub">Real projects, real outcomes for real African businesses.</p>
+<section class="tm2-section">
+    <div class="tm2-container">
+        <div class="tm2-section-head">
+            <div class="tm2-eyebrow">Our Work</div>
+            <h2 class="tm2-h2">Results We've Delivered</h2>
+            <p class="tm2-sub">Real projects, real outcomes for real African businesses.</p>
         </div>
-        <!-- Filter -->
-        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:40px;">
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;">
             <?php foreach(['all'=>'All Work','web'=>'Web','systems'=>'Systems','ecommerce'=>'E-Commerce','branding'=>'Branding'] as $k=>$v): ?>
             <button class="tm-filter-btn<?= $k==='all'?' active':'' ?>" data-filter="<?= $k ?>"><?= $v ?></button>
             <?php endforeach; ?>
         </div>
-        <!-- Grid -->
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
+        <div class="tm2-grid tm2-grid-3">
             <?php
             $fallback = [
-                ['cat'=>'web',      'icon'=>'fa-solid fa-globe',        'color'=>'#60a5fa','bg'=>'linear-gradient(135deg,#0f172a,#1e3a5f)','title'=>'RetailPro Website','desc'=>'Modern e-commerce site with 340% increase in online sales.',        'tags'=>['Web','E-Commerce']],
-                ['cat'=>'systems',  'icon'=>'fa-solid fa-database',     'color'=>'#22c55e','bg'=>'linear-gradient(135deg,#0f172a,#1a2e1a)','title'=>'MediTrack ERP',    'desc'=>'Hospital management system serving 3 facilities across Ghana.',   'tags'=>['Systems','Automation']],
-                ['cat'=>'ecommerce','icon'=>'fa-solid fa-cart-shopping', 'color'=>'#fb923c','bg'=>'linear-gradient(135deg,#0f172a,#2d1a0f)','title'=>'FoodFlow Store',   'desc'=>'Online ordering platform processing 500+ orders daily.',           'tags'=>['E-Commerce']],
+                ['cat'=>'web',      'icon'=>'fa-solid fa-globe',        'title'=>'RetailPro Website','desc'=>'Modern e-commerce site with 340% increase in online sales.',        'tags'=>['Web','E-Commerce']],
+                ['cat'=>'systems',  'icon'=>'fa-solid fa-database',     'title'=>'MediTrack ERP',    'desc'=>'Hospital management system serving 3 facilities across Ghana.',   'tags'=>['Systems','Automation']],
+                ['cat'=>'ecommerce','icon'=>'fa-solid fa-cart-shopping', 'title'=>'FoodFlow Store',   'desc'=>'Online ordering platform processing 500+ orders daily.',           'tags'=>['E-Commerce']],
             ];
             $display = !empty($projects) ? $projects : $fallback;
             foreach($display as $proj):
                 $isDynamic = isset($proj['category']);
             ?>
-            <div class="tm-port-card tm-fade" data-category="<?= $isDynamic ? htmlspecialchars($proj['category']) : $proj['cat'] ?>" style="padding:0;">
-                <div style="height:180px;background:<?= $isDynamic ? '#1e293b' : $proj['bg'] ?>;display:flex;align-items:center;justify-content:center;">
-                    <i class="<?= $isDynamic ? 'fa-solid fa-briefcase' : $proj['icon'] ?>" style="font-size:2.5rem;color:<?= $isDynamic ? '#22c55e' : $proj['color'] ?>;opacity:0.6;"></i>
+            <div class="tm2-card" data-category="<?= $isDynamic ? htmlspecialchars($proj['category']) : $proj['cat'] ?>" style="padding:0;overflow:hidden;">
+                <div style="height:160px;background:var(--bg-soft);display:flex;align-items:center;justify-content:center;">
+                    <i class="<?= $isDynamic ? 'fa-solid fa-briefcase' : $proj['icon'] ?>" style="font-size:2.2rem;color:var(--accent);opacity:0.7;"></i>
                 </div>
-                <div style="padding:20px 24px 24px;">
-                    <h3 style="font-size:1rem;font-weight:700;color:#0f172a;margin-bottom:8px;"><?= htmlspecialchars($isDynamic ? $proj['title'] : $proj['title']) ?></h3>
-                    <p style="font-size:0.85rem;color:#64748b;margin-bottom:14px;"><?= htmlspecialchars($isDynamic ? ($proj['description']??'') : $proj['desc']) ?></p>
+                <div style="padding:20px;">
+                    <h3 style="margin-bottom:6px;"><?= htmlspecialchars($proj['title']) ?></h3>
+                    <p style="margin-bottom:14px;"><?= htmlspecialchars($isDynamic ? ($proj['description']??'') : $proj['desc']) ?></p>
                     <div style="display:flex;gap:6px;flex-wrap:wrap;">
                         <?php $tags = $isDynamic ? [$proj['category']] : $proj['tags']; foreach($tags as $tag): ?>
                         <span class="tm-port-tag"><?= htmlspecialchars($tag) ?></span>
@@ -221,21 +193,21 @@ require_once __DIR__ . '/includes/header.php';
             </div>
             <?php endforeach; ?>
         </div>
-        <div style="text-align:center;margin-top:48px;">
-            <a href="<?= SITE_URL ?>/portfolio.php" class="tm-btn-green">View Full Portfolio <i class="fa-solid fa-arrow-right fa-xs"></i></a>
+        <div style="text-align:center;margin-top:40px;">
+            <a href="<?= SITE_URL ?>/portfolio.php" class="tm2-btn tm2-btn-primary">View Full Portfolio <i class="fa-solid fa-arrow-right fa-xs"></i></a>
         </div>
     </div>
 </section>
 
 <!-- ===== HOW IT WORKS ===== -->
-<section style="padding:96px 0;background:#fff;">
-    <div class="tm-container">
-        <div style="text-align:center;max-width:600px;margin:0 auto 60px;">
-            <div class="tm-label">The Process</div>
-            <h2 class="tm-section-title">How We Work With You</h2>
-            <p class="tm-section-sub">From first call to launch and beyond — a simple, proven process.</p>
+<section class="tm2-section">
+    <div class="tm2-container">
+        <div class="tm2-section-head">
+            <div class="tm2-eyebrow">The Process</div>
+            <h2 class="tm2-h2">How We Work With You</h2>
+            <p class="tm2-sub">From first call to launch and beyond — a simple, proven process.</p>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:32px;">
+        <div class="tm2-grid tm2-grid-4">
             <?php
             $steps = [
                 ['num'=>'01','title'=>'Discovery Call','desc'=>'We learn about your business, goals, challenges, and current systems in a free 30-minute consultation.'],
@@ -244,10 +216,10 @@ require_once __DIR__ . '/includes/header.php';
                 ['num'=>'04','title'=>'Grow & Scale','desc'=>'Ongoing support, training, and optimisation to ensure you keep getting better results over time.'],
             ];
             foreach($steps as $s): ?>
-            <div class="tm-fade" style="text-align:center;">
-                <div class="tm-step-num"><?= $s['num'] ?></div>
-                <h3 style="font-size:1rem;font-weight:700;color:#0f172a;margin:16px 0 8px;"><?= $s['title'] ?></h3>
-                <p style="font-size:0.875rem;color:#64748b;line-height:1.6;"><?= $s['desc'] ?></p>
+            <div class="tm2-card" style="text-align:center;">
+                <div class="tm2-card-icon" style="margin:0 auto 14px;background:var(--accent);color:var(--accent-ink);font-weight:800;font-size:14px;"><?= $s['num'] ?></div>
+                <h3><?= $s['title'] ?></h3>
+                <p><?= $s['desc'] ?></p>
             </div>
             <?php endforeach; ?>
         </div>
@@ -255,13 +227,13 @@ require_once __DIR__ . '/includes/header.php';
 </section>
 
 <!-- ===== TESTIMONIALS ===== -->
-<section style="padding:96px 0;background:#f8fafc;">
-    <div class="tm-container">
-        <div style="text-align:center;max-width:640px;margin:0 auto 60px;">
-            <div class="tm-label">Client Stories</div>
-            <h2 class="tm-section-title">What Our Clients Say</h2>
+<section class="tm2-section">
+    <div class="tm2-container">
+        <div class="tm2-section-head">
+            <div class="tm2-eyebrow">Client Stories</div>
+            <h2 class="tm2-h2">What Our Clients Say</h2>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px;">
+        <div class="tm2-grid tm2-grid-3">
             <?php
             $fallbackTest = [
                 ['name'=>'Kofi Asante','role'=>'CEO, RetailPro Ghana','rating'=>5,'text'=>'Tedmark transformed our business completely. The new inventory system alone saves us 15 hours a week and we have zero stockouts now.'],
@@ -276,20 +248,20 @@ require_once __DIR__ . '/includes/header.php';
                 $text = $isDynamic ? $t['content'] : $t['text'];
                 $rating = (int)($t['rating'] ?? 5);
             ?>
-            <div class="tm-test-card tm-fade">
+            <div class="tm2-card">
                 <div style="display:flex;gap:2px;margin-bottom:14px;">
                     <?php for($i=0;$i<5;$i++): ?>
-                    <i class="fa-solid fa-star" style="color:<?= $i<$rating ? '#f59e0b' : '#e2e8f0' ?>;font-size:0.9rem;"></i>
+                    <i class="fa-solid fa-star" style="color:<?= $i<$rating ? 'var(--accent)' : 'var(--border)' ?>;font-size:0.85rem;"></i>
                     <?php endfor; ?>
                 </div>
-                <p style="font-size:0.9rem;color:#334155;line-height:1.7;margin-bottom:20px;font-style:italic;">"<?= htmlspecialchars($text) ?>"</p>
-                <div style="display:flex;align-items:center;gap:12px;border-top:1px solid #f1f5f9;padding-top:16px;">
-                    <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#16a34a,#22c55e);display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:700;color:#fff;flex-shrink:0;">
+                <p style="font-size:0.9rem;color:var(--text);line-height:1.7;margin-bottom:20px;font-style:italic;">"<?= htmlspecialchars($text) ?>"</p>
+                <div style="display:flex;align-items:center;gap:12px;border-top:1px solid var(--border);padding-top:16px;">
+                    <div style="width:36px;height:36px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:700;flex-shrink:0;">
                         <?= strtoupper(substr($name,0,1)) ?>
                     </div>
                     <div>
-                        <div style="font-size:0.875rem;font-weight:700;color:#0f172a;"><?= htmlspecialchars($name) ?></div>
-                        <div style="font-size:0.78rem;color:#64748b;"><?= htmlspecialchars($role) ?></div>
+                        <div style="font-size:0.875rem;font-weight:700;color:var(--text);"><?= htmlspecialchars($name) ?></div>
+                        <div style="font-size:0.78rem;color:var(--text-soft);"><?= htmlspecialchars($role) ?></div>
                     </div>
                 </div>
             </div>
@@ -302,26 +274,26 @@ require_once __DIR__ . '/includes/header.php';
 
 <?php if(!empty($recentPosts)): ?>
 <!-- ===== BLOG PREVIEW ===== -->
-<section style="padding:96px 0;background:#fff;">
-    <div class="tm-container">
-        <div style="text-align:center;max-width:600px;margin:0 auto 60px;">
-            <div class="tm-label">Insights</div>
-            <h2 class="tm-section-title">Latest From Our Blog</h2>
+<section class="tm2-section">
+    <div class="tm2-container">
+        <div class="tm2-section-head">
+            <div class="tm2-eyebrow">Insights</div>
+            <h2 class="tm2-h2">Latest From Our Blog</h2>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px;">
+        <div class="tm2-grid tm2-grid-3">
             <?php foreach($recentPosts as $post): ?>
-            <a href="<?= SITE_URL ?>/blog-post.php?slug=<?= htmlspecialchars($post['slug']) ?>" class="tm-card" style="text-decoration:none;display:block;">
-                <div style="height:160px;background:linear-gradient(135deg,#0f172a,#1e293b);border-radius:8px;margin:-24px -24px 20px;display:flex;align-items:center;justify-content:center;">
-                    <i class="fa-solid fa-newspaper" style="font-size:2.5rem;color:#22c55e;opacity:0.5;"></i>
+            <a href="<?= SITE_URL ?>/blog-post.php?slug=<?= htmlspecialchars($post['slug']) ?>" class="tm2-card" style="text-decoration:none;display:block;">
+                <div style="height:140px;background:var(--bg-soft);border-radius:12px;margin:-24px -24px 18px;display:flex;align-items:center;justify-content:center;">
+                    <i class="fa-solid fa-newspaper" style="font-size:2rem;color:var(--accent);opacity:0.6;"></i>
                 </div>
-                <span style="font-size:0.7rem;font-weight:600;color:#16a34a;letter-spacing:.08em;text-transform:uppercase;"><?= htmlspecialchars($post['cat_name']??'Blog') ?></span>
-                <h3 style="font-size:1rem;font-weight:700;color:#0f172a;margin:8px 0 10px;line-height:1.4;"><?= htmlspecialchars($post['title']) ?></h3>
-                <p style="font-size:0.85rem;color:#64748b;line-height:1.6;"><?= htmlspecialchars(substr(strip_tags($post['excerpt']??''),0,120)) ?>...</p>
+                <span style="font-size:0.7rem;font-weight:700;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;"><?= htmlspecialchars($post['category']??'Blog') ?></span>
+                <h3 style="margin:8px 0 8px;"><?= htmlspecialchars($post['title']) ?></h3>
+                <p><?= htmlspecialchars(substr(strip_tags($post['excerpt']??''),0,120)) ?>...</p>
             </a>
             <?php endforeach; ?>
         </div>
         <div style="text-align:center;margin-top:40px;">
-            <a href="<?= SITE_URL ?>/blog.php" class="tm-btn-outline">View All Articles</a>
+            <a href="<?= SITE_URL ?>/blog.php" class="tm2-btn tm2-btn-outline">View All Articles</a>
         </div>
     </div>
 </section>
