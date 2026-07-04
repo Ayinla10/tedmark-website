@@ -3,7 +3,6 @@ $pageTitle = 'Testimonials';
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/db.php';
-require_once __DIR__ . '/includes/admin-layout.php';
 
 $editing = null;
 $success = $error = '';
@@ -43,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $testimonials = fetchAll("SELECT * FROM testimonials ORDER BY sort_order ASC, created_at DESC");
 $e = $editing ?? [];
+require_once __DIR__ . '/includes/admin-layout.php';
 ?>
 
 <?php if ($success): ?><div class="alert alert-success"><i class="fa-solid fa-check"></i> <?= $success ?></div><?php endif; ?>

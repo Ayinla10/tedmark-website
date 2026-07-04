@@ -17,6 +17,8 @@ $nav = [
     'team'         => ['icon'=>'fa-users',           'label'=>'Team',         'href'=>'team.php',         'group'=>'People'],
     'testimonials' => ['icon'=>'fa-star',            'label'=>'Testimonials', 'href'=>'testimonials.php'],
     'messages'     => ['icon'=>'fa-envelope',        'label'=>'Messages',     'href'=>'messages.php',     'group'=>'Inbox'],
+    'consultations'=> ['icon'=>'fa-calendar-check',  'label'=>'Consultations','href'=>'consultations.php'],
+    'leads'        => ['icon'=>'fa-user-plus',       'label'=>'Newsletter Leads','href'=>'leads.php'],
     'settings'     => ['icon'=>'fa-gear',            'label'=>'Settings',     'href'=>'settings.php',     'group'=>'Settings'],
     'seo'          => ['icon'=>'fa-chart-line',          'label'=>'SEO Manager',  'href'=>'seo.php'],
     'users'        => ['icon'=>'fa-user-shield',     'label'=>'Admin Users',  'href'=>'users.php'],

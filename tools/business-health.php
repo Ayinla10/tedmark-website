@@ -2,7 +2,6 @@
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/db.php';
-require_once __DIR__ . '/../includes/auth.php';
 $pageTitle = 'Business Health Checker';
 $pageDesc  = 'Take our free 10-question business health assessment and get a personalized score and recommendations for your African business.';
 $pageHasDarkHero = true;

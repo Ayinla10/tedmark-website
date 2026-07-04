@@ -1,82 +1,77 @@
 <?php
+$pageTitle = 'Consultations';
 require_once __DIR__ . '/../includes/config.php';
-require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/db.php';
-requireAdmin();
-$adminTitle = 'Consultations';
 
 if (isset($_GET['status']) && isset($_GET['id'])) {
     $newStatus = in_array($_GET['status'], ['pending','confirmed','completed','cancelled']) ? $_GET['status'] : 'pending';
-    update('consultations', ['status' => $newStatus], 'id = ?', [(int)$_GET['id']]);
-    flash('success', 'Status updated.');
-    redirect(SITE_URL . '/admin/consultations.php');
+    query("UPDATE consultations SET status=? WHERE id=?", [$newStatus, (int)$_GET['id']]);
+    header('Location: ' . SITE_URL . '/admin/consultations.php'); exit;
+}
+if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
+    query("DELETE FROM consultations WHERE id = ?", [$_GET['delete']]);
+    header('Location: ' . SITE_URL . '/admin/consultations.php'); exit;
 }
 
 $filter = $_GET['filter'] ?? 'all';
-$sql = "SELECT * FROM consultations";
-if ($filter !== 'all') $sql .= " WHERE status = " . db()->quote($filter);
-$sql .= " ORDER BY created_at DESC";
-$consultations = fetchAll($sql);
+try {
+    $sql = "SELECT * FROM consultations";
+    if ($filter !== 'all') $sql .= " WHERE status = " . db()->quote($filter);
+    $sql .= " ORDER BY created_at DESC";
+    $consultations = fetchAll($sql);
+} catch(Exception $e) { $consultations = []; }
 
 require_once __DIR__ . '/includes/admin-layout.php';
 ?>
 
-<div class="space-y-5">
-    <div class="flex flex-wrap gap-3 items-center justify-between">
-        <div class="flex gap-2">
-            <?php foreach (['all','pending','confirmed','completed','cancelled'] as $f): ?>
-            <a href="?filter=<?= $f ?>" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors <?= $filter === $f ? 'bg-brand-500 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10' ?>"><?= ucfirst($f) ?></a>
-            <?php endforeach; ?>
-        </div>
-        <p class="text-slate-400 text-sm"><?= count($consultations) ?> bookings</p>
+<div class="tm-card" style="margin-bottom:20px;padding:16px 20px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <?php foreach (['all','pending','confirmed','completed','cancelled'] as $f): ?>
+      <a href="?filter=<?= $f ?>" class="btn btn-sm <?= $filter === $f ? 'btn-primary' : 'btn-ghost' ?>"><?= ucfirst($f) ?></a>
+      <?php endforeach; ?>
     </div>
+    <span style="color:#64748b;font-size:0.85rem;"><?= count($consultations) ?> bookings</span>
+  </div>
+</div>
 
-    <div class="admin-card overflow-auto">
-        <table class="admin-table">
-            <thead>
-                <tr>
-                    <th>Name / Contact</th>
-                    <th>Company</th>
-                    <th>Interest</th>
-                    <th>Preferred Date</th>
-                    <th>Type</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (empty($consultations)): ?>
-                <tr><td colspan="7" class="text-center text-slate-500 py-10">No consultations yet</td></tr>
-                <?php else: ?>
-                <?php foreach ($consultations as $c): ?>
-                <tr>
-                    <td>
-                        <div class="font-semibold text-white"><?= sanitize($c['name']) ?></div>
-                        <div class="text-slate-400 text-xs"><?= sanitize($c['email']) ?></div>
-                        <div class="text-slate-500 text-xs"><?= sanitize($c['phone'] ?? '') ?></div>
-                    </td>
-                    <td>
-                        <div class="text-slate-300"><?= sanitize($c['company'] ?? '—') ?></div>
-                        <div class="text-slate-500 text-xs"><?= sanitize($c['industry'] ?? '') ?></div>
-                    </td>
-                    <td class="text-slate-300 text-xs max-w-[150px] truncate"><?= sanitize($c['service_interest'] ?? '—') ?></td>
-                    <td class="text-slate-300 text-xs"><?= $c['preferred_date'] ? formatDate($c['preferred_date']) : '—' ?><br><?= sanitize($c['preferred_time'] ?? '') ?></td>
-                    <td><span class="text-slate-300 text-xs capitalize"><?= str_replace('_', ' ', $c['meeting_type']) ?></span></td>
-                    <td><span class="badge-status status-<?= $c['status'] ?>"><?= ucfirst($c['status']) ?></span></td>
-                    <td>
-                        <div class="flex flex-wrap gap-1">
-                            <a href="?id=<?= $c['id'] ?>&status=confirmed" class="admin-btn admin-btn-sm" style="background:#059669;font-size:.7rem;padding:4px 8px;">Confirm</a>
-                            <a href="?id=<?= $c['id'] ?>&status=completed" class="admin-btn admin-btn-sm" style="background:#7c3aed;font-size:.7rem;padding:4px 8px;">Done</a>
-                            <a href="?id=<?= $c['id'] ?>&status=cancelled" class="admin-btn admin-btn-danger admin-btn-sm" style="font-size:.7rem;padding:4px 8px;">Cancel</a>
-                        </div>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-                <?php endif; ?>
-            </tbody>
-        </table>
-    </div>
+<div class="tm-card">
+  <table class="tm-table">
+    <thead>
+      <tr><th>Name / Contact</th><th>Business</th><th>Package Interest</th><th>Challenge</th><th>Status</th><th>Date</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+      <?php if (empty($consultations)): ?>
+      <tr><td colspan="7" style="text-align:center;color:#64748b;padding:40px 0;">No consultation bookings yet.</td></tr>
+      <?php else: foreach ($consultations as $c): ?>
+      <tr>
+        <td>
+          <div style="font-weight:600;color:#fff;"><?= htmlspecialchars($c['name']) ?></div>
+          <div style="font-size:0.75rem;color:#64748b;"><?= htmlspecialchars($c['email']) ?></div>
+          <?php if ($c['phone']): ?><div style="font-size:0.75rem;color:#64748b;"><?= htmlspecialchars($c['phone']) ?></div><?php endif; ?>
+        </td>
+        <td>
+          <div style="color:#e2e8f0;"><?= htmlspecialchars($c['business_name'] ?: '—') ?></div>
+          <div style="font-size:0.72rem;color:#64748b;"><?= htmlspecialchars($c['industry'] ?? '') ?></div>
+        </td>
+        <td style="color:#94a3b8;font-size:0.82rem;max-width:160px;"><?= htmlspecialchars($c['package_interest'] ?: '—') ?></td>
+        <td style="color:#94a3b8;font-size:0.8rem;max-width:220px;"><?= htmlspecialchars(substr($c['main_challenge'] ?? '', 0, 100)) ?></td>
+        <td><span class="badge <?= [
+            'pending'=>'badge-amber','confirmed'=>'badge-blue','completed'=>'badge-green','cancelled'=>'badge-red'
+        ][$c['status']] ?? 'badge-gray' ?>"><?= ucfirst($c['status']) ?></span></td>
+        <td style="color:#64748b;font-size:0.78rem;white-space:nowrap;"><?= date('M j, Y', strtotime($c['created_at'])) ?></td>
+        <td>
+          <div class="gap-8">
+            <a href="?id=<?= $c['id'] ?>&status=confirmed" class="btn btn-ghost btn-sm" title="Confirm"><i class="fa-solid fa-check"></i></a>
+            <a href="?id=<?= $c['id'] ?>&status=completed" class="btn btn-ghost btn-sm" title="Mark done"><i class="fa-solid fa-flag-checkered"></i></a>
+            <a href="?delete=<?= $c['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Delete this booking?')"><i class="fa-solid fa-trash"></i></a>
+          </div>
+        </td>
+      </tr>
+      <?php endforeach; endif; ?>
+    </tbody>
+  </table>
 </div>
 
 <?php require_once __DIR__ . '/includes/admin-layout-end.php'; ?>

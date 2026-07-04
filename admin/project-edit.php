@@ -3,7 +3,6 @@ $pageTitle = 'Edit Project';
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/db.php';
-require_once __DIR__ . '/includes/admin-layout.php';
 
 $id = isset($_GET['id']) && is_numeric($_GET['id']) ? (int)$_GET['id'] : null;
 $proj = $id ? fetchOne("SELECT * FROM projects WHERE id = ?", [$id]) : null;
@@ -51,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $msg = $_GET['msg'] ?? '';
 $p = $proj ?? [];
+require_once __DIR__ . '/includes/admin-layout.php';
 ?>
 
 <?php if ($msg==='saved'): ?><div class="alert alert-success"><i class="fa-solid fa-check"></i> Project saved!</div><?php endif; ?>
