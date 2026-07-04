@@ -27,7 +27,7 @@ require_once __DIR__ . '/includes/header.php';
 <section class="tm2-hero">
     <div class="tm2-hero-glow"></div>
     <div class="tm2-badge">
-        <span></span> <?= cfg($cfg,'hero_badge','Helping African Businesses Run Smarter') ?>
+        <i class="fa-solid fa-bolt"></i> <?= cfg($cfg,'hero_badge','Helping African Businesses Run Smarter') ?>
     </div>
     <h1>
         <?= cfg($cfg,'hero_h1_line1','We Build Systems.') ?><br>
