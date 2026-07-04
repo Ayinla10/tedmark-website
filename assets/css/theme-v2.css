@@ -257,6 +257,47 @@ body {
 .tm2-form-input:focus { border-color:var(--accent); }
 .tm2-form-textarea { resize:vertical; min-height:120px; }
 
+/* ── Dark Hero (consultation page — always dark regardless of theme toggle) ── */
+.tm2-dark-hero {
+    background: #0a0a0a; color: #fff; padding: 140px 16px 72px; text-align: center; position: relative; overflow: hidden;
+}
+.tm2-dark-hero::before {
+    content: ''; position: absolute; top: -20%; left: 50%; transform: translateX(-50%);
+    width: 700px; height: 400px; max-width: 100vw;
+    background: radial-gradient(ellipse, rgba(74,222,128,0.14) 0%, transparent 70%);
+    pointer-events: none;
+}
+.tm2-dark-hero h1 {
+    font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800;
+    font-size: clamp(1.9rem, 5vw, 3rem); line-height: 1.15; color: #fff;
+    max-width: 700px; margin: 0 auto 16px; position: relative; z-index: 1;
+}
+.tm2-dark-hero p {
+    font-size: 1rem; color: #a3a3a3; line-height: 1.7; max-width: 540px; margin: 0 auto;
+    position: relative; z-index: 1;
+}
+.tm2-dark-badge {
+    display: inline-flex; align-items: center; gap: 7px; font-size: 11.5px; font-weight: 600;
+    color: #4ade80; background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.25);
+    padding: 6px 14px; border-radius: 999px; margin-bottom: 24px; text-transform: uppercase;
+    letter-spacing: .06em; position: relative; z-index: 1;
+}
+
+/* ── Step Timeline (horizontal, connected) ─────────────── */
+.tm2-timeline { display: flex; justify-content: center; gap: 0; flex-wrap: wrap; position: relative; }
+.tm2-timeline-step { flex: 1; min-width: 180px; max-width: 240px; text-align: center; position: relative; padding: 0 12px; }
+.tm2-timeline-step:not(:last-child)::after {
+    content: ''; position: absolute; top: 24px; left: calc(50% + 44px); right: calc(-50% + 44px);
+    height: 2px; background: var(--border);
+}
+.tm2-timeline-num {
+    width: 48px; height: 48px; border-radius: 50%; background: var(--accent); color: var(--accent-ink);
+    display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px;
+    margin: 0 auto 16px; position: relative; z-index: 1;
+}
+.tm2-timeline-step h3 { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.tm2-timeline-step p { font-size: 0.82rem; color: var(--text-soft); line-height: 1.55; }
+
 /* ── Container width ─────────────────────────────────── */
 .tm2-container { max-width: 1100px; margin: 0 auto; }
 
@@ -301,4 +342,9 @@ body {
     .tm2-footer-top { flex-direction: column; align-items: flex-start; }
     .tm2-footer-bottom { flex-direction: column; text-align: center; }
     .tm2-social-row { justify-content: center; }
+
+    .tm2-dark-hero { padding: 100px 16px 44px; }
+    .tm2-timeline { flex-direction: column; gap: 28px; align-items: center; }
+    .tm2-timeline-step::after { display: none; }
+    .tm2-timeline-step { max-width: 280px; }
 }
