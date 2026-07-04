@@ -109,10 +109,12 @@ function toggleMobile() {
 }
 
 function tmInit() {
+    console.log('[Tedmark] tmInit() started');
 
     // ── Portfolio Filter (runs first — must never be blocked by errors below) ──
     try {
         const filterBtns = document.querySelectorAll('.tm-filter-btn, .tm2-filter-btn, .filter-btn');
+        console.log('[Tedmark] Portfolio filter buttons found:', filterBtns.length);
         const portfolioItems = document.querySelectorAll('.tm-port-card, .tm2-port-card, .portfolio-item');
 
         filterBtns.forEach(btn => {
@@ -444,8 +446,13 @@ function tmInit() {
 }
 
 // Run immediately if DOM already ready (script at bottom of body), else wait
+console.log('[Tedmark] main.js reached end of file. readyState =', document.readyState);
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', tmInit);
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log('[Tedmark] DOMContentLoaded fired, calling tmInit()');
+        tmInit();
+    });
 } else {
+    console.log('[Tedmark] readyState already loaded, calling tmInit() immediately');
     tmInit();
 }
