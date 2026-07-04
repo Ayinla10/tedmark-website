@@ -12,9 +12,9 @@
     --text:      #0b0f14;
     --text-soft: #5b6470;
     --muted:     #8a919c;
-    --accent:    #22c55e;
-    --accent-ink:#0b0f14;
-    --accent-soft: rgba(34,197,94,0.12);
+    --accent:    #16a34a;
+    --accent-ink:#ffffff;
+    --accent-soft: rgba(22,163,74,0.12);
     --radius:    16px;
     --shadow:    0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.05);
 }
@@ -27,9 +27,9 @@ html[data-theme="dark"] {
     --text:      #f5f5f5;
     --text-soft: #a3a3a3;
     --muted:     #6b6b6b;
-    --accent:    #4ade80;
-    --accent-ink:#0a0a0a;
-    --accent-soft: rgba(74,222,128,0.12);
+    --accent:    #16a34a;
+    --accent-ink:#ffffff;
+    --accent-soft: rgba(74,222,128,0.15);
     --shadow:    0 1px 2px rgba(0,0,0,0.3), 0 8px 32px rgba(0,0,0,0.4);
 }
 
@@ -75,7 +75,7 @@ body {
 .tm2-toggle:hover { border-color: var(--accent); }
 
 .tm2-cta {
-    background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 13.5px;
+    background: var(--accent); color: var(--accent-ink); font-weight: 600; font-size: 13.5px;
     padding: 10px 18px; border-radius: 999px; text-decoration: none; white-space: nowrap;
     transition: all .2s; display: inline-flex; align-items: center; gap: 6px;
 }
@@ -117,7 +117,7 @@ body {
 }
 .tm2-badge {
     display: inline-flex; align-items: center; gap: 7px;
-    font-size: 11.5px; font-weight: 700; color: var(--text-soft);
+    font-size: 11.5px; font-weight: 600; color: var(--text-soft);
     background: var(--bg-soft); border: 1px solid var(--border);
     padding: 6px 14px; border-radius: 999px; margin-bottom: 24px;
     text-transform: uppercase; letter-spacing: .04em;
@@ -142,20 +142,20 @@ body {
 }
 .tm2-email-form input::placeholder { color: var(--muted); }
 .tm2-email-form button {
-    background: var(--accent); color: var(--accent-ink); border: none; font-weight: 700; font-size: 13.5px;
+    background: var(--accent); color: var(--accent-ink); border: none; font-weight: 600; font-size: 13.5px;
     padding: 10px 20px; border-radius: 999px; cursor: pointer; white-space: nowrap; transition: all .2s;
 }
 .tm2-email-form button:hover { filter: brightness(1.08); }
 
 .tm2-logos { display: flex; align-items: center; justify-content: center; gap: 36px; flex-wrap: wrap; position: relative; z-index: 1; }
-.tm2-logos span { font-size: 13px; font-weight: 700; color: var(--muted); letter-spacing: .02em; }
+.tm2-logos span { font-size: 13px; font-weight: 600; color: var(--muted); letter-spacing: .02em; }
 
 /* ── Sections ────────────────────────────────────────── */
 .tm2-section { padding: 72px 16px; }
 .tm2-section-head { text-align: center; max-width: 620px; margin: 0 auto 48px; }
 .tm2-eyebrow {
-    display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 800;
-    letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px;
+    display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 600;
+    letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px;
 }
 .tm2-eyebrow::before { content:''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; }
 .tm2-h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(1.5rem, 4vw, 2.2rem); line-height: 1.2; color: var(--text); letter-spacing: -0.01em; }
@@ -188,7 +188,7 @@ body {
 
 /* ── Buttons ─────────────────────────────────────────── */
 .tm2-btn {
-    display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px;
+    display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14px;
     padding: 12px 24px; border-radius: 999px; text-decoration: none; border: none; cursor: pointer;
     transition: all .2s; font-family: inherit;
 }
@@ -221,7 +221,7 @@ body {
 
 /* ── Portfolio ───────────────────────────────────────── */
 .tm2-filter-btn {
-    padding: 9px 20px; border-radius: 999px; font-size: 13px; font-weight: 700; cursor: pointer;
+    padding: 9px 20px; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer;
     transition: all 0.2s; border: 1.5px solid var(--border); background: var(--card); color: var(--text-soft);
     font-family: 'Plus Jakarta Sans', sans-serif;
 }
@@ -230,22 +230,22 @@ body {
 .tm2-port-card { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
 .tm2-port-media { height: 280px; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .tm2-port-chip {
-    position: absolute; top: 12px; left: 12px; font-size: 0.7rem; font-weight: 800;
+    position: absolute; top: 12px; left: 12px; font-size: 0.7rem; font-weight: 600;
     padding: 6px 13px; border-radius: 999px;
     background: var(--accent-soft); color: var(--accent); backdrop-filter: blur(4px);
 }
 .tm2-port-result {
     position: absolute; bottom: 12px; left: 12px; background: rgba(0,0,0,0.65); color: #fff;
-    font-size: 0.7rem; font-weight: 700; padding: 5px 10px; border-radius: 6px; backdrop-filter: blur(4px);
+    font-size: 0.7rem; font-weight: 600; padding: 5px 10px; border-radius: 6px; backdrop-filter: blur(4px);
     display: flex; align-items: center; gap: 5px;
 }
 .tm2-port-body { padding: 22px; display: flex; flex-direction: column; flex: 1; }
-.tm2-port-meta { font-size: 0.7rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+.tm2-port-meta { font-size: 0.7rem; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
 .tm2-tag {
-    display: inline-block; padding: 4px 11px; border-radius: 999px; font-size: 0.7rem; font-weight: 700;
+    display: inline-block; padding: 4px 11px; border-radius: 999px; font-size: 0.7rem; font-weight: 600;
     background: var(--accent-soft); color: var(--accent);
 }
-.tm2-port-link { font-size: 0.82rem; font-weight: 700; color: var(--accent); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: auto; padding-top: 14px; }
+.tm2-port-link { font-size: 0.82rem; font-weight: 600; color: var(--accent); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: auto; padding-top: 14px; }
 
 /* ── Forms (theme-aware) ─────────────────────────────── */
 .tm2-form-label { display:block; font-size:13px; font-weight:600; color:var(--text); margin-bottom:7px; }

@@ -180,7 +180,7 @@ h1, h2, h3, h4, h5, h6,
 
 /* ── Labels & Typography ─────────────────────────────── */
 .tm-label {
-    font-size: 12px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+    font-size: 12px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase;
     color: #16a34a; display: inline-flex; align-items: center; gap: 7px; margin-bottom: 10px;
 }
 .tm-label::before { content:''; display:inline-block; width:6px; height:6px; background:#16a34a; border-radius:50%; }
@@ -230,7 +230,7 @@ h1, h2, h3, h4, h5, h6,
     box-shadow: 0 20px 40px rgba(0,0,0,0.12), 0 8px 16px rgba(22,163,74,0.08), 4px 4px 0 rgba(22,163,74,0.06);
 }
 .tm-port-img { height:180px; overflow:hidden; }
-.tm-port-tag { display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:700; background:#dcfce7; color:#15803d; }
+.tm-port-tag { display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; background:#dcfce7; color:#15803d; }
 
 /* Testimonial */
 .tm-test-card { background:white; border:1.5px solid #f1f5f9; border-radius:14px; padding:24px; transition:all 0.25s; }
