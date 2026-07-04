@@ -292,10 +292,10 @@ body {
 }
 .tm2-timeline-num {
     width: 48px; height: 48px; border-radius: 50%; background: var(--accent); color: var(--accent-ink);
-    display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px;
+    display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 15px;
     margin: 0 auto 16px; position: relative; z-index: 1;
 }
-.tm2-timeline-step h3 { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.tm2-timeline-step h3 { font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 6px; }
 .tm2-timeline-step p { font-size: 0.82rem; color: var(--text-soft); line-height: 1.55; }
 
 /* ── Container width ─────────────────────────────────── */

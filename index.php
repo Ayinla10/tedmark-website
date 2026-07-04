@@ -100,7 +100,7 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="tm2-card-icon"><i class="<?= $s['icon'] ?>"></i></div>
                 <h3><?= $s['title'] ?></h3>
                 <p><?= $s['desc'] ?></p>
-                <a href="<?= SITE_URL ?>/services.php" style="font-size:0.85rem;font-weight:700;color:var(--accent);display:inline-flex;align-items:center;gap:6px;margin-top:14px;text-decoration:none;">
+                <a href="<?= SITE_URL ?>/services.php" style="font-size:0.85rem;font-weight:600;color:var(--accent);display:inline-flex;align-items:center;gap:6px;margin-top:14px;text-decoration:none;">
                     Learn more <i class="fa-solid fa-arrow-right fa-2xs"></i>
                 </a>
             </div>
@@ -144,7 +144,7 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="tm2-card-icon"><i class="<?= $t['icon'] ?>"></i></div>
                 <h3><?= $t['title'] ?></h3>
                 <p><?= $t['desc'] ?></p>
-                <a href="<?= SITE_URL . $t['link'] ?>" style="font-size:0.85rem;font-weight:700;color:var(--accent);display:inline-flex;align-items:center;gap:6px;margin-top:14px;text-decoration:none;">
+                <a href="<?= SITE_URL . $t['link'] ?>" style="font-size:0.85rem;font-weight:600;color:var(--accent);display:inline-flex;align-items:center;gap:6px;margin-top:14px;text-decoration:none;">
                     <?= $t['cta'] ?> <i class="fa-solid fa-arrow-right fa-2xs"></i>
                 </a>
             </div>
@@ -256,11 +256,11 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
                 <p style="font-size:0.9rem;color:var(--text);line-height:1.7;margin-bottom:20px;font-style:italic;">"<?= htmlspecialchars($text) ?>"</p>
                 <div style="display:flex;align-items:center;gap:12px;border-top:1px solid var(--border);padding-top:16px;">
-                    <div style="width:36px;height:36px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:700;flex-shrink:0;">
+                    <div style="width:36px;height:36px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:600;flex-shrink:0;">
                         <?= strtoupper(substr($name,0,1)) ?>
                     </div>
                     <div>
-                        <div style="font-size:0.875rem;font-weight:700;color:var(--text);"><?= htmlspecialchars($name) ?></div>
+                        <div style="font-size:0.875rem;font-weight:600;color:var(--text);"><?= htmlspecialchars($name) ?></div>
                         <div style="font-size:0.78rem;color:var(--text-soft);"><?= htmlspecialchars($role) ?></div>
                     </div>
                 </div>
@@ -286,7 +286,7 @@ require_once __DIR__ . '/includes/header.php';
                 <div style="height:140px;background:var(--bg-soft);border-radius:12px;margin:-24px -24px 18px;display:flex;align-items:center;justify-content:center;">
                     <i class="fa-solid fa-newspaper" style="font-size:2rem;color:var(--accent);opacity:0.6;"></i>
                 </div>
-                <span style="font-size:0.7rem;font-weight:700;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;"><?= htmlspecialchars($post['category']??'Blog') ?></span>
+                <span style="font-size:0.7rem;font-weight:600;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;"><?= htmlspecialchars($post['category']??'Blog') ?></span>
                 <h3 style="margin:8px 0 8px;"><?= htmlspecialchars($post['title']) ?></h3>
                 <p><?= htmlspecialchars(substr(strip_tags($post['excerpt']??''),0,120)) ?>...</p>
             </a>

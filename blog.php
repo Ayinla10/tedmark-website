@@ -35,13 +35,13 @@ require_once __DIR__ . '/includes/header.php';
                     <?php endif; ?>
                 </div>
                 <div style="margin-bottom:10px;">
-                    <span style="font-size:0.7rem;font-weight:700;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;"><?= htmlspecialchars($post['category']??'Blog') ?></span>
+                    <span style="font-size:0.7rem;font-weight:600;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;"><?= htmlspecialchars($post['category']??'Blog') ?></span>
                     <span style="color:var(--border);margin:0 8px;">·</span>
                     <span style="font-size:0.7rem;color:var(--muted);"><?= date('M j, Y', strtotime($post['published_at']??'now')) ?></span>
                 </div>
                 <h3 style="margin-bottom:10px;"><?= htmlspecialchars($post['title']) ?></h3>
                 <p><?= htmlspecialchars(substr(strip_tags($post['excerpt']??''),0,130)) ?>...</p>
-                <div style="display:inline-flex;align-items:center;gap:6px;font-size:0.82rem;font-weight:600;color:var(--accent);margin-top:14px;">Read article <i class="fa-solid fa-arrow-right fa-2xs"></i></div>
+                <div style="display:inline-flex;align-items:center;gap:6px;font-size:0.82rem;font-weight:500;color:var(--accent);margin-top:14px;">Read article <i class="fa-solid fa-arrow-right fa-2xs"></i></div>
             </a>
             <?php endforeach; ?>
         </div>
@@ -62,10 +62,10 @@ require_once __DIR__ . '/includes/header.php';
                 <div style="height:140px;background:var(--bg-soft);border-radius:12px;margin:-24px -24px 18px;display:flex;align-items:center;justify-content:center;">
                     <i class="fa-solid fa-newspaper" style="font-size:1.8rem;color:var(--accent);opacity:0.6;"></i>
                 </div>
-                <span style="font-size:0.7rem;font-weight:700;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;"><?= $ph['cat'] ?></span>
+                <span style="font-size:0.7rem;font-weight:600;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;"><?= $ph['cat'] ?></span>
                 <h3 style="margin:8px 0 10px;"><?= $ph['title'] ?></h3>
                 <p><?= $ph['excerpt'] ?></p>
-                <div style="display:inline-flex;align-items:center;gap:6px;font-size:0.82rem;font-weight:600;color:var(--accent);margin-top:14px;">Coming soon <i class="fa-solid fa-clock fa-2xs"></i></div>
+                <div style="display:inline-flex;align-items:center;gap:6px;font-size:0.82rem;font-weight:500;color:var(--accent);margin-top:14px;">Coming soon <i class="fa-solid fa-clock fa-2xs"></i></div>
             </div>
             <?php endforeach; ?>
         </div>

@@ -42,7 +42,7 @@ require_once __DIR__ . '/includes/header.php';
             <h3><?= htmlspecialchars($ind['title']) ?></h3>
             <p style="margin-bottom:16px;"><?= htmlspecialchars($ind['description']??'') ?></p>
             <div style="display:flex;align-items:center;justify-content:flex-end;padding-top:14px;border-top:1px solid var(--border);">
-                <a href="<?= SITE_URL ?>/consultation.php" style="font-size:0.8rem;font-weight:700;color:var(--accent);text-decoration:none;">Get started <i class="fa-solid fa-arrow-right fa-2xs"></i></a>
+                <a href="<?= SITE_URL ?>/consultation.php" style="font-size:0.8rem;font-weight:600;color:var(--accent);text-decoration:none;">Get started <i class="fa-solid fa-arrow-right fa-2xs"></i></a>
             </div>
         </div>
         <?php endforeach; ?>

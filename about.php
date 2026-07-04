@@ -101,7 +101,7 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
                 <?php endif; ?>
                 <h3 style="margin-bottom:4px;"><?= htmlspecialchars($t['name']) ?></h3>
-                <p style="font-size:0.78rem;font-weight:700;color:var(--accent);margin-bottom:10px;"><?= htmlspecialchars($t['role']??'') ?></p>
+                <p style="font-size:0.78rem;font-weight:600;color:var(--accent);margin-bottom:10px;"><?= htmlspecialchars($t['role']??'') ?></p>
                 <p><?= htmlspecialchars($t['bio']??$t['desc']??'') ?></p>
             </div>
             <?php endforeach; ?>

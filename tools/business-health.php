@@ -31,8 +31,8 @@ require_once __DIR__ . '/../includes/header.php';
             <!-- Progress -->
             <div style="margin-bottom:40px;" class="tm-fade">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-                    <span id="step-label" style="font-size:13px;font-weight:600;color:#64748b;">Step 1 of 10</span>
-                    <span id="score-preview" style="font-size:13px;font-weight:600;color:#16a34a;display:none;">Score: <span id="running-score">0</span>/100</span>
+                    <span id="step-label" style="font-size:13px;font-weight:500;color:#64748b;">Step 1 of 10</span>
+                    <span id="score-preview" style="font-size:13px;font-weight:500;color:#16a34a;display:none;">Score: <span id="running-score">0</span>/100</span>
                 </div>
                 <div style="height:6px;background:#e2e8f0;border-radius:99px;overflow:hidden;">
                     <div id="health-progress" style="height:100%;background:linear-gradient(90deg,#16a34a,#4ade80);border-radius:99px;width:10%;transition:width .5s ease;"></div>
@@ -68,24 +68,24 @@ require_once __DIR__ . '/../includes/header.php';
                                 </div>
                                 <input type="radio" name="q<?= $qi ?>" value="<?= $opt['s'] ?>" style="display:none;" required>
                                 <span style="font-weight:500;color:#334155;flex:1;"><?= htmlspecialchars($opt['l']) ?></span>
-                                <span style="font-size:12px;font-weight:700;color:#cbd5e1;" class="hc-pts"><?= $opt['s'] ?> pts</span>
+                                <span style="font-size:12px;font-weight:600;color:#cbd5e1;" class="hc-pts"><?= $opt['s'] ?> pts</span>
                             </label>
                             <?php endforeach; ?>
                         </div>
                         <div style="display:flex;gap:12px;">
                             <?php if ($qi > 0): ?>
-                            <button type="button" data-back style="flex:1;padding:14px;border:2px solid #e2e8f0;background:#fff;border-radius:12px;font-size:15px;font-weight:700;color:#475569;cursor:pointer;transition:all .2s;">
+                            <button type="button" data-back style="flex:1;padding:14px;border:2px solid #e2e8f0;background:#fff;border-radius:12px;font-size:15px;font-weight:600;color:#475569;cursor:pointer;transition:all .2s;">
                                 <i class="fa-solid fa-arrow-left fa-xs" style="margin-right:6px;"></i> Back
                             </button>
                             <?php else: ?>
                             <div style="flex:1;"></div>
                             <?php endif; ?>
                             <?php if ($qi < count($questions) - 1): ?>
-                            <button type="button" data-next style="flex:1;padding:14px;background:#16a34a;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s;">
+                            <button type="button" data-next style="flex:1;padding:14px;background:#16a34a;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;transition:background .2s;">
                                 Next Question <i class="fa-solid fa-arrow-right fa-xs" style="margin-left:6px;"></i>
                             </button>
                             <?php else: ?>
-                            <button type="button" id="finish-btn" onclick="calculateHealth()" style="flex:1;padding:14px;background:#16a34a;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s;">
+                            <button type="button" id="finish-btn" onclick="calculateHealth()" style="flex:1;padding:14px;background:#16a34a;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;transition:background .2s;">
                                 See My Results <i class="fa-solid fa-arrow-right fa-xs" style="margin-left:6px;"></i>
                             </button>
                             <?php endif; ?>
@@ -107,7 +107,7 @@ require_once __DIR__ . '/../includes/header.php';
                                 <div style="font-size:12px;color:#94a3b8;margin-top:2px;">out of 100</div>
                             </div>
                         </div>
-                        <div id="grade-badge" style="display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border-radius:99px;font-size:16px;font-weight:700;margin-bottom:16px;"></div>
+                        <div id="grade-badge" style="display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border-radius:99px;font-size:16px;font-weight:600;margin-bottom:16px;"></div>
                         <h2 id="grade-title" style="font-size:24px;font-weight:800;color:#0f172a;margin:0 0 10px;"></h2>
                         <p id="grade-desc" style="color:#64748b;max-width:480px;margin:0 auto;"></p>
                     </div>
@@ -126,7 +126,7 @@ require_once __DIR__ . '/../includes/header.php';
                     </div>
 
                     <div style="text-align:center;">
-                        <button onclick="location.reload()" style="background:none;border:none;color:#16a34a;font-weight:600;cursor:pointer;font-size:14px;">
+                        <button onclick="location.reload()" style="background:none;border:none;color:#16a34a;font-weight:500;cursor:pointer;font-size:14px;">
                             <i class="fa-solid fa-rotate-left" style="margin-right:6px;"></i> Retake Assessment
                         </button>
                     </div>
@@ -248,7 +248,7 @@ function calculateHealth() {
                 <i class="fa-solid ${r.icon}"></i>
             </div>
             <div>
-                <div style="font-weight:700;color:#0f172a;margin-bottom:3px;">${r.title}</div>
+                <div style="font-weight:600;color:#0f172a;margin-bottom:3px;">${r.title}</div>
                 <div style="font-size:13px;color:#64748b;">${r.desc}</div>
             </div>
         </div>

@@ -50,7 +50,7 @@ $questions = [
                             <i class="fa-solid <?= $q['icon'] ?>"></i>
                         </div>
                         <div>
-                            <div style="font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px;">Question <?= $i + 1 ?> of <?= count($questions) ?></div>
+                            <div style="font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px;">Question <?= $i + 1 ?> of <?= count($questions) ?></div>
                             <h3 style="font-size:17px;font-weight:800;color:#0f172a;margin:0;"><?= htmlspecialchars($q['label']) ?></h3>
                         </div>
                     </div>
@@ -101,7 +101,7 @@ $questions = [
                 </div>
 
                 <div style="text-align:center;margin-top:24px;">
-                    <button onclick="location.reload()" style="background:none;border:none;color:#16a34a;font-weight:600;cursor:pointer;font-size:14px;">
+                    <button onclick="location.reload()" style="background:none;border:none;color:#16a34a;font-weight:500;cursor:pointer;font-size:14px;">
                         <i class="fa-solid fa-rotate-left" style="margin-right:6px;"></i> Start Over
                     </button>
                 </div>
@@ -177,7 +177,7 @@ document.getElementById('recommender-form').addEventListener('submit', (e) => {
             </div>
             <div style="flex:1;">
                 <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-                    <span style="font-size:11px;font-weight:700;background:${s.color};color:${s.iconColor};padding:3px 10px;border-radius:99px;">Recommended</span>
+                    <span style="font-size:11px;font-weight:600;background:${s.color};color:${s.iconColor};padding:3px 10px;border-radius:99px;">Recommended</span>
                 </div>
                 <div style="font-size:17px;font-weight:800;color:#0f172a;margin-bottom:5px;">${name}</div>
                 <div style="font-size:14px;color:#64748b;">${s.desc}</div>

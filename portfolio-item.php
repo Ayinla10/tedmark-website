@@ -161,7 +161,7 @@ require_once __DIR__ . '/includes/header.php';
         <div style="display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end;flex-wrap:wrap;">
             <div>
                 <!-- Category badge -->
-                <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);color:#4ade80;font-size:0.75rem;font-weight:700;padding:5px 14px;border-radius:99px;margin-bottom:20px;text-transform:uppercase;letter-spacing:.06em;">
+                <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);color:#4ade80;font-size:0.75rem;font-weight:600;padding:5px 14px;border-radius:99px;margin-bottom:20px;text-transform:uppercase;letter-spacing:.06em;">
                     <i class="fa-solid fa-briefcase fa-xs"></i>
                     <?= htmlspecialchars($isFallback ? $project['category'] : ($project['category'] ?? 'Project')) ?>
                 </div>
@@ -176,20 +176,20 @@ require_once __DIR__ . '/includes/header.php';
             <!-- Meta card -->
             <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:24px 28px;min-width:200px;backdrop-filter:blur(8px);">
                 <div style="margin-bottom:14px;">
-                    <div style="font-size:0.7rem;color:#64748b;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Client</div>
-                    <div style="font-size:0.95rem;font-weight:700;color:#fff;"><?= htmlspecialchars($isFallback ? $project['client'] : ($project['client_name'] ?? 'Client')) ?></div>
+                    <div style="font-size:0.7rem;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Client</div>
+                    <div style="font-size:0.95rem;font-weight:600;color:#fff;"><?= htmlspecialchars($isFallback ? $project['client'] : ($project['client_name'] ?? 'Client')) ?></div>
                 </div>
                 <div style="margin-bottom:14px;">
-                    <div style="font-size:0.7rem;color:#64748b;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Year</div>
-                    <div style="font-size:0.95rem;font-weight:700;color:#fff;"><?= htmlspecialchars($isFallback ? $project['year'] : date('Y', strtotime($project['created_at'] ?? 'now'))) ?></div>
+                    <div style="font-size:0.7rem;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Year</div>
+                    <div style="font-size:0.95rem;font-weight:600;color:#fff;"><?= htmlspecialchars($isFallback ? $project['year'] : date('Y', strtotime($project['created_at'] ?? 'now'))) ?></div>
                 </div>
                 <div>
-                    <div style="font-size:0.7rem;color:#64748b;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Tags</div>
+                    <div style="font-size:0.7rem;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Tags</div>
                     <div style="display:flex;gap:5px;flex-wrap:wrap;">
                         <?php
                         $tags = $isFallback ? ($project['tags'] ?? []) : [$project['category'] ?? ''];
                         foreach($tags as $tag): ?>
-                        <span style="font-size:0.7rem;font-weight:700;background:rgba(74,222,128,0.12);color:#4ade80;padding:3px 8px;border-radius:6px;"><?= htmlspecialchars($tag) ?></span>
+                        <span style="font-size:0.7rem;font-weight:600;background:rgba(74,222,128,0.12);color:#4ade80;padding:3px 8px;border-radius:6px;"><?= htmlspecialchars($tag) ?></span>
                         <?php endforeach; ?>
                     </div>
                 </div>
@@ -209,7 +209,7 @@ require_once __DIR__ . '/includes/header.php';
             <?php if($isFallback && isset($project['result'])): ?>
             <div style="position:absolute;bottom:24px;left:32px;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);border:1px solid rgba(34,197,94,0.3);border-radius:12px;padding:10px 18px;display:flex;align-items:center;gap:10px;">
                 <i class="fa-solid fa-arrow-trend-up" style="color:#22c55e;"></i>
-                <span style="font-size:0.85rem;font-weight:700;color:#fff;"><?= htmlspecialchars($project['result']) ?></span>
+                <span style="font-size:0.85rem;font-weight:600;color:#fff;"><?= htmlspecialchars($project['result']) ?></span>
             </div>
             <?php endif; ?>
             <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(to bottom,transparent 60%,rgba(6,13,26,0.8));pointer-events:none;"></div>
@@ -280,11 +280,11 @@ require_once __DIR__ . '/includes/header.php';
                     <i class="fa-solid fa-quote-left" style="font-size:1.5rem;color:#dcfce7;margin-bottom:16px;display:block;"></i>
                     <p style="font-size:1.05rem;color:#334155;line-height:1.8;font-style:italic;margin-bottom:20px;">"<?= htmlspecialchars($t['text']) ?>"</p>
                     <div style="display:flex;align-items:center;gap:12px;">
-                        <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#16a34a,#22c55e);display:flex;align-items:center;justify-content:center;font-size:0.9rem;font-weight:700;color:#fff;">
+                        <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#16a34a,#22c55e);display:flex;align-items:center;justify-content:center;font-size:0.9rem;font-weight:600;color:#fff;">
                             <?= strtoupper(substr($t['name'],0,1)) ?>
                         </div>
                         <div>
-                            <div style="font-size:0.9rem;font-weight:700;color:#0f172a;"><?= htmlspecialchars($t['name']) ?></div>
+                            <div style="font-size:0.9rem;font-weight:600;color:#0f172a;"><?= htmlspecialchars($t['name']) ?></div>
                             <div style="font-size:0.78rem;color:#64748b;"><?= htmlspecialchars($t['role']) ?></div>
                         </div>
                     </div>
@@ -317,7 +317,7 @@ require_once __DIR__ . '/includes/header.php';
                     <h3 style="font-size:0.95rem;font-weight:800;color:#0f172a;margin:0 0 18px;text-transform:uppercase;letter-spacing:.05em;">Tech Stack</h3>
                     <div style="display:flex;gap:8px;flex-wrap:wrap;">
                         <?php foreach($project['tech'] as $tech): ?>
-                        <span style="font-size:0.78rem;font-weight:600;background:#f1f5f9;color:#334155;padding:5px 12px;border-radius:8px;border:1px solid #e2e8f0;"><?= htmlspecialchars($tech) ?></span>
+                        <span style="font-size:0.78rem;font-weight:500;background:#f1f5f9;color:#334155;padding:5px 12px;border-radius:8px;border:1px solid #e2e8f0;"><?= htmlspecialchars($tech) ?></span>
                         <?php endforeach; ?>
                     </div>
                 </div>
@@ -345,7 +345,7 @@ require_once __DIR__ . '/includes/header.php';
     <div class="tm-container">
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;">
             <div>
-                <div style="font-size:0.75rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">Next Project</div>
+                <div style="font-size:0.75rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">Next Project</div>
                 <div style="font-size:1.2rem;font-weight:800;color:#0f172a;"><?= htmlspecialchars($project['next_title']) ?></div>
             </div>
             <a href="<?= SITE_URL ?>/portfolio-item.php?slug=<?= urlencode($project['next_slug']) ?>" class="tm-btn-primary">

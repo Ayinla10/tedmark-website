@@ -69,11 +69,11 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
                 <div style="flex:1;">
                     <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:4px;">
-                        <h3 style="font-size:0.9rem;font-weight:700;color:#0f172a;line-height:1.3;"><?= $r['title'] ?></h3>
-                        <span style="font-size:0.65rem;font-weight:700;background:#f0fdf4;color:#16a34a;padding:2px 8px;border-radius:10px;white-space:nowrap;margin-left:8px;"><?= $r['badge'] ?></span>
+                        <h3 style="font-size:0.9rem;font-weight:600;color:#0f172a;line-height:1.3;"><?= $r['title'] ?></h3>
+                        <span style="font-size:0.65rem;font-weight:600;background:#f0fdf4;color:#16a34a;padding:2px 8px;border-radius:10px;white-space:nowrap;margin-left:8px;"><?= $r['badge'] ?></span>
                     </div>
                     <p style="font-size:0.8rem;color:#64748b;line-height:1.5;margin-bottom:10px;"><?= $r['desc'] ?></p>
-                    <a href="<?= SITE_URL ?>/consultation.php" style="font-size:0.78rem;font-weight:700;color:#16a34a;text-decoration:none;">
+                    <a href="<?= SITE_URL ?>/consultation.php" style="font-size:0.78rem;font-weight:600;color:#16a34a;text-decoration:none;">
                         <i class="fa-solid fa-download fa-2xs"></i> Download <?= $r['type'] ?>
                     </a>
                 </div>

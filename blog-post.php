@@ -110,7 +110,7 @@ require_once __DIR__ . '/includes/header.php';
 .tm-post-body h3 {
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 1.2rem;
-    font-weight: 700;
+    font-weight:600;
     color: #0f172a;
     margin: 2rem 0 .8rem;
 }
@@ -129,7 +129,7 @@ require_once __DIR__ . '/includes/header.php';
     color: #166534;
 }
 .tm-post-body a { color: #16a34a; text-decoration: underline; }
-.tm-post-body strong { color: #0f172a; font-weight: 700; }
+.tm-post-body strong { color: #0f172a; font-weight:600; }
 
 /* ── Audio player ───────────────────────────────────── */
 .tm-audio-player {
@@ -201,7 +201,7 @@ require_once __DIR__ . '/includes/header.php';
             </div>
 
             <!-- Category -->
-            <div style="display:inline-flex;align-items:center;gap:6px;background:#f0fdf4;color:#16a34a;font-size:0.72rem;font-weight:700;padding:5px 14px;border-radius:99px;margin-bottom:24px;text-transform:uppercase;letter-spacing:.08em;">
+            <div style="display:inline-flex;align-items:center;gap:6px;background:#f0fdf4;color:#16a34a;font-size:0.72rem;font-weight:600;padding:5px 14px;border-radius:99px;margin-bottom:24px;text-transform:uppercase;letter-spacing:.08em;">
                 <i class="fa-solid fa-tag fa-xs"></i> <?= $category ?>
             </div>
 
@@ -217,10 +217,10 @@ require_once __DIR__ . '/includes/header.php';
 
             <!-- Meta row -->
             <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding-bottom:32px;">
-                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#16a34a,#22c55e);display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:700;color:#fff;flex-shrink:0;">
+                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#16a34a,#22c55e);display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:600;color:#fff;flex-shrink:0;">
                     <?= strtoupper(substr($author, 0, 1)) ?>
                 </div>
-                <span style="font-size:0.875rem;font-weight:600;color:#0f172a;margin-left:4px;"><?= $author ?></span>
+                <span style="font-size:0.875rem;font-weight:500;color:#0f172a;margin-left:4px;"><?= $author ?></span>
                 <span style="color:#e2e8f0;margin:0 4px;">·</span>
                 <span style="font-size:0.875rem;color:#94a3b8;"><?= date('F j, Y', strtotime($pubDate)) ?></span>
                 <span style="color:#e2e8f0;margin:0 4px;">·</span>
@@ -231,7 +231,7 @@ require_once __DIR__ . '/includes/header.php';
                 <?php endif; ?>
                 <?php if($hasAudio): ?>
                 <span style="color:#e2e8f0;margin:0 4px;">·</span>
-                <span style="font-size:0.78rem;font-weight:700;background:#0f172a;color:#4ade80;padding:4px 10px;border-radius:99px;display:flex;align-items:center;gap:5px;">
+                <span style="font-size:0.78rem;font-weight:600;background:#0f172a;color:#4ade80;padding:4px 10px;border-radius:99px;display:flex;align-items:center;gap:5px;">
                     <i class="fa-solid fa-headphones fa-xs"></i> Audio Available
                 </span>
                 <?php endif; ?>
@@ -282,7 +282,7 @@ if (!empty($post['featured_image'])) {
                         <i class="fa-solid fa-play" id="audio-icon"></i>
                     </button>
                     <div style="flex:1;">
-                        <div style="font-size:0.75rem;font-weight:700;color:#4ade80;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">
+                        <div style="font-size:0.75rem;font-weight:600;color:#4ade80;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">
                             <i class="fa-solid fa-headphones fa-xs"></i> Listen to this article
                         </div>
                         <input type="range" class="tm-audio-progress" id="audio-progress" value="0" min="0" max="100">
@@ -303,16 +303,16 @@ if (!empty($post['featured_image'])) {
                 <!-- Tags -->
                 <?php if(!empty($tags)): ?>
                 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:48px;padding-top:32px;border-top:1px solid #f1f5f9;align-items:center;">
-                    <span style="font-size:0.78rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;">Tags:</span>
+                    <span style="font-size:0.78rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;">Tags:</span>
                     <?php foreach($tags as $tag): if(!trim($tag)) continue; ?>
-                    <span style="font-size:0.78rem;font-weight:600;background:#f8fafc;color:#475569;padding:5px 12px;border-radius:8px;border:1px solid #e2e8f0;"><?= htmlspecialchars(trim($tag)) ?></span>
+                    <span style="font-size:0.78rem;font-weight:500;background:#f8fafc;color:#475569;padding:5px 12px;border-radius:8px;border:1px solid #e2e8f0;"><?= htmlspecialchars(trim($tag)) ?></span>
                     <?php endforeach; ?>
                 </div>
                 <?php endif; ?>
 
                 <!-- Share -->
                 <div style="display:flex;align-items:center;gap:12px;margin-top:28px;flex-wrap:wrap;">
-                    <span style="font-size:0.82rem;font-weight:700;color:#64748b;">Share this article:</span>
+                    <span style="font-size:0.82rem;font-weight:600;color:#64748b;">Share this article:</span>
                     <a href="https://twitter.com/intent/tweet?text=<?= urlencode($title) ?>&url=<?= urlencode($postUrl) ?>" target="_blank"
                        style="width:36px;height:36px;background:#0f172a;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:.85rem;transition:opacity .2s;" title="Share on X">
                         <i class="fa-brands fa-x-twitter"></i>
@@ -326,7 +326,7 @@ if (!empty($post['featured_image'])) {
                         <i class="fa-brands fa-whatsapp"></i>
                     </a>
                     <button onclick="navigator.clipboard.writeText('<?= $postUrl ?>');this.innerHTML='<i class=\'fa-solid fa-check\'></i> Copied!';setTimeout(()=>this.innerHTML='<i class=\'fa-solid fa-link\'></i> Copy link',2000)"
-                       style="display:flex;align-items:center;gap:6px;height:36px;padding:0 14px;background:#f8fafc;color:#475569;border:1px solid #e2e8f0;border-radius:99px;font-size:0.78rem;font-weight:600;cursor:pointer;">
+                       style="display:flex;align-items:center;gap:6px;height:36px;padding:0 14px;background:#f8fafc;color:#475569;border:1px solid #e2e8f0;border-radius:99px;font-size:0.78rem;font-weight:500;cursor:pointer;">
                         <i class="fa-solid fa-link"></i> Copy link
                     </button>
                 </div>
@@ -337,7 +337,7 @@ if (!empty($post['featured_image'])) {
                         <?= strtoupper(substr($author, 0, 1)) ?>
                     </div>
                     <div>
-                        <div style="font-size:0.72rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Written by</div>
+                        <div style="font-size:0.72rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Written by</div>
                         <div style="font-size:1rem;font-weight:800;color:#0f172a;margin-bottom:6px;"><?= $author ?></div>
                         <p style="font-size:0.875rem;color:#64748b;line-height:1.65;margin:0;">
                             The Tedmark team writes about business technology, automation, and digital transformation for African businesses ready to grow smarter.
@@ -364,7 +364,7 @@ if (!empty($post['featured_image'])) {
                     <input type="email" placeholder="Your email address"
                            style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.07);color:#fff;font-size:0.85rem;margin-bottom:10px;box-sizing:border-box;outline:none;"
                            onfocus="this.style.borderColor='#22c55e'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
-                    <button style="width:100%;padding:10px;background:#16a34a;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:0.875rem;cursor:pointer;">
+                    <button style="width:100%;padding:10px;background:#16a34a;color:#fff;border:none;border-radius:10px;font-weight:600;font-size:0.875rem;cursor:pointer;">
                         Subscribe Free
                     </button>
                 </div>
@@ -374,7 +374,7 @@ if (!empty($post['featured_image'])) {
                     <i class="fa-solid fa-rocket" style="font-size:1.5rem;color:#16a34a;margin-bottom:12px;display:block;"></i>
                     <h3 style="font-size:0.95rem;font-weight:800;color:#0f172a;margin:0 0 8px;">Ready to implement this?</h3>
                     <p style="font-size:0.8rem;color:#64748b;margin:0 0 16px;line-height:1.6;">Book a free strategy session and we'll show you exactly how.</p>
-                    <a href="<?= SITE_URL ?>/consultation.php" style="display:block;background:#16a34a;color:#fff;padding:11px;border-radius:10px;font-weight:700;font-size:0.875rem;text-decoration:none;">
+                    <a href="<?= SITE_URL ?>/consultation.php" style="display:block;background:#16a34a;color:#fff;padding:11px;border-radius:10px;font-weight:600;font-size:0.875rem;text-decoration:none;">
                         Book Free Session <i class="fa-solid fa-arrow-right fa-xs"></i>
                     </a>
                 </div>
@@ -405,7 +405,7 @@ if (!empty($post['featured_image'])) {
                         <i class="fa-solid fa-newspaper" style="font-size:2.5rem;color:#22c55e;opacity:0.4;"></i>
                     </div>
                     <div style="padding:22px 24px;">
-                        <div style="font-size:0.7rem;font-weight:700;color:#16a34a;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;"><?= $rCat ?></div>
+                        <div style="font-size:0.7rem;font-weight:600;color:#16a34a;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;"><?= $rCat ?></div>
                         <h3 style="font-size:1rem;font-weight:800;color:#0f172a;line-height:1.4;margin:0 0 10px;"><?= $rTitle ?></h3>
                         <p style="font-size:0.82rem;color:#64748b;line-height:1.6;margin:0;"><?= $rExcerpt ?>...</p>
                     </div>
