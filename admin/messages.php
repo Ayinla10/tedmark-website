@@ -13,6 +13,20 @@ if (isset($_GET['read']) && is_numeric($_GET['read'])) {
     header('Location: ' . SITE_URL . '/admin/messages.php'); exit;
 }
 
+// Bulk actions
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['ids']) && is_array($_POST['ids'])) {
+    $ids = array_filter(array_map('intval', $_POST['ids']));
+    if ($ids) {
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+        if ($_POST['bulk_action'] === 'delete') {
+            query("DELETE FROM messages WHERE id IN ($placeholders)", $ids);
+        } elseif ($_POST['bulk_action'] === 'read') {
+            query("UPDATE messages SET status='read' WHERE id IN ($placeholders)", $ids);
+        }
+    }
+    header('Location: ' . SITE_URL . '/admin/messages.php?page=' . (int)($_POST['current_page'] ?? 1)); exit;
+}
+
 // Viewing a single message — mark it read automatically
 $viewing = null;
 if (isset($_GET['view']) && is_numeric($_GET['view'])) {
@@ -23,8 +37,16 @@ if (isset($_GET['view']) && is_numeric($_GET['view'])) {
     }
 }
 
-$messages = fetchAll("SELECT * FROM messages ORDER BY created_at DESC");
-$unread = array_filter($messages, fn($m) => $m['status'] === 'unread');
+// Pagination
+$perPage = 20;
+$page    = max(1, (int)($_GET['page'] ?? 1));
+$offset  = ($page - 1) * $perPage;
+$totalCount = (int)(fetchOne("SELECT COUNT(*) AS c FROM messages")['c'] ?? 0);
+$totalPages = max(1, (int)ceil($totalCount / $perPage));
+
+$messages = fetchAll("SELECT * FROM messages ORDER BY created_at DESC LIMIT $perPage OFFSET $offset");
+$unread   = (int)(fetchOne("SELECT COUNT(*) AS c FROM messages WHERE status='unread'")['c'] ?? 0);
+
 require_once __DIR__ . '/includes/admin-layout.php';
 ?>
 
@@ -76,13 +98,20 @@ require_once __DIR__ . '/includes/admin-layout.php';
 
 <?php else: ?>
 <!-- ===== INBOX LIST ===== -->
+<form method="POST" id="bulk-form">
+<input type="hidden" name="current_page" value="<?= $page ?>">
 <div class="tm-card">
   <div class="tm-card-header">
     <span class="tm-card-title">Inbox
-      <?php if (count($unread)): ?>
-      <span class="badge badge-red" style="margin-left:8px;"><?= count($unread) ?> unread</span>
+      <?php if ($unread): ?>
+      <span class="badge badge-red" style="margin-left:8px;"><?= $unread ?> unread</span>
       <?php endif; ?>
+      <span style="color:#64748b;font-weight:400;font-size:0.8rem;margin-left:10px;"><?= $totalCount ?> total</span>
     </span>
+    <div class="gap-8">
+      <button type="submit" name="bulk_action" value="read" class="btn btn-ghost btn-sm" onclick="return confirm('Mark selected as read?')"><i class="fa-solid fa-check"></i> Mark Read</button>
+      <button type="submit" name="bulk_action" value="delete" class="btn btn-danger btn-sm" onclick="return confirm('Delete selected messages?')"><i class="fa-solid fa-trash"></i> Delete Selected</button>
+    </div>
   </div>
 
   <?php if (empty($messages)): ?>
@@ -92,10 +121,14 @@ require_once __DIR__ . '/includes/admin-layout.php';
   </div>
   <?php else: ?>
   <table class="tm-table">
-    <thead><tr><th>From</th><th>Subject / Message</th><th>Service</th><th>Received</th><th>Actions</th></tr></thead>
+    <thead><tr>
+      <th style="width:32px;"><input type="checkbox" id="select-all"></th>
+      <th>From</th><th>Subject / Message</th><th>Service</th><th>Received</th><th>Actions</th>
+    </tr></thead>
     <tbody>
     <?php foreach ($messages as $m): ?>
     <tr style="<?= $m['status']==='unread' ? 'background:rgba(34,197,94,0.04);' : '' ?>cursor:pointer;" onclick="window.location='?view=<?= $m['id'] ?>'">
+      <td onclick="event.stopPropagation();"><input type="checkbox" name="ids[]" value="<?= $m['id'] ?>" class="row-check"></td>
       <td>
         <div style="font-weight:600;color:#fff;"><?= htmlspecialchars($m['name']) ?> <?= $m['status']==='unread' ? '<span class="badge badge-red" style="font-size:0.6rem;">NEW</span>' : '' ?></div>
         <div style="font-size:0.75rem;color:#64748b;"><?= htmlspecialchars($m['email']) ?></div>
@@ -122,6 +155,21 @@ require_once __DIR__ . '/includes/admin-layout.php';
   </table>
   <?php endif; ?>
 </div>
+</form>
+
+<?php if ($totalPages > 1): ?>
+<div style="display:flex;justify-content:center;gap:6px;margin-top:20px;">
+  <?php for ($p = 1; $p <= $totalPages; $p++): ?>
+  <a href="?page=<?= $p ?>" class="btn btn-sm <?= $p === $page ? 'btn-primary' : 'btn-ghost' ?>"><?= $p ?></a>
+  <?php endfor; ?>
+</div>
+<?php endif; ?>
+
+<script>
+document.getElementById('select-all')?.addEventListener('change', function () {
+    document.querySelectorAll('.row-check').forEach(cb => cb.checked = this.checked);
+});
+</script>
 <?php endif; ?>
 
 <?php require_once __DIR__ . '/includes/admin-layout-end.php'; ?>

@@ -14,16 +14,38 @@ if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
     header('Location: ' . SITE_URL . '/admin/consultations.php'); exit;
 }
 
-$filter = $_GET['filter'] ?? 'all';
+// Bulk actions
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['ids']) && is_array($_POST['ids'])) {
+    $ids = array_filter(array_map('intval', $_POST['ids']));
+    if ($ids) {
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+        if ($_POST['bulk_action'] === 'delete') {
+            query("DELETE FROM consultations WHERE id IN ($placeholders)", $ids);
+        } elseif (in_array($_POST['bulk_action'] ?? '', ['confirmed','completed','cancelled'], true)) {
+            query("UPDATE consultations SET status=? WHERE id IN ($placeholders)", [$_POST['bulk_action'], ...$ids]);
+        }
+    }
+    header('Location: ' . SITE_URL . '/admin/consultations.php?filter=' . urlencode($_POST['current_filter'] ?? 'all') . '&page=' . (int)($_POST['current_page'] ?? 1)); exit;
+}
+
+$filter  = $_GET['filter'] ?? 'all';
+$perPage = 20;
+$page    = max(1, (int)($_GET['page'] ?? 1));
+$offset  = ($page - 1) * $perPage;
+
 try {
-    $sql = "SELECT * FROM consultations";
-    if ($filter !== 'all') $sql .= " WHERE status = " . db()->quote($filter);
-    $sql .= " ORDER BY created_at DESC";
-    $consultations = fetchAll($sql);
-} catch(Exception $e) { $consultations = []; }
+    $where = $filter !== 'all' ? " WHERE status = " . db()->quote($filter) : '';
+    $totalCount = (int)(fetchOne("SELECT COUNT(*) AS c FROM consultations" . $where)['c'] ?? 0);
+    $totalPages = max(1, (int)ceil($totalCount / $perPage));
+    $consultations = fetchAll("SELECT * FROM consultations $where ORDER BY created_at DESC LIMIT $perPage OFFSET $offset");
+} catch(Exception $e) { $consultations = []; $totalCount = 0; $totalPages = 1; }
 
 require_once __DIR__ . '/includes/admin-layout.php';
 ?>
+
+<form method="POST" id="bulk-form">
+<input type="hidden" name="current_page" value="<?= $page ?>">
+<input type="hidden" name="current_filter" value="<?= htmlspecialchars($filter) ?>">
 
 <div class="tm-card" style="margin-bottom:20px;padding:16px 20px;">
   <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
@@ -32,20 +54,28 @@ require_once __DIR__ . '/includes/admin-layout.php';
       <a href="?filter=<?= $f ?>" class="btn btn-sm <?= $filter === $f ? 'btn-primary' : 'btn-ghost' ?>"><?= ucfirst($f) ?></a>
       <?php endforeach; ?>
     </div>
-    <span style="color:#64748b;font-size:0.85rem;"><?= count($consultations) ?> bookings</span>
+    <div class="gap-8">
+      <span style="color:#64748b;font-size:0.85rem;"><?= $totalCount ?> bookings</span>
+      <button type="submit" name="bulk_action" value="confirmed" class="btn btn-ghost btn-sm" onclick="return confirm('Confirm selected bookings?')"><i class="fa-solid fa-check"></i> Confirm</button>
+      <button type="submit" name="bulk_action" value="delete" class="btn btn-danger btn-sm" onclick="return confirm('Delete selected bookings?')"><i class="fa-solid fa-trash"></i> Delete Selected</button>
+    </div>
   </div>
 </div>
 
 <div class="tm-card">
   <table class="tm-table">
     <thead>
-      <tr><th>Name / Contact</th><th>Business</th><th>Package Interest</th><th>Challenge</th><th>Status</th><th>Date</th><th>Actions</th></tr>
+      <tr>
+        <th style="width:32px;"><input type="checkbox" id="select-all"></th>
+        <th>Name / Contact</th><th>Business</th><th>Package Interest</th><th>Challenge</th><th>Status</th><th>Date</th><th>Actions</th>
+      </tr>
     </thead>
     <tbody>
       <?php if (empty($consultations)): ?>
-      <tr><td colspan="7" style="text-align:center;color:#64748b;padding:40px 0;">No consultation bookings yet.</td></tr>
+      <tr><td colspan="8" style="text-align:center;color:#64748b;padding:40px 0;">No consultation bookings yet.</td></tr>
       <?php else: foreach ($consultations as $c): ?>
       <tr>
+        <td><input type="checkbox" name="ids[]" value="<?= $c['id'] ?>" class="row-check"></td>
         <td>
           <div style="font-weight:600;color:#fff;"><?= htmlspecialchars($c['name']) ?></div>
           <div style="font-size:0.75rem;color:#64748b;"><?= htmlspecialchars($c['email']) ?></div>
@@ -73,5 +103,20 @@ require_once __DIR__ . '/includes/admin-layout.php';
     </tbody>
   </table>
 </div>
+</form>
+
+<?php if ($totalPages > 1): ?>
+<div style="display:flex;justify-content:center;gap:6px;margin-top:20px;">
+  <?php for ($p = 1; $p <= $totalPages; $p++): ?>
+  <a href="?filter=<?= $filter ?>&page=<?= $p ?>" class="btn btn-sm <?= $p === $page ? 'btn-primary' : 'btn-ghost' ?>"><?= $p ?></a>
+  <?php endfor; ?>
+</div>
+<?php endif; ?>
+
+<script>
+document.getElementById('select-all')?.addEventListener('change', function () {
+    document.querySelectorAll('.row-check').forEach(cb => cb.checked = this.checked);
+});
+</script>
 
 <?php require_once __DIR__ . '/includes/admin-layout-end.php'; ?>
