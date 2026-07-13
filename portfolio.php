@@ -30,14 +30,14 @@ require_once __DIR__ . '/includes/header.php';
         <div class="tm2-grid tm2-grid-2">
         <?php
         $fallback = [
-            ['slug'=>'retailpro-website','cat'=>'web','icon'=>'fa-solid fa-globe','color'=>'#60a5fa','bg'=>'linear-gradient(135deg,#0f172a,#1e3a5f)','title'=>'RetailPro Website','client'=>'RetailPro GH','year'=>'2024','desc'=>'Modern e-commerce website with 340% increase in online sales within 3 months of launch.','tags'=>['Web','E-Commerce'],'result'=>'+340% online sales'],
-            ['slug'=>'meditrack-erp','cat'=>'systems','icon'=>'fa-solid fa-database','color'=>'#22c55e','bg'=>'linear-gradient(135deg,#0f172a,#1a2e1a)','title'=>'MediTrack ERP','client'=>'MediTrack Clinics','year'=>'2024','desc'=>'Hospital management system now serving 3 clinic locations across Ghana with one unified platform.','tags'=>['Systems','Automation'],'result'=>'3 clinics unified'],
-            ['slug'=>'foodflow-store','cat'=>'ecommerce','icon'=>'fa-solid fa-cart-shopping','color'=>'#fb923c','bg'=>'linear-gradient(135deg,#0f172a,#2d1a0f)','title'=>'FoodFlow Store','client'=>'FoodFlow','year'=>'2023','desc'=>'Online food ordering platform processing 500+ orders daily with real-time kitchen and delivery tracking.','tags'=>['E-Commerce','Systems'],'result'=>'500+ daily orders'],
-            ['slug'=>'edulink-rebrand','cat'=>'branding','icon'=>'fa-solid fa-palette','color'=>'#a78bfa','bg'=>'linear-gradient(135deg,#0f172a,#1a1040)','title'=>'EduLink Rebrand','client'=>'EduLink Academy','year'=>'2024','desc'=>'Complete brand overhaul including logo, identity, and website resulting in 60% more student enrolments.','tags'=>['Branding','Web'],'result'=>'+60% enrolments'],
-            ['slug'=>'logitrack-dashboard','cat'=>'systems','icon'=>'fa-solid fa-chart-bar','color'=>'#f59e0b','bg'=>'linear-gradient(135deg,#0f172a,#2d2200)','title'=>'LogiMove Dashboard','client'=>'LogiMove Logistics','year'=>'2023','desc'=>'Real-time fleet tracking and dispatch management dashboard with custom analytics and driver app.','tags'=>['Systems','Automation'],'result'=>'40% faster dispatch'],
-            ['slug'=>'propestate-platform','cat'=>'web','icon'=>'fa-solid fa-building','color'=>'#f43f5e','bg'=>'linear-gradient(135deg,#0f172a,#2d0f1a)','title'=>'PropEstate Platform','client'=>'PropEstate Ghana','year'=>'2023','desc'=>'Property listing and management platform with 1,200+ active listings and agent portal.','tags'=>['Web','Systems'],'result'=>'1,200+ listings'],
-            ['slug'=>'finserve-automation','cat'=>'automation','icon'=>'fa-solid fa-robot','color'=>'#14b8a6','bg'=>'linear-gradient(135deg,#0f172a,#0f2420)','title'=>'FinServe Automation','client'=>'FinServe Ltd','year'=>'2024','desc'=>'Full accounts payable automation reducing invoice processing time from 3 days to 2 hours.','tags'=>['Automation','Systems'],'result'=>'3 days → 2 hours'],
-            ['slug'=>'freshharvest-brand','cat'=>'branding','icon'=>'fa-solid fa-star','color'=>'#22c55e','bg'=>'linear-gradient(135deg,#0f172a,#1a2e1a)','title'=>'FreshHarvest Brand','client'=>'FreshHarvest Foods','year'=>'2024','desc'=>'End-to-end brand identity for an agri-business startup entering the Ghanaian retail market.','tags'=>['Branding'],'result'=>'Market-ready brand'],
+            ['slug'=>'retailpro-website','cat'=>'web','icon'=>'fa-solid fa-globe','color'=>'#60a5fa','bg'=>'linear-gradient(135deg,#0f172a,#1e3a5f)','title'=>'RetailPro Website','client'=>'RetailPro','location'=>'Accra, Ghana','year'=>'2024','desc'=>'Modern e-commerce website with 340% increase in online sales within 3 months of launch.','tags'=>['Web','E-Commerce'],'result'=>'+340% online sales'],
+            ['slug'=>'meditrack-erp','cat'=>'systems','icon'=>'fa-solid fa-database','color'=>'#22c55e','bg'=>'linear-gradient(135deg,#0f172a,#1a2e1a)','title'=>'MediTrack ERP','client'=>'MediTrack Clinics','location'=>'Kumasi, Ghana','year'=>'2024','desc'=>'Hospital management system now serving 3 clinic locations with one unified platform.','tags'=>['Systems','Automation'],'result'=>'3 clinics unified'],
+            ['slug'=>'foodflow-store','cat'=>'ecommerce','icon'=>'fa-solid fa-cart-shopping','color'=>'#fb923c','bg'=>'linear-gradient(135deg,#0f172a,#2d1a0f)','title'=>'FoodFlow Store','client'=>'FoodFlow','location'=>'Accra, Ghana','year'=>'2023','desc'=>'Online food ordering platform processing 500+ orders daily with real-time kitchen and delivery tracking.','tags'=>['E-Commerce','Systems'],'result'=>'500+ daily orders'],
+            ['slug'=>'edulink-rebrand','cat'=>'branding','icon'=>'fa-solid fa-palette','color'=>'#a78bfa','bg'=>'linear-gradient(135deg,#0f172a,#1a1040)','title'=>'EduLink Rebrand','client'=>'EduLink Academy','location'=>'London, UK','year'=>'2024','desc'=>'Complete brand overhaul including logo, identity, and website resulting in 60% more student enrolments.','tags'=>['Branding','Web'],'result'=>'+60% enrolments'],
+            ['slug'=>'logitrack-dashboard','cat'=>'systems','icon'=>'fa-solid fa-chart-bar','color'=>'#f59e0b','bg'=>'linear-gradient(135deg,#0f172a,#2d2200)','title'=>'LogiMove Dashboard','client'=>'LogiMove Logistics','location'=>'Accra, Ghana','year'=>'2023','desc'=>'Real-time fleet tracking and dispatch management dashboard with custom analytics and driver app.','tags'=>['Systems','Automation'],'result'=>'40% faster dispatch'],
+            ['slug'=>'propestate-platform','cat'=>'web','icon'=>'fa-solid fa-building','color'=>'#f43f5e','bg'=>'linear-gradient(135deg,#0f172a,#2d0f1a)','title'=>'PropEstate Platform','client'=>'PropEstate','location'=>'Toronto, Canada','year'=>'2023','desc'=>'Property listing and management platform with 1,200+ active listings and agent portal.','tags'=>['Web','Systems'],'result'=>'1,200+ listings'],
+            ['slug'=>'finserve-automation','cat'=>'automation','icon'=>'fa-solid fa-robot','color'=>'#14b8a6','bg'=>'linear-gradient(135deg,#0f172a,#0f2420)','title'=>'FinServe Automation','client'=>'FinServe Ltd','location'=>'Accra, Ghana','year'=>'2024','desc'=>'Full accounts payable automation reducing invoice processing time from 3 days to 2 hours.','tags'=>['Automation','Systems'],'result'=>'3 days → 2 hours'],
+            ['slug'=>'freshharvest-brand','cat'=>'branding','icon'=>'fa-solid fa-star','color'=>'#22c55e','bg'=>'linear-gradient(135deg,#0f172a,#1a2e1a)','title'=>'FreshHarvest Brand','client'=>'FreshHarvest Foods','location'=>'Kumasi, Ghana','year'=>'2024','desc'=>'End-to-end brand identity for an agri-business startup entering the local retail market.','tags'=>['Branding'],'result'=>'Market-ready brand'],
         ];
         $display = !empty($projects) ? $projects : $fallback;
         foreach($display as $proj):
@@ -48,6 +48,7 @@ require_once __DIR__ . '/includes/header.php';
             $bg      = $isDb ? ($proj['bg']??'linear-gradient(135deg,#0f172a,#1e293b)') : $proj['bg'];
             $result  = $isDb ? ($proj['result']??'') : ($proj['result']??'');
             $client  = $isDb ? ($proj['client']??'') : ($proj['client']??'');
+            $location = $proj['location'] ?? '';
             $year    = $isDb ? ($proj['year']??'') : ($proj['year']??'');
             $desc    = $isDb ? ($proj['description']??'') : ($proj['desc']??'');
             $tagList = $isDb
@@ -69,8 +70,13 @@ require_once __DIR__ . '/includes/header.php';
                     <div class="tm2-port-meta"><?= htmlspecialchars(implode(' • ', array_map('strtoupper', $tagList))) ?></div>
                     <?php if($year): ?><span style="font-size:0.72rem;color:var(--muted);white-space:nowrap;margin-left:8px;flex-shrink:0;"><?= htmlspecialchars($year) ?></span><?php endif; ?>
                 </div>
-                <h3 style="margin-bottom:8px;"><?= htmlspecialchars($proj['title']) ?></h3>
-                <p><?= htmlspecialchars($desc) ?><?= $client ? ' for '.htmlspecialchars($client) : '' ?>.</p>
+                <h3 style="margin-bottom:4px;"><?= htmlspecialchars($proj['title']) ?></h3>
+                <?php if($client || $location): ?>
+                <p style="font-size:0.78rem;color:var(--accent);font-weight:500;margin-bottom:8px;">
+                    <?= htmlspecialchars($client) ?><?= ($client && $location) ? ' · ' : '' ?><?= htmlspecialchars($location) ?>
+                </p>
+                <?php endif; ?>
+                <p><?= htmlspecialchars($desc) ?></p>
             </div>
         </div>
         <?php endforeach; ?>

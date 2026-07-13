@@ -13,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title       = trim($_POST['title'] ?? '');
     $slug        = trim($_POST['slug'] ?? '');
     $client      = trim($_POST['client'] ?? '');
+    $location    = trim($_POST['location'] ?? '');
     $category    = trim($_POST['category'] ?? '');
     $tags        = trim($_POST['tags'] ?? '');
     $description = trim($_POST['description'] ?? '');
@@ -30,8 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$title) { $error = 'Title is required.'; }
     else {
         if (!$slug) $slug = strtolower(preg_replace('/[^a-zA-Z0-9]+/', '-', $title));
-        $data = compact('title','slug','client','category','tags','description','challenge','solution','result','icon','color','bg','cover_image','year','status','sort_order');
-        $data = ['title'=>$title,'slug'=>$slug,'client'=>$client,'category'=>$category,'tags'=>$tags,'description'=>$description,'challenge'=>$challenge,'solution'=>$solution,'result'=>$result,'icon'=>$icon,'color'=>$color,'bg'=>$bg,'cover_image'=>$cover,'year'=>$year,'status'=>$status,'sort_order'=>$sort];
+        $data = ['title'=>$title,'slug'=>$slug,'client'=>$client,'location'=>$location,'category'=>$category,'tags'=>$tags,'description'=>$description,'challenge'=>$challenge,'solution'=>$solution,'result'=>$result,'icon'=>$icon,'color'=>$color,'bg'=>$bg,'cover_image'=>$cover,'year'=>$year,'status'=>$status,'sort_order'=>$sort];
         try {
             if ($proj) {
                 $set = implode(', ', array_map(fn($k) => "`$k`=?", array_keys($data)));
@@ -67,8 +67,12 @@ require_once __DIR__ . '/includes/admin-layout.php';
         <div class="form-group"><label>Client Name</label><input type="text" name="client" value="<?= htmlspecialchars($p['client']??'') ?>"></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>Slug</label><input type="text" name="slug" id="slug-input" value="<?= htmlspecialchars($p['slug']??'') ?>"></div>
+        <div class="form-group"><label>Client Location</label><input type="text" name="location" value="<?= htmlspecialchars($p['location']??'') ?>" placeholder="e.g. Accra, Ghana or London, UK"></div>
         <div class="form-group"><label>Year</label><input type="text" name="year" value="<?= htmlspecialchars($p['year']??date('Y')) ?>"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Slug</label><input type="text" name="slug" id="slug-input" value="<?= htmlspecialchars($p['slug']??'') ?>"></div>
+        <div></div>
       </div>
       <div class="form-group"><label>Short Description</label><textarea name="description" rows="3"><?= htmlspecialchars($p['description']??'') ?></textarea></div>
       <div class="form-group"><label>Result Badge (e.g. +340% online sales)</label><input type="text" name="result" value="<?= htmlspecialchars($p['result']??'') ?>" placeholder="+340% online sales"></div>

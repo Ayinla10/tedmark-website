@@ -22,6 +22,7 @@ require_once __DIR__ . '/includes/header.php';
     <div class="tm2-badge"><span></span> About Us</div>
     <h1><?= htmlspecialchars($cfg['about_hero_heading']??'We Help Businesses Run Smarter') ?></h1>
     <p><?= htmlspecialchars($cfg['about_hero_subtext']??'Tedmark Digital Agency was founded with one purpose: to give growing businesses access to the same quality of technology, automation, and digital infrastructure that industry leaders rely on every day.') ?></p>
+    <p style="font-size:0.85rem;color:var(--muted);margin-top:14px;"><i class="fa-solid fa-location-dot" style="margin-right:6px;color:var(--accent);"></i>Founded in Ghana, serving clients locally and internationally.</p>
     <div class="tm2-stats" style="margin-top:36px;">
         <div><div class="num accent"><?= htmlspecialchars($cfg['stat_1_value']??'80+') ?></div><div class="lbl"><?= htmlspecialchars($cfg['stat_1_label']??'Clients Served') ?></div></div>
         <div><div class="num accent"><?= htmlspecialchars($cfg['stat_4_value']??'5+') ?></div><div class="lbl">Years Experience</div></div>
