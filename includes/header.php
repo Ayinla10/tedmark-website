@@ -27,6 +27,13 @@ if (empty($seoData)) {
 renderSeoTags($cfg, $seoData);
 ?>
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="<?= SITE_URL ?>/assets/images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?= SITE_URL ?>/assets/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="<?= SITE_URL ?>/assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="<?= SITE_URL ?>/assets/images/favicon-192x192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="<?= SITE_URL ?>/assets/images/apple-touch-icon.png">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -46,7 +53,7 @@ renderSeoTags($cfg, $seoData);
 <div class="tm2-nav-wrap">
   <div class="tm2-nav" style="max-width:1100px;">
     <a href="<?= SITE_URL ?>/" class="tm2-logo">
-        <img src="<?= SITE_URL ?>/assets/images/tedmark logo copy2.png" alt="Tedmark Digital Agency">
+        <img src="<?= SITE_URL ?>/assets/images/tedmark-logo-nav.png" alt="Tedmark Digital Agency">
         <span class="tm2-logo-text">Tedmark</span>
     </a>
 
