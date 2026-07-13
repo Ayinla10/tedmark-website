@@ -3,7 +3,7 @@ require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/db.php';
 $pageTitle   = 'Blog';
-$pageDesc    = 'Business technology insights, guides, and case studies for African entrepreneurs and business leaders.';
+$pageDesc    = 'Business technology insights, guides, and case studies for entrepreneurs and business leaders.';
 $pageSeoPage = 'blog';
 
 try {
@@ -16,8 +16,8 @@ require_once __DIR__ . '/includes/header.php';
 <!-- PAGE HERO -->
 <section class="tm2-page-hero">
     <div class="tm2-badge"><span></span> Insights</div>
-    <h1>Business Technology Insights for Africa</h1>
-    <p>Practical guides, case studies, and ideas to help African businesses run smarter with technology.</p>
+    <h1>Business Technology Insights</h1>
+    <p>Practical guides, case studies, and ideas to help businesses run smarter with technology.</p>
 </section>
 
 <!-- BLOG -->
@@ -53,9 +53,9 @@ require_once __DIR__ . '/includes/header.php';
                 ['cat'=>'Business Systems','title'=>'5 Signs Your Business Needs a Proper Management System','excerpt'=>'If you\'re still tracking inventory in Excel or managing customers with WhatsApp messages, these signs will tell you it\'s time to upgrade.'],
                 ['cat'=>'Automation','title'=>'How Automation Saved This Ghana Retailer 15 Hours a Week','excerpt'=>'A case study on how a Kumasi-based retailer went from manual invoicing to fully automated billing in just 4 weeks.'],
                 ['cat'=>'Web Development','title'=>'Why Your Website Is Costing You Customers (And How to Fix It)','excerpt'=>'A slow, outdated website doesn\'t just look bad — it actively drives away potential customers. Here\'s how to fix that.'],
-                ['cat'=>'Digital Marketing','title'=>'How African SMEs Can Win on Social Media Without a Big Budget','excerpt'=>'You don\'t need to spend millions on ads to build an engaged following. Here are proven strategies that work in African markets.'],
+                ['cat'=>'Digital Marketing','title'=>'How Small Businesses Can Win on Social Media Without a Big Budget','excerpt'=>'You don\'t need to spend millions on ads to build an engaged following. Here are proven strategies that work in any market.'],
                 ['cat'=>'E-Commerce','title'=>'Setting Up Mobile Money Payments for Your Online Store in Ghana','excerpt'=>'A step-by-step guide to integrating MTN MoMo and Vodafone Cash into your e-commerce store for higher conversion rates.'],
-                ['cat'=>'Branding','title'=>'What Makes a Great African Brand? Lessons from Local Success Stories','excerpt'=>'The brands African consumers love most share common traits. Here\'s what your brand can learn from them.'],
+                ['cat'=>'Branding','title'=>'What Makes a Great Brand? Lessons from Local Success Stories','excerpt'=>'The brands consumers love most share common traits. Here\'s what your brand can learn from them.'],
             ];
             foreach($placeholders as $ph): ?>
             <div class="tm2-card">

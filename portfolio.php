@@ -3,7 +3,7 @@ require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/db.php';
 $pageTitle   = 'Portfolio';
-$pageDesc    = 'View our portfolio of websites, business systems, e-commerce stores, and digital solutions built for African businesses.';
+$pageDesc    = 'View our portfolio of websites, business systems, e-commerce stores, and digital solutions built for growing businesses.';
 $pageSeoPage = 'portfolio';
 try { $projects = fetchAll("SELECT * FROM projects WHERE status='active' ORDER BY sort_order ASC"); } catch(Exception $e){ $projects=[]; }
 require_once __DIR__ . '/includes/header.php';
@@ -13,7 +13,7 @@ require_once __DIR__ . '/includes/header.php';
 <section class="tm2-page-hero">
     <div class="tm2-badge"><span></span> Our Work</div>
     <h1>Results We've Delivered</h1>
-    <p>Real projects, real outcomes for real African businesses across sectors and sizes.</p>
+    <p>Real projects, real outcomes for real businesses across sectors and sizes.</p>
 </section>
 
 <!-- PORTFOLIO -->

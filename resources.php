@@ -2,7 +2,7 @@
 require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/functions.php';
 $pageTitle = 'Free Resources';
-$pageDesc  = 'Free business technology resources, templates, guides, and tools to help African businesses grow smarter.';
+$pageDesc  = 'Free business technology resources, templates, guides, and tools to help businesses grow smarter.';
 require_once __DIR__ . '/includes/header.php';
 ?>
 
@@ -11,7 +11,7 @@ require_once __DIR__ . '/includes/header.php';
     <div class="tm-container" style="text-align:center;position:relative;z-index:2;">
         <div class="tm-label" style="justify-content:center;">Free Resources</div>
         <h1 style="font-size:clamp(2rem,5vw,3rem);font-weight:900;color:#fff;margin:16px 0 20px;line-height:1.15;">Tools &amp; Resources to Help<br>Your Business Grow</h1>
-        <p style="font-size:1.1rem;color:#94a3b8;max-width:560px;margin:0 auto;line-height:1.7;">Everything here is free. No email required, no catch — just practical tools for African business owners.</p>
+        <p style="font-size:1.1rem;color:#94a3b8;max-width:560px;margin:0 auto;line-height:1.7;">Everything here is free. No email required, no catch — just practical tools for business owners.</p>
     </div>
 </section>
 
@@ -50,7 +50,7 @@ require_once __DIR__ . '/includes/header.php';
         <div style="text-align:center;max-width:600px;margin:0 auto 48px;">
             <div class="tm-label">Downloads</div>
             <h2 class="tm-section-title">Free Templates &amp; Guides</h2>
-            <p class="tm-section-sub">Practical templates and guides used by African businesses to organise and grow.</p>
+            <p class="tm-section-sub">Practical templates and guides used by businesses to organise and grow.</p>
         </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;">
             <?php

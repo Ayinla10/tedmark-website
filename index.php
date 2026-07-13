@@ -3,9 +3,9 @@ require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/db.php';
 
-$pageTitle      = 'Helping African Businesses Run Smarter With Technology';
+$pageTitle      = 'Helping Businesses Run Smarter With Technology';
 $pageHasDarkHero = true;
-$pageDesc        = 'Tedmark Digital Agency helps African businesses run smarter with technology, automation, business systems, and modern digital infrastructure.';
+$pageDesc        = 'Tedmark Digital Agency helps businesses run smarter with technology, automation, business systems, and modern digital infrastructure.';
 $pageSeoPage     = 'home';  // tells SEO engine to load seo_pages WHERE page_key='home'
 
 // Load settings from DB
@@ -30,7 +30,7 @@ require_once __DIR__ . '/includes/header.php';
     </video>
     <div class="tm2-hero-glow"></div>
     <div class="tm2-badge">
-        <i class="fa-solid fa-bolt"></i> <?= cfg($cfg,'hero_badge','Helping African Businesses Run Smarter') ?>
+        <i class="fa-solid fa-bolt"></i> <?= cfg($cfg,'hero_badge','Helping Businesses Run Smarter') ?>
     </div>
     <?php
     $heroLine3 = cfg($cfg,'hero_h1_line3','We Grow Businesses.');
@@ -66,7 +66,7 @@ require_once __DIR__ . '/includes/header.php';
         <div class="tm2-section-head">
             <div class="tm2-eyebrow">The Problem</div>
             <h2 class="tm2-h2">Sound <em>Familiar</em>?</h2>
-            <p class="tm2-sub">Most African businesses are held back by the same operational bottlenecks. We fix all of them.</p>
+            <p class="tm2-sub">Most growing businesses are held back by the same operational bottlenecks. We fix all of them.</p>
         </div>
         <div class="tm2-grid tm2-grid-4">
             <?php
@@ -101,7 +101,7 @@ require_once __DIR__ . '/includes/header.php';
                 ['icon'=>'fa-solid fa-gears','title'=>'Business Systems','desc'=>'Custom ERPs, inventory management, HR systems, and operational platforms tailored for your business.'],
                 ['icon'=>'fa-solid fa-robot','title'=>'Automation','desc'=>'Automate invoicing, reporting, communications, and workflows to save 10+ hours per week.'],
                 ['icon'=>'fa-solid fa-code','title'=>'Web Development','desc'=>'Fast, modern websites and web applications that convert visitors into paying customers.'],
-                ['icon'=>'fa-solid fa-cart-shopping','title'=>'E-Commerce','desc'=>'Online stores with payments, inventory, and shipping — ready to sell across Africa and beyond.'],
+                ['icon'=>'fa-solid fa-cart-shopping','title'=>'E-Commerce','desc'=>'Online stores with payments, inventory, and shipping — ready to sell anywhere in the world.'],
             ];
             foreach($services as $s): ?>
             <div class="tm2-card">
@@ -167,7 +167,7 @@ require_once __DIR__ . '/includes/header.php';
         <div class="tm2-section-head">
             <div class="tm2-eyebrow">Our Work</div>
             <h2 class="tm2-h2">Results We've Delivered</h2>
-            <p class="tm2-sub">Real projects, real outcomes for real African businesses.</p>
+            <p class="tm2-sub">Real projects, real outcomes for real businesses.</p>
         </div>
         <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;">
             <?php foreach(['all'=>'All Work','web'=>'Web','systems'=>'Systems','ecommerce'=>'E-Commerce','branding'=>'Branding'] as $k=>$v): ?>

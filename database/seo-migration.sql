@@ -46,7 +46,7 @@ ALTER TABLE `projects`
 -- ─────────────────────────────────────────
 INSERT IGNORE INTO `settings` (`key`, `value`, `group`) VALUES
 ('seo_title_template',       '{title} | Tedmark Digital Agency',   'seo'),
-('seo_default_description',  'Tedmark Digital Agency helps African businesses grow with custom web development, business automation, and IT consulting. Based in Accra, Ghana.', 'seo'),
+('seo_default_description',  'Tedmark Digital Agency helps businesses grow with custom web development, business automation, and IT consulting. Based in Accra, Ghana.', 'seo'),
 ('seo_default_keywords',     'digital agency Ghana, web development Accra, business automation Ghana, IT consulting Accra, website design Ghana, software company Accra', 'seo'),
 ('seo_default_og_image',     '',   'seo'),
 ('seo_ga4_id',               '',   'seo'),

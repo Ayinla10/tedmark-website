@@ -50,15 +50,15 @@ function sv($s, $k, $d='') { return htmlspecialchars($s[$k] ?? $d); }
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
       <div style="grid-column:1/-1;">
         <label class="tm-form-label">Main Heading</label>
-        <input type="text" name="settings[about_hero_heading]" class="tm-form-input" value="<?= sv($s,'about_hero_heading','We Help African Businesses Run Smarter') ?>">
+        <input type="text" name="settings[about_hero_heading]" class="tm-form-input" value="<?= sv($s,'about_hero_heading','We Help Businesses Run Smarter') ?>">
       </div>
       <div style="grid-column:1/-1;">
         <label class="tm-form-label">Hero Subtext</label>
-        <textarea name="settings[about_hero_subtext]" class="tm-form-input tm-form-textarea" rows="3"><?= sv($s,'about_hero_subtext','Tedmark Digital Agency was founded with one purpose: to give African businesses access to the same quality of technology, automation, and digital infrastructure that global companies rely on every day.') ?></textarea>
+        <textarea name="settings[about_hero_subtext]" class="tm-form-input tm-form-textarea" rows="3"><?= sv($s,'about_hero_subtext','Tedmark Digital Agency was founded with one purpose: to give growing businesses access to the same quality of technology, automation, and digital infrastructure that industry leaders rely on every day.') ?></textarea>
       </div>
       <div>
         <label class="tm-form-label">Mission Statement</label>
-        <textarea name="settings[about_mission]" class="tm-form-input tm-form-textarea" rows="3"><?= sv($s,'about_mission','To make enterprise-grade technology accessible to every African business — regardless of size, sector, or location.') ?></textarea>
+        <textarea name="settings[about_mission]" class="tm-form-input tm-form-textarea" rows="3"><?= sv($s,'about_mission','To make enterprise-grade technology accessible to every business — regardless of size, sector, or location.') ?></textarea>
       </div>
       <div>
         <label class="tm-form-label">Hero Background Image URL</label>
@@ -84,7 +84,7 @@ function sv($s, $k, $d='') { return htmlspecialchars($s[$k] ?? $d); }
       </div>
       <div>
         <label class="tm-form-label">Paragraph 1</label>
-        <textarea name="settings[about_story_p1]" class="tm-form-input tm-form-textarea" rows="4"><?= sv($s,'about_story_p1','We started Tedmark Digital after watching talented African business owners lose time, money, and customers because they lacked the right systems. Manual invoicing, lost customer data, no inventory visibility — problems that technology solved elsewhere decades ago.') ?></textarea>
+        <textarea name="settings[about_story_p1]" class="tm-form-input tm-form-textarea" rows="4"><?= sv($s,'about_story_p1','We started Tedmark Digital after watching talented business owners lose time, money, and customers because they lacked the right systems. Manual invoicing, lost customer data, no inventory visibility — problems that technology solved elsewhere decades ago.') ?></textarea>
       </div>
       <div>
         <label class="tm-form-label">Paragraph 2</label>
@@ -128,7 +128,7 @@ function sv($s, $k, $d='') { return htmlspecialchars($s[$k] ?? $d); }
       1=>['icon'=>'fa-solid fa-bullseye','color'=>'#22c55e','title'=>'Results-first','desc'=>'We measure success by the impact on your business, not hours billed.'],
       2=>['icon'=>'fa-solid fa-handshake','color'=>'#60a5fa','title'=>'Long-term Partners','desc'=>"We build relationships, not transactions. We're here for your growth journey."],
       3=>['icon'=>'fa-solid fa-lock','color'=>'#a78bfa','title'=>'Transparency','desc'=>'Fixed pricing. No surprises. You always know what you\'re getting.'],
-      4=>['icon'=>'fa-solid fa-leaf','color'=>'#f59e0b','title'=>'African-first','desc'=>'We design for African realities — local payments, infrastructure, and context.'],
+      4=>['icon'=>'fa-solid fa-leaf','color'=>'#f59e0b','title'=>'Context-first','desc'=>'We design for the realities of where you operate — local payments, infrastructure, and context.'],
     ];
     foreach($valDefaults as $i=>$def): ?>
     <div style="padding:16px;background:#0b1528;border-radius:10px;margin-bottom:12px;">

@@ -10,9 +10,9 @@ if (!$slug) { header('Location: ' . SITE_URL . '/blog.php'); exit; }
 $fallbackPosts = [
     'how-automation-saves-african-businesses-time' => [
         'slug'         => 'how-automation-saves-african-businesses-time',
-        'title'        => 'How Automation Is Saving African Businesses 10+ Hours Every Week',
+        'title'        => 'How Automation Is Saving Businesses 10+ Hours Every Week',
         'excerpt'      => 'Manual processes are quietly draining your time, your team, and your profits. Here\'s how smart automation changes everything.',
-        'content'      => '<p>Every week, thousands of African business owners spend hours on tasks that could be handled automatically. Invoicing. Sending reminders. Updating spreadsheets. Following up on leads. These tasks feel necessary — and they are — but they don\'t have to be done by a human.</p><p>Business automation is no longer a luxury for large corporations. Today, even a 5-person team can implement systems that eliminate repetitive work and redirect human energy where it actually matters: building relationships, making decisions, and growing the business.</p><h2>What kinds of tasks can be automated?</h2><p>The most common time-wasters we see in African SMEs include invoice generation and follow-up, customer onboarding emails, appointment reminders, stock level alerts, report generation, and social media scheduling. Each of these might only take 15–30 minutes per day — but multiply that across a team of five people, and you\'re looking at 10–20 hours per week of recoverable time.</p><h2>The real cost of doing it manually</h2><p>It\'s not just about time. Manual processes introduce human error. An invoice sent to the wrong client. A follow-up forgotten. A stock order placed too late. These mistakes have real financial consequences — lost clients, damaged reputation, and avoidable costs.</p><h2>Where to start</h2><p>Start with your biggest time drain. For most businesses, that\'s client communication or financial admin. Map out the process — every step — and identify which steps require a human decision and which are just execution. The execution steps are your automation opportunities.</p><p>You don\'t need to automate everything at once. One well-built automation can save an hour a day. That\'s 260 hours a year — more than 6 full work weeks returned to your business.</p>',
+        'content'      => '<p>Every week, thousands of business owners spend hours on tasks that could be handled automatically. Invoicing. Sending reminders. Updating spreadsheets. Following up on leads. These tasks feel necessary — and they are — but they don\'t have to be done by a human.</p><p>Business automation is no longer a luxury for large corporations. Today, even a 5-person team can implement systems that eliminate repetitive work and redirect human energy where it actually matters: building relationships, making decisions, and growing the business.</p><h2>What kinds of tasks can be automated?</h2><p>The most common time-wasters we see in small and mid-sized businesses include invoice generation and follow-up, customer onboarding emails, appointment reminders, stock level alerts, report generation, and social media scheduling. Each of these might only take 15–30 minutes per day — but multiply that across a team of five people, and you\'re looking at 10–20 hours per week of recoverable time.</p><h2>The real cost of doing it manually</h2><p>It\'s not just about time. Manual processes introduce human error. An invoice sent to the wrong client. A follow-up forgotten. A stock order placed too late. These mistakes have real financial consequences — lost clients, damaged reputation, and avoidable costs.</p><h2>Where to start</h2><p>Start with your biggest time drain. For most businesses, that\'s client communication or financial admin. Map out the process — every step — and identify which steps require a human decision and which are just execution. The execution steps are your automation opportunities.</p><p>You don\'t need to automate everything at once. One well-built automation can save an hour a day. That\'s 260 hours a year — more than 6 full work weeks returned to your business.</p>',
         'cat_name'     => 'Automation',
         'author_name'  => 'Tedmark Team',
         'published_at' => '2024-11-15',
@@ -21,14 +21,14 @@ $fallbackPosts = [
         'has_audio'    => false,
         'audio_url'    => '',
         'featured_image' => '',
-        'seo_keywords' => 'automation,business systems,Africa,SME,productivity',
+        'seo_keywords' => 'automation,business systems,SME,productivity',
         'tags'         => ['Automation', 'Productivity', 'SME'],
     ],
     'why-your-website-is-losing-you-customers' => [
         'slug'         => 'why-your-website-is-losing-you-customers',
         'title'        => 'Why Your Website Is Quietly Losing You Customers Every Day',
         'excerpt'      => 'A slow, outdated, or hard-to-navigate website doesn\'t just frustrate visitors — it actively costs you money. Here\'s what to look for.',
-        'content'      => '<p>Your website is often the first impression a potential customer has of your business. Before they call you. Before they visit. Before they trust you. And if that first impression is slow to load, hard to navigate, or looks outdated — they leave. Quietly. Without telling you.</p><p>This happens thousands of times a day across African businesses. Potential clients arrive, see something that doesn\'t inspire confidence, and move on to a competitor. You never know they were there.</p><h2>The 3-second rule</h2><p>Research consistently shows that users will abandon a website that takes more than 3 seconds to load. On mobile — where most of your African audience is browsing — slow pages are even more punishing. If your site isn\'t loading fast, you\'re losing visitors before they even see your offering.</p><h2>Mobile is everything</h2><p>Over 70% of internet traffic in Africa comes from mobile devices. If your website wasn\'t designed with mobile in mind — small text, elements that don\'t fit the screen, buttons that are too small to tap — then you\'re delivering a broken experience to most of your audience.</p><h2>Trust signals matter</h2><p>A professional website communicates credibility. An outdated one communicates the opposite. People make split-second judgements about whether to trust a business based on how its website looks. Your website should feel as professional as your best salesperson.</p><h2>What to fix first</h2><p>Speed. Mobile responsiveness. Clear navigation. A strong, visible call to action. These four things, done well, can transform your conversion rate. You don\'t need a completely new website overnight — but you do need a plan.</p>',
+        'content'      => '<p>Your website is often the first impression a potential customer has of your business. Before they call you. Before they visit. Before they trust you. And if that first impression is slow to load, hard to navigate, or looks outdated — they leave. Quietly. Without telling you.</p><p>This happens thousands of times a day across businesses of every size. Potential clients arrive, see something that doesn\'t inspire confidence, and move on to a competitor. You never know they were there.</p><h2>The 3-second rule</h2><p>Research consistently shows that users will abandon a website that takes more than 3 seconds to load. On mobile — where most of your audience is browsing — slow pages are even more punishing. If your site isn\'t loading fast, you\'re losing visitors before they even see your offering.</p><h2>Mobile is everything</h2><p>Over 60% of global internet traffic comes from mobile devices. If your website wasn\'t designed with mobile in mind — small text, elements that don\'t fit the screen, buttons that are too small to tap — then you\'re delivering a broken experience to most of your audience.</p><h2>Trust signals matter</h2><p>A professional website communicates credibility. An outdated one communicates the opposite. People make split-second judgements about whether to trust a business based on how its website looks. Your website should feel as professional as your best salesperson.</p><h2>What to fix first</h2><p>Speed. Mobile responsiveness. Clear navigation. A strong, visible call to action. These four things, done well, can transform your conversion rate. You don\'t need a completely new website overnight — but you do need a plan.</p>',
         'cat_name'     => 'Web Development',
         'author_name'  => 'Tedmark Team',
         'published_at' => '2024-10-22',
@@ -37,7 +37,7 @@ $fallbackPosts = [
         'has_audio'    => false,
         'audio_url'    => '',
         'featured_image' => '',
-        'seo_keywords' => 'website,mobile,Africa,web design,conversion',
+        'seo_keywords' => 'website,mobile,web design,conversion',
         'tags'         => ['Web Design', 'Mobile', 'Conversion'],
     ],
 ];
@@ -340,7 +340,7 @@ if (!empty($post['featured_image'])) {
                         <div style="font-size:0.72rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Written by</div>
                         <div style="font-size:1rem;font-weight:800;color:#0f172a;margin-bottom:6px;"><?= $author ?></div>
                         <p style="font-size:0.875rem;color:#64748b;line-height:1.65;margin:0;">
-                            The Tedmark team writes about business technology, automation, and digital transformation for African businesses ready to grow smarter.
+                            The Tedmark team writes about business technology, automation, and digital transformation for businesses ready to grow smarter.
                         </p>
                     </div>
                 </div>
@@ -360,7 +360,7 @@ if (!empty($post['featured_image'])) {
                 <div style="background:linear-gradient(135deg,#0f172a,#1e293b);border-radius:18px;padding:24px;">
                     <i class="fa-solid fa-envelope-open-text" style="color:#4ade80;font-size:1.3rem;margin-bottom:12px;display:block;"></i>
                     <h3 style="font-size:0.95rem;font-weight:800;color:#fff;margin:0 0 8px;">Get articles like this</h3>
-                    <p style="font-size:0.8rem;color:#94a3b8;margin:0 0 16px;line-height:1.6;">Weekly insights on business technology, automation, and growth for African SMEs.</p>
+                    <p style="font-size:0.8rem;color:#94a3b8;margin:0 0 16px;line-height:1.6;">Weekly insights on business technology, automation, and growth for growing businesses.</p>
                     <input type="email" placeholder="Your email address"
                            style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.07);color:#fff;font-size:0.85rem;margin-bottom:10px;box-sizing:border-box;outline:none;"
                            onfocus="this.style.borderColor='#22c55e'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">

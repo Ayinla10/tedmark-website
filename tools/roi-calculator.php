@@ -72,7 +72,7 @@ require_once __DIR__ . '/../includes/header.php';
                                     style="width:100%;padding:14px 16px 14px 28px;border:2px solid #e2e8f0;border-radius:12px;font-size:16px;font-weight:500;color:#0f172a;box-sizing:border-box;outline:none;transition:border .2s;"
                                     oninput="calculateROI()">
                             </div>
-                            <p style="font-size:12px;color:#94a3b8;margin:6px 0 0;">Estimate: ~$8–15/hr for most African SMEs</p>
+                            <p style="font-size:12px;color:#94a3b8;margin:6px 0 0;">Estimate: ~$8–25/hr for most small businesses</p>
                         </div>
 
                         <div>

@@ -6,7 +6,7 @@ if (!isset($cfg) || empty($cfg)) {
         $cfg = array_column($footerRows, 'value', 'key');
     } catch(Exception $e) { $cfg = []; }
 }
-$footerTagline = htmlspecialchars($cfg['footer_tagline'] ?? 'Helping African businesses run smarter with technology, automation, and digital systems.');
+$footerTagline = htmlspecialchars($cfg['footer_tagline'] ?? 'Helping businesses run smarter with technology, automation, and digital systems.');
 $socialTwitter  = htmlspecialchars($cfg['social_twitter']   ?? '#');
 $socialLinkedin = htmlspecialchars($cfg['social_linkedin']  ?? '#');
 $socialInsta    = htmlspecialchars($cfg['social_instagram'] ?? '#');

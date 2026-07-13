@@ -90,7 +90,7 @@ function sv($s, $k, $d='') { return htmlspecialchars($s[$k] ?? $d); }
       <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-align-left" style="color:#818cf8;margin-right:8px;"></i>Subtext & Buttons</span></div>
       <div class="form-group">
         <label>Subtitle / Subtext</label>
-        <textarea name="settings[hero_subtext]" rows="3" placeholder="We help African businesses..."><?= sv($s,'hero_subtext') ?></textarea>
+        <textarea name="settings[hero_subtext]" rows="3" placeholder="We help businesses..."><?= sv($s,'hero_subtext') ?></textarea>
       </div>
       <div class="form-group">
         <label>Primary Button Text</label>

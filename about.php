@@ -3,7 +3,7 @@ require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/db.php';
 $pageTitle   = 'About Us';
-$pageDesc    = 'Learn about Tedmark Digital Agency — our mission, values, team, and why we are the trusted partner for African businesses running smarter with technology.';
+$pageDesc    = 'Learn about Tedmark Digital Agency — our mission, values, team, and why we are the trusted partner for businesses running smarter with technology.';
 $pageSeoPage = 'about';
 
 try {
@@ -20,8 +20,8 @@ require_once __DIR__ . '/includes/header.php';
 <!-- PAGE HERO -->
 <section class="tm2-page-hero">
     <div class="tm2-badge"><span></span> About Us</div>
-    <h1><?= htmlspecialchars($cfg['about_hero_heading']??'We Help African Businesses Run Smarter') ?></h1>
-    <p><?= htmlspecialchars($cfg['about_hero_subtext']??'Tedmark Digital Agency was founded with one purpose: to give African businesses access to the same quality of technology, automation, and digital infrastructure that global companies rely on every day.') ?></p>
+    <h1><?= htmlspecialchars($cfg['about_hero_heading']??'We Help Businesses Run Smarter') ?></h1>
+    <p><?= htmlspecialchars($cfg['about_hero_subtext']??'Tedmark Digital Agency was founded with one purpose: to give growing businesses access to the same quality of technology, automation, and digital infrastructure that industry leaders rely on every day.') ?></p>
     <div class="tm2-stats" style="margin-top:36px;">
         <div><div class="num accent"><?= htmlspecialchars($cfg['stat_1_value']??'80+') ?></div><div class="lbl"><?= htmlspecialchars($cfg['stat_1_label']??'Clients Served') ?></div></div>
         <div><div class="num accent"><?= htmlspecialchars($cfg['stat_4_value']??'5+') ?></div><div class="lbl">Years Experience</div></div>
@@ -34,7 +34,7 @@ require_once __DIR__ . '/includes/header.php';
     <div class="tm2-container">
         <div class="tm2-cta-band" style="max-width:680px;margin:0 auto;">
             <div class="tm2-eyebrow" style="justify-content:center;">Our Mission</div>
-            <p style="font-size:1.1rem;color:var(--text);line-height:1.75;font-style:italic;">"<?= htmlspecialchars($cfg['about_mission']??'To make enterprise-grade technology accessible to every African business — regardless of size, sector, or location.') ?>"</p>
+            <p style="font-size:1.1rem;color:var(--text);line-height:1.75;font-style:italic;">"<?= htmlspecialchars($cfg['about_mission']??'To make enterprise-grade technology accessible to every business — regardless of size, sector, or location.') ?>"</p>
         </div>
     </div>
 </section>
@@ -46,7 +46,7 @@ require_once __DIR__ . '/includes/header.php';
             <div>
                 <div class="tm2-eyebrow">Our Story</div>
                 <h2 class="tm2-h2" style="margin-bottom:20px;"><?= htmlspecialchars($cfg['about_story_heading']??'Built From Real Frustration') ?></h2>
-                <p style="font-size:1rem;color:var(--text-soft);line-height:1.8;margin-bottom:18px;"><?= htmlspecialchars($cfg['about_story_p1']??'We started Tedmark Digital after watching talented African business owners lose time, money, and customers because they lacked the right systems. Manual invoicing, lost customer data, no inventory visibility — problems that technology solved elsewhere decades ago.') ?></p>
+                <p style="font-size:1rem;color:var(--text-soft);line-height:1.8;margin-bottom:18px;"><?= htmlspecialchars($cfg['about_story_p1']??'We started Tedmark Digital after watching talented business owners lose time, money, and customers because they lacked the right systems. Manual invoicing, lost customer data, no inventory visibility — problems that technology solved elsewhere decades ago.') ?></p>
                 <?php if(!empty($cfg['about_story_p2'])): ?>
                 <p style="font-size:1rem;color:var(--text-soft);line-height:1.8;margin-bottom:18px;"><?= htmlspecialchars($cfg['about_story_p2']) ?></p>
                 <?php endif; ?>
@@ -60,7 +60,7 @@ require_once __DIR__ . '/includes/header.php';
                     ['icon'=>'fa-solid fa-bullseye','title'=>'Results-first','desc'=>'We measure success by the impact on your business, not hours billed.'],
                     ['icon'=>'fa-solid fa-handshake','title'=>'Long-term Partners','desc'=>'We build relationships, not transactions. We\'re here for your growth journey.'],
                     ['icon'=>'fa-solid fa-lock','title'=>'Transparency','desc'=>'Fixed pricing. No surprises. You always know what you\'re getting.'],
-                    ['icon'=>'fa-solid fa-leaf','title'=>'African-first','desc'=>'We design for African realities — local payments, infrastructure, and context.'],
+                    ['icon'=>'fa-solid fa-leaf','title'=>'Context-first','desc'=>'We design for the realities of where you operate — local payments, infrastructure, and context.'],
                 ];
                 foreach($values as $v): ?>
                 <div class="tm2-card">
@@ -85,7 +85,7 @@ require_once __DIR__ . '/includes/header.php';
         <div class="tm2-grid tm2-grid-4">
             <?php
             $teamFallback = [
-                ['name'=>'Mark Asante','role'=>'Founder &amp; CEO','avatar'=>'','bio'=>'10+ years building technology for African businesses. Leads strategy and client relationships.'],
+                ['name'=>'Mark Asante','role'=>'Founder &amp; CEO','avatar'=>'','bio'=>'10+ years building technology for growing businesses. Leads strategy and client relationships.'],
                 ['name'=>'Ama Boateng','role'=>'Lead Developer','avatar'=>'','bio'=>'Full-stack engineer specialising in business systems and automation. 8 years experience.'],
                 ['name'=>'Kofi Mensah','role'=>'Design Lead','avatar'=>'','bio'=>'UI/UX designer and brand strategist. Creates the visual systems our clients love.'],
                 ['name'=>'Efua Owusu','role'=>'Digital Marketing Lead','avatar'=>'','bio'=>'Data-driven marketer helping clients grow their online presence and drive revenue.'],

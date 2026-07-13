@@ -145,7 +145,7 @@ const serviceDetails = {
     'Business Systems':           { icon:'fa-gears',                desc:'Automated tracking, reporting, and operational systems.',                     color:'#dcfce7', iconColor:'#15803d' },
     'Communication Infrastructure':{ icon:'fa-comments',            desc:'Unified communication tools for your team and clients.',                      color:'#fef3c7', iconColor:'#b45309' },
     'CRM System':                 { icon:'fa-users',                desc:'Customer relationship management to grow repeat business.',                   color:'#ffe4e6', iconColor:'#be123c' },
-    'E-Commerce Platform':        { icon:'fa-bag-shopping',         desc:'Sell your products online across Africa.',                                    color:'#ecfdf5', iconColor:'#059669' },
+    'E-Commerce Platform':        { icon:'fa-bag-shopping',         desc:'Sell your products online, anywhere in the world.',                           color:'#ecfdf5', iconColor:'#059669' },
     'Digital Marketing':          { icon:'fa-bullhorn',             desc:'Attract and convert more customers online.',                                  color:'#fff7ed', iconColor:'#c2410c' },
     'Business Automation':        { icon:'fa-bolt',                 desc:'Automate repetitive processes to save time and money.',                       color:'#f0fdf4', iconColor:'#16a34a' },
 };
