@@ -79,7 +79,7 @@ require_once __DIR__ . '/includes/header.php';
     <div class="tm2-container">
         <div class="tm2-section-head">
             <div class="tm2-eyebrow">The Team</div>
-            <h2 class="tm2-h2">The People Behind the Work</h2>
+            <h2 class="tm2-h2">The People Behind the <em>Work</em></h2>
             <p class="tm2-sub">A lean, expert team with deep roots in technology and business.</p>
         </div>
         <div class="tm2-grid tm2-grid-4">

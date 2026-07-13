@@ -38,7 +38,7 @@ require_once __DIR__ . '/includes/header.php';
 <!-- DARK HERO (always dark — distinct from every other page hero on the site) -->
 <section class="tm2-dark-hero">
     <div class="tm2-dark-badge"><i class="fa-solid fa-calendar-check"></i> 100% Free · No Obligation</div>
-    <h1>Let's Map Out Your<br>Digital Transformation</h1>
+    <h1>Let's Map Out Your<br><em>Digital Transformation</em></h1>
     <p>One focused 30-minute call. No pitch deck, no pressure — just a clear plan for what your business needs next.</p>
 </section>
 

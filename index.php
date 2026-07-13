@@ -32,10 +32,15 @@ require_once __DIR__ . '/includes/header.php';
     <div class="tm2-badge">
         <i class="fa-solid fa-bolt"></i> <?= cfg($cfg,'hero_badge','Helping African Businesses Run Smarter') ?>
     </div>
+    <?php
+    $heroLine3 = cfg($cfg,'hero_h1_line3','We Grow Businesses.');
+    // Italicize the last word for the Bricolage Grotesque accent treatment, but only when using the default copy
+    if ($heroLine3 === 'We Grow Businesses.') $heroLine3 = 'We Grow <em>Businesses</em>.';
+    ?>
     <h1>
         <?= cfg($cfg,'hero_h1_line1','We Build Systems.') ?><br>
         <?= cfg($cfg,'hero_h1_line2','We Automate Work.') ?><br>
-        <?= cfg($cfg,'hero_h1_line3','We Grow Businesses.') ?>
+        <?= $heroLine3 ?>
     </h1>
     <p>
         <?= cfg($cfg,'hero_subtext','We help businesses organize, automate, and digitize their operations using smart systems and modern technology so they can save time, reduce costs, and grow without limits.') ?>
@@ -60,7 +65,7 @@ require_once __DIR__ . '/includes/header.php';
     <div class="tm2-container">
         <div class="tm2-section-head">
             <div class="tm2-eyebrow">The Problem</div>
-            <h2 class="tm2-h2">Sound Familiar?</h2>
+            <h2 class="tm2-h2">Sound <em>Familiar</em>?</h2>
             <p class="tm2-sub">Most African businesses are held back by the same operational bottlenecks. We fix all of them.</p>
         </div>
         <div class="tm2-grid tm2-grid-4">
@@ -87,7 +92,7 @@ require_once __DIR__ . '/includes/header.php';
     <div class="tm2-container">
         <div class="tm2-section-head">
             <div class="tm2-eyebrow">What We Do</div>
-            <h2 class="tm2-h2">Everything Your Business Needs to Thrive Digitally</h2>
+            <h2 class="tm2-h2">Everything Your Business Needs to <em>Thrive</em> Digitally</h2>
             <p class="tm2-sub">End-to-end digital transformation — from strategy to implementation to ongoing support.</p>
         </div>
         <div class="tm2-grid tm2-grid-4">
