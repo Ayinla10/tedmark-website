@@ -19,7 +19,6 @@ $socialFacebook = htmlspecialchars($cfg['social_facebook']  ?? '#');
         <div class="tm2-footer-top">
             <a href="<?= SITE_URL ?>/" class="tm2-logo">
                 <img src="<?= SITE_URL ?>/assets/images/tedmark-logo-nav.png" alt="Tedmark Digital Agency">
-                <span class="tm2-logo-text">Tedmark</span>
             </a>
             <div class="tm2-footer-links">
                 <a href="<?= SITE_URL ?>/about.php">About</a>

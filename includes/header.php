@@ -54,7 +54,6 @@ renderSeoTags($cfg, $seoData);
   <div class="tm2-nav" style="max-width:1100px;">
     <a href="<?= SITE_URL ?>/" class="tm2-logo">
         <img src="<?= SITE_URL ?>/assets/images/tedmark-logo-nav.png" alt="Tedmark Digital Agency">
-        <span class="tm2-logo-text">Tedmark</span>
     </a>
 
     <div class="tm2-links">
