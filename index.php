@@ -25,6 +25,9 @@ require_once __DIR__ . '/includes/header.php';
 
 <!-- ===== HERO (centered, minimal) ===== -->
 <section class="tm2-hero">
+    <video class="tm2-hero-video" autoplay muted loop playsinline poster="">
+        <source src="<?= SITE_URL ?>/assets/videos/hero-bg.mp4" type="video/mp4">
+    </video>
     <div class="tm2-hero-glow"></div>
     <div class="tm2-badge">
         <i class="fa-solid fa-bolt"></i> <?= cfg($cfg,'hero_badge','Helping African Businesses Run Smarter') ?>

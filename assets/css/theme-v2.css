@@ -109,6 +109,10 @@ body {
 
 /* ── Hero (centered, minimal) ───────────────────────── */
 .tm2-hero { padding: 150px 16px 60px; text-align: center; background: var(--bg); overflow: hidden; position: relative; }
+.tm2-hero-video {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover; opacity: 0.08; pointer-events: none; z-index: 0;
+}
 .tm2-hero-glow {
     position: absolute; top: 60px; left: 50%; transform: translateX(-50%);
     width: 600px; height: 300px; max-width: 90vw;
@@ -121,6 +125,7 @@ body {
     background: var(--bg-soft); border: 1px solid var(--border);
     padding: 6px 14px; border-radius: 999px; margin-bottom: 24px;
     text-transform: uppercase; letter-spacing: .04em;
+    position: relative; z-index: 1;
 }
 .tm2-badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; }
 .tm2-hero h1 {
