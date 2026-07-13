@@ -42,8 +42,33 @@ body {
 .tm-t-soft { color: var(--text-soft) !important; }
 .tm-t-muted { color: var(--muted) !important; }
 
+/* ── Announcement Bar (fixed, above nav, animated shine) ── */
+.tm2-announce-bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 210;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    background: #16a34a; color: #fff; text-decoration: none;
+    font-size: 13px; font-weight: 500; padding: 10px 16px; text-align: center;
+    overflow: hidden; white-space: nowrap;
+}
+.tm2-announce-bar::after {
+    content: ''; position: absolute; top: 0; left: -60%; width: 40%; height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
+    animation: tm2-shine 3.2s ease-in-out infinite;
+    pointer-events: none;
+}
+@keyframes tm2-shine {
+    0%   { left: -60%; }
+    55%  { left: 130%; }
+    100% { left: 130%; }
+}
+.tm2-announce-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: #fff; flex-shrink: 0;
+    animation: pulse 2s infinite;
+}
+.tm2-announce-strong { font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+
 /* ── Pill Navbar ─────────────────────────────────────── */
-.tm2-nav-wrap { position: fixed; top: 16px; left: 0; right: 0; z-index: 200; display: flex; justify-content: center; padding: 0 16px; }
+.tm2-nav-wrap { position: fixed; top: 54px; left: 0; right: 0; z-index: 200; display: flex; justify-content: center; padding: 0 16px; }
 .tm2-nav {
     width: 100%; max-width: 1100px;
     background: var(--card);
@@ -96,7 +121,7 @@ body {
 .tm2-mobile-menu a:hover { background: var(--bg-soft); }
 
 /* ── Inner Page Hero (centered, minimal, reused everywhere) ── */
-.tm2-page-hero { padding: 140px 16px 56px; text-align: center; background: var(--bg-soft); }
+.tm2-page-hero { padding: 178px 16px 56px; text-align: center; background: var(--bg-soft); }
 .tm2-page-hero h1 {
     font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800;
     font-size: clamp(1.8rem, 5vw, 2.8rem); line-height: 1.15; letter-spacing: -0.01em;
@@ -108,7 +133,7 @@ body {
 }
 
 /* ── Hero (centered, minimal) ───────────────────────── */
-.tm2-hero { padding: 150px 16px 60px; text-align: center; background: var(--bg); overflow: hidden; position: relative; }
+.tm2-hero { padding: 188px 16px 60px; text-align: center; background: var(--bg); overflow: hidden; position: relative; }
 .tm2-hero-video {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     object-fit: cover; opacity: 0.08; pointer-events: none; z-index: 0;
@@ -264,7 +289,7 @@ body {
 
 /* ── Dark Hero (consultation page — always dark regardless of theme toggle) ── */
 .tm2-dark-hero {
-    background: #0a0a0a; color: #fff; padding: 140px 16px 72px; text-align: center; position: relative; overflow: hidden;
+    background: #0a0a0a; color: #fff; padding: 178px 16px 72px; text-align: center; position: relative; overflow: hidden;
 }
 .tm2-dark-hero::before {
     content: ''; position: absolute; top: -20%; left: 50%; transform: translateX(-50%);
@@ -318,16 +343,17 @@ body {
 }
 
 @media (max-width: 640px) {
-    .tm2-nav-wrap { top: 10px; padding: 0 12px; }
+    .tm2-announce-bar { font-size: 11px; white-space: normal; line-height: 1.4; padding: 8px 40px; }
+    .tm2-nav-wrap { top: 62px; padding: 0 12px; }
     .tm2-nav { padding: 6px 6px 6px 14px; }
     .tm2-logo img { height: 28px; }
     .tm2-logo-text { font-size: 13px; }
 
-    .tm2-hero { padding: 110px 16px 40px; }
+    .tm2-hero { padding: 156px 16px 40px; }
     .tm2-hero h1 { font-size: clamp(1.7rem, 8vw, 2.2rem); }
     .tm2-hero p  { font-size: 0.9rem; }
 
-    .tm2-page-hero { padding: 100px 16px 40px; }
+    .tm2-page-hero { padding: 146px 16px 40px; }
     .tm2-page-hero h1 { font-size: clamp(1.5rem, 7vw, 2rem); }
     .tm2-page-hero p  { font-size: 0.88rem; }
     .tm2-email-form { flex-direction: column; border-radius: 20px; padding: 8px; }
@@ -348,7 +374,7 @@ body {
     .tm2-footer-bottom { flex-direction: column; text-align: center; }
     .tm2-social-row { justify-content: center; }
 
-    .tm2-dark-hero { padding: 100px 16px 44px; }
+    .tm2-dark-hero { padding: 146px 16px 44px; }
     .tm2-timeline { flex-direction: column; gap: 28px; align-items: center; }
     .tm2-timeline-step::after { display: none; }
     .tm2-timeline-step { max-width: 280px; }

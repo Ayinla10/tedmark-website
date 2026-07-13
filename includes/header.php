@@ -49,6 +49,13 @@ renderSeoTags($cfg, $seoData);
 </head>
 <body>
 
+<!-- ===== ANNOUNCEMENT BAR ===== -->
+<a href="<?= SITE_URL ?>/tools/business-health.php" class="tm2-announce-bar">
+    <span class="tm2-announce-dot"></span>
+    Wondering if your business is AI-ready? <span class="tm2-announce-strong">Take our free 3-minute Business Health Scan</span>
+    <i class="fa-solid fa-arrow-right fa-xs"></i>
+</a>
+
 <!-- ===== NAVBAR (pill, theme-aware) ===== -->
 <div class="tm2-nav-wrap">
   <div class="tm2-nav" style="max-width:1100px;">
