@@ -67,6 +67,18 @@ body {
 }
 .tm2-announce-strong { font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
 
+/* When the announcement bar is turned off in Settings, collapse nav/hero spacing back to normal */
+body.no-announce .tm2-nav-wrap { top: 16px; }
+body.no-announce .tm2-hero { padding-top: 150px; }
+body.no-announce .tm2-page-hero { padding-top: 140px; }
+body.no-announce .tm2-dark-hero { padding-top: 140px; }
+@media (max-width: 640px) {
+    body.no-announce .tm2-nav-wrap { top: 10px; }
+    body.no-announce .tm2-hero { padding-top: 110px; }
+    body.no-announce .tm2-page-hero { padding-top: 100px; }
+    body.no-announce .tm2-dark-hero { padding-top: 100px; }
+}
+
 /* ── Pill Navbar ─────────────────────────────────────── */
 .tm2-nav-wrap { position: fixed; top: 54px; left: 0; right: 0; z-index: 200; display: flex; justify-content: center; padding: 0 16px; }
 .tm2-nav {

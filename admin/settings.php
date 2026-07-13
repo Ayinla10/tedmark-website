@@ -43,7 +43,7 @@ require_once __DIR__ . '/includes/admin-layout.php';
 
 <!-- TABS -->
 <div style="display:flex;gap:4px;margin-bottom:24px;border-bottom:1px solid #1e293b;">
-  <?php foreach(['general'=>'General','homepage'=>'Homepage','cta'=>'CTA Band','footer'=>'Footer','social'=>'Social Media'] as $tab=>$label): ?>
+  <?php foreach(['general'=>'General','announce'=>'Announcement Bar','homepage'=>'Homepage','cta'=>'CTA Band','footer'=>'Footer','social'=>'Social Media'] as $tab=>$label): ?>
   <button type="button" class="tab-btn" data-tab="<?= $tab ?>" style="padding:10px 18px;border:none;background:none;color:#64748b;font-size:0.85rem;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:'Inter',sans-serif;">
     <?= $label ?>
   </button>
@@ -70,6 +70,22 @@ require_once __DIR__ . '/includes/admin-layout.php';
       <div class="form-group"><label>Google Analytics ID</label><input type="text" name="settings[google_analytics]" value="<?= si($s,'google_analytics') ?>" placeholder="G-XXXXXXXXXX"></div>
       <div class="form-group"><label>Consultation Page URL</label><input type="text" name="settings[consultation_url]" value="<?= si($s,'consultation_url') ?>"></div>
     </div>
+  </div>
+</div>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="tab-panel" id="tab-announce" style="display:none;">
+  <div class="tm-card">
+    <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-bullhorn text-green" style="margin-right:8px;"></i>Announcement Bar (green strip above the nav, shown on every page)</span></div>
+    <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-bottom:16px;">
+      <input type="hidden" name="settings[announce_enabled]" value="0">
+      <input type="checkbox" name="settings[announce_enabled]" value="1" <?= ($s['announce_enabled'] ?? '1') === '1' ? 'checked' : '' ?>>
+      <span>Show announcement bar</span>
+    </label>
+    <div class="form-group"><label>Text (before the bold part)</label><input type="text" name="settings[announce_text]" value="<?= si($s,'announce_text') ?: 'Wondering if your business is AI-ready?' ?>"></div>
+    <div class="form-group"><label>Bold Text (linked, underlined)</label><input type="text" name="settings[announce_bold_text]" value="<?= si($s,'announce_bold_text') ?: 'Take our free 3-minute Business Health Scan' ?>"></div>
+    <div class="form-group"><label>Link URL</label><input type="text" name="settings[announce_link]" value="<?= si($s,'announce_link') ?: '/tools/business-health.php' ?>" placeholder="/tools/business-health.php or https://..."></div>
+    <p style="color:#64748b;font-size:0.8rem;margin-top:8px;">Preview: <span style="background:#16a34a;color:#fff;padding:6px 12px;border-radius:6px;display:inline-block;font-size:0.85rem;">● <?= si($s,'announce_text') ?: 'Wondering if your business is AI-ready?' ?> <strong><?= si($s,'announce_bold_text') ?: 'Take our free 3-minute Business Health Scan' ?></strong> →</span></p>
   </div>
 </div>
 

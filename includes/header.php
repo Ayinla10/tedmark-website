@@ -47,14 +47,21 @@ renderSeoTags($cfg, $seoData);
     <link rel="stylesheet" href="<?= SITE_URL ?>/assets/css/mobile.css?v=<?= filemtime(__DIR__.'/../assets/css/mobile.css') ?>">
     <link rel="stylesheet" href="<?= SITE_URL ?>/assets/css/theme-v2.css?v=<?= filemtime(__DIR__.'/../assets/css/theme-v2.css') ?>">
 </head>
-<body>
+<body<?= (($cfg['announce_enabled'] ?? '1') !== '1') ? ' class="no-announce"' : '' ?>>
 
+<?php if (($cfg['announce_enabled'] ?? '1') === '1'):
+    $announceText = $cfg['announce_text'] ?? 'Wondering if your business is AI-ready?';
+    $announceBold = $cfg['announce_bold_text'] ?? 'Take our free 3-minute Business Health Scan';
+    $announceLink = $cfg['announce_link'] ?? '/tools/business-health.php';
+    if (!preg_match('#^https?://#i', $announceLink)) $announceLink = SITE_URL . '/' . ltrim($announceLink, '/');
+?>
 <!-- ===== ANNOUNCEMENT BAR ===== -->
-<a href="<?= SITE_URL ?>/tools/business-health.php" class="tm2-announce-bar">
+<a href="<?= htmlspecialchars($announceLink) ?>" class="tm2-announce-bar">
     <span class="tm2-announce-dot"></span>
-    Wondering if your business is AI-ready? <span class="tm2-announce-strong">Take our free 3-minute Business Health Scan</span>
+    <?= htmlspecialchars($announceText) ?> <span class="tm2-announce-strong"><?= htmlspecialchars($announceBold) ?></span>
     <i class="fa-solid fa-arrow-right fa-xs"></i>
 </a>
+<?php endif; ?>
 
 <!-- ===== NAVBAR (pill, theme-aware) ===== -->
 <div class="tm2-nav-wrap">

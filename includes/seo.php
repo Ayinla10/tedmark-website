@@ -20,7 +20,7 @@ function buildSeoMeta(array $cfg, array $opts = []): array {
     $siteName  = $cfg['site_name'] ?? 'Tedmark Digital Agency';
     $titleTpl  = $cfg['seo_title_template'] ?? '{title} | ' . $siteName;
     $defDesc   = $cfg['seo_default_description'] ?? ($cfg['site_tagline'] ?? '');
-    $defImg    = $cfg['seo_default_og_image'] ?: $siteUrl . '/assets/images/og-default.jpg';
+    $defImg    = ($cfg['seo_default_og_image'] ?? '') ?: $siteUrl . '/assets/images/og-default.jpg';
     $defKws    = $cfg['seo_default_keywords'] ?? 'digital agency Ghana, web development Accra';
     $twHandle  = $cfg['seo_twitter_handle'] ?? '';
 
