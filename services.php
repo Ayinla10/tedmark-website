@@ -3,7 +3,7 @@ require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/db.php';
 $pageTitle   = 'Services';
-$pageDesc    = 'Business technology solutions for growing companies — systems, automation, web development, e-commerce, digital marketing, and branding.';
+$pageDesc    = 'AI agent development, AI operating systems, AI marketing, strategy, adoption & training, and AI-powered web/app development for growing businesses.';
 $pageSeoPage = 'services';
 
 try { $dbServices = fetchAll("SELECT * FROM services WHERE status='active' ORDER BY sort_order ASC"); }
@@ -15,8 +15,8 @@ require_once __DIR__ . '/includes/header.php';
 <!-- PAGE HERO -->
 <section class="tm2-page-hero">
     <div class="tm2-badge"><span></span> What We Do</div>
-    <h1>Everything Your Business Needs to Thrive Digitally</h1>
-    <p>End-to-end digital transformation — from strategy through implementation to ongoing support.</p>
+    <h1>Everything Your Business Needs to Run on AI</h1>
+    <p>End-to-end AI transformation — from strategy through implementation to ongoing support.</p>
 </section>
 
 <!-- SERVICES -->
@@ -24,13 +24,12 @@ require_once __DIR__ . '/includes/header.php';
     <div class="tm2-container">
         <?php
         $servicesFallback = [
-            ['icon'=>'fa-solid fa-gears','color'=>'#22c55e','bg'=>'rgba(34,197,94,0.1)','title'=>'Business Systems','subtitle'=>'ERPs, CRMs & Operational Platforms','description'=>'Custom-built systems that replace spreadsheets, manual records, and disconnected apps. We build ERPs, inventory management, HR systems, customer relationship platforms, and any workflow-specific tools your business needs.','features'=>'Custom ERP development,Inventory & stock management,HR & payroll systems,Customer management (CRM),Multi-branch management,Reporting & dashboards'],
-            ['icon'=>'fa-solid fa-robot','color'=>'#a78bfa','bg'=>'rgba(139,92,246,0.1)','title'=>'Automation','subtitle'=>'Workflows, Triggers & Scheduled Tasks','description'=>'We automate the repetitive, time-consuming tasks that are eating your team\'s productivity. From invoice generation to report delivery, customer follow-ups to data syncing — if it\'s repetitive, we can automate it.','features'=>'Invoice & payment automation,Email & SMS campaigns,Report generation & delivery,Data sync between platforms,Approval workflow automation,API integrations'],
-            ['icon'=>'fa-solid fa-code','color'=>'#60a5fa','bg'=>'rgba(96,165,250,0.1)','title'=>'Web Development','subtitle'=>'Sites, Portals & Web Applications','description'=>'Fast, modern websites and web applications that look great, perform excellently, and convert visitors into customers. Built with clean code, optimised for mobile, and designed to rank on search engines.','features'=>'Corporate & business websites,Web applications & portals,Landing pages,Progressive web apps,WordPress development,Performance optimisation'],
-            ['icon'=>'fa-solid fa-cart-shopping','color'=>'#fb923c','bg'=>'rgba(251,146,60,0.1)','title'=>'E-Commerce','subtitle'=>'Online Stores & Marketplaces','description'=>'We build online stores that actually sell — with seamless checkout, local payment integration (MTN MoMo, Vodafone Cash, bank cards), inventory sync, and delivery management built in.','features'=>'Custom online stores,Mobile-first design,Local payment gateways,Inventory management,Order & delivery tracking,Multi-vendor marketplaces'],
-            ['icon'=>'fa-solid fa-bullhorn','color'=>'#f43f5e','bg'=>'rgba(244,63,94,0.1)','title'=>'Digital Marketing','subtitle'=>'SEO, Social Media & Paid Ads','description'=>'We help you get found online, build a following, and convert traffic into revenue. Strategy-led digital marketing campaigns that deliver measurable results.','features'=>'Search engine optimisation,Social media management,Google & Meta ad campaigns,Content marketing,Email marketing,Analytics & reporting'],
-            ['icon'=>'fa-solid fa-palette','color'=>'#f59e0b','bg'=>'rgba(245,158,11,0.1)','title'=>'Branding & Design','subtitle'=>'Identity, UI/UX & Visual Systems','description'=>'Professional brand identity that builds trust and stands out in your market. From logo design to full visual systems, pitch decks, and marketing materials — we make your business look world-class.','features'=>'Logo & brand identity,UI/UX design,Brand guidelines,Marketing collateral,Pitch deck design,Social media templates'],
-            ['icon'=>'fa-solid fa-headset','color'=>'#14b8a6','bg'=>'rgba(20,184,166,0.1)','title'=>'IT Consulting','subtitle'=>'Strategy, Audits & Advisory','description'=>'Not sure where to start? We help you map out your digital journey — auditing your current setup, identifying gaps, and creating a prioritised roadmap for digital transformation.','features'=>'Digital transformation strategy,IT infrastructure audit,Technology stack advice,Vendor selection,Change management,Staff training'],
+            ['num'=>'01','icon'=>'fa-solid fa-robot','color'=>'#22c55e','bg'=>'rgba(34,197,94,0.1)','title'=>'AI Agent Development','description'=>'Build intelligent AI agents for customer support, internal operations, documents, voice, chat, and workflow automation.'],
+            ['num'=>'02','icon'=>'fa-solid fa-server','color'=>'#a78bfa','bg'=>'rgba(139,92,246,0.1)','title'=>'AI Operating System','description'=>'Deploy, manage, monitor, and govern every AI agent, workflow, and business knowledge base from one central platform.'],
+            ['num'=>'03','icon'=>'fa-solid fa-bullhorn','color'=>'#f43f5e','bg'=>'rgba(244,63,94,0.1)','title'=>'AI Marketing','description'=>'Automate lead generation, CRM, outreach, content, and customer engagement with AI-powered marketing systems.'],
+            ['num'=>'04','icon'=>'fa-solid fa-compass','color'=>'#f59e0b','bg'=>'rgba(245,158,11,0.1)','title'=>'AI Strategy & Consulting','description'=>'Identify high-impact AI opportunities, define implementation roadmaps, and guide your organization from idea to deployment.'],
+            ['num'=>'05','icon'=>'fa-solid fa-graduation-cap','color'=>'#14b8a6','bg'=>'rgba(20,184,166,0.1)','title'=>'AI Adoption & Training','description'=>'Equip your teams with practical AI skills, playbooks, and workflows that drive real adoption and measurable productivity.'],
+            ['num'=>'06','icon'=>'fa-solid fa-code','color'=>'#60a5fa','bg'=>'rgba(96,165,250,0.1)','title'=>'Web/App Development','description'=>'Design and build AI-powered web and mobile applications using modern technologies like React, Next.js, React Native, etc.'],
         ];
         $services = !empty($dbServices) ? $dbServices : $servicesFallback;
         ?>
@@ -38,10 +37,14 @@ require_once __DIR__ . '/includes/header.php';
         <?php foreach($services as $idx => $svc):
             $feats = array_filter(array_map('trim', explode(',', $svc['features']??'')));
         ?>
-        <div class="tm2-card">
+        <div class="tm2-card" style="position:relative;">
+            <?php if(!empty($svc['num'])): ?>
+            <div style="position:absolute;top:20px;right:22px;font-size:0.78rem;font-weight:800;color:var(--muted);letter-spacing:.05em;"><?= htmlspecialchars($svc['num']) ?></div>
+            <?php endif; ?>
             <div class="tm2-card-icon"><i class="<?= htmlspecialchars($svc['icon']??'fa-solid fa-star') ?>"></i></div>
             <h3><?= htmlspecialchars($svc['title']) ?></h3>
             <p style="margin-bottom:16px;"><?= htmlspecialchars($svc['description']??$svc['desc']??'') ?></p>
+            <?php if(!empty($feats)): ?>
             <div style="background:var(--bg-soft);border-radius:12px;padding:16px;margin-bottom:16px;">
                 <div style="font-size:0.68rem;font-weight:800;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;">What's included</div>
                 <div class="tm2-grid tm2-grid-2" style="gap:8px;">
@@ -53,6 +56,7 @@ require_once __DIR__ . '/includes/header.php';
                     <?php endforeach; ?>
                 </div>
             </div>
+            <?php endif; ?>
             <a href="<?= SITE_URL ?>/consultation.php" class="tm2-btn tm2-btn-primary" style="width:100%;justify-content:center;">
                 Discuss This Service <i class="fa-solid fa-arrow-right fa-xs"></i>
             </a>
