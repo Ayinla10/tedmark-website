@@ -45,13 +45,15 @@ body {
 /* ── Trust Marquee (green band, scrolling logos, separates hero from next section) ── */
 .tm2-marquee {
     background: #16a34a; overflow: hidden; position: relative;
-    display: flex; align-items: center; justify-content: flex-start;
-    text-align: left; padding: 16px 0; width: 100%;
+    display: flex !important; align-items: center !important; justify-content: flex-start !important;
+    text-align: left !important; padding: 16px 16px !important; width: 100% !important;
+    box-sizing: border-box;
 }
 .tm2-marquee-label {
-    flex: 0 0 auto; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.85);
-    text-transform: uppercase; letter-spacing: .04em; padding: 0 28px; text-align: left;
+    flex: 0 0 auto !important; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.85);
+    text-transform: uppercase; letter-spacing: .04em; padding: 0 28px 0 8px; text-align: left !important;
     border-right: 1px solid rgba(255,255,255,0.25); line-height: 1.4; white-space: nowrap;
+    margin-right: auto;
 }
 .tm2-marquee-viewport {
     flex: 1 1 auto; overflow: hidden; position: relative; min-width: 0;
