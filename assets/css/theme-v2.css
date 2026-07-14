@@ -265,6 +265,56 @@ body.no-announce .tm2-dark-hero { padding-top: 140px; }
 .tm2-card h3 { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 8px; }
 .tm2-card p { font-size: 0.875rem; color: var(--text-soft); line-height: 1.6; }
 
+/* ── Services page: pillars hero ────────────────────────── */
+.tm2-h1 { font-family: 'Geist', sans-serif; font-weight: 800; font-size: clamp(2.1rem, 5vw, 3.4rem); line-height: 1.1; color: var(--text); letter-spacing: -0.02em; margin: 6px 0 18px; }
+.tm2-pillars-hero { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: center; }
+.tm2-pillars-hero-stats { display: flex; flex-direction: column; gap: 28px; }
+.tm2-stat-block { border-left: 3px solid var(--accent); padding-left: 20px; }
+.tm2-stat-num { font-family: 'Geist', sans-serif; font-weight: 800; font-size: clamp(1.7rem, 3vw, 2.4rem); color: var(--accent); line-height: 1.1; }
+.tm2-stat-lbl { font-size: 0.72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+
+/* ── Services page: pillars grid ────────────────────────── */
+.tm2-pillars-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.tm2-pillar-card {
+    position: relative; background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 36px 28px 28px; transition: all .25s ease;
+}
+.tm2-pillar-card:hover { border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.06); }
+.tm2-pillar-num { position: absolute; top: 24px; right: 26px; font-family: 'Geist Mono', monospace; font-size: 0.75rem; font-weight: 700; color: var(--muted); letter-spacing: .05em; }
+.tm2-pillar-card:hover .tm2-pillar-num { color: var(--accent); }
+.tm2-pillar-icon { width: 44px; height: 44px; border-radius: 12px; background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 22px; }
+.tm2-pillar-card h3 { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+.tm2-pillar-card p { font-size: 0.88rem; color: var(--text-soft); line-height: 1.6; margin-bottom: 20px; }
+.tm2-pillar-link { display: inline-flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 700; color: var(--accent); text-decoration: none; transition: gap .2s ease; }
+.tm2-pillar-link:hover { gap: 12px; }
+
+/* ── Services page: why these services ──────────────────── */
+.tm2-why-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin-bottom: 40px; }
+.tm2-why-tag { font-family: 'Geist Mono', monospace; font-size: 0.72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.tm2-why-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.tm2-why-col { padding: 40px 32px; border-right: 1px solid var(--border); transition: background .2s ease; }
+.tm2-why-col:last-child { border-right: none; }
+.tm2-why-col:hover { background: var(--bg-soft); }
+.tm2-why-num { display: block; font-family: 'Geist', sans-serif; font-weight: 800; font-size: 2rem; color: var(--accent-soft); margin-bottom: 20px; transition: color .2s ease; }
+.tm2-why-col:hover .tm2-why-num { color: var(--accent); }
+.tm2-why-col h4 { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+.tm2-why-col p { font-size: 0.88rem; color: var(--text-soft); line-height: 1.6; }
+
+/* ── Services page: FAQ ──────────────────────────────────── */
+.tm2-faq-layout { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 48px; align-items: start; }
+.tm2-faq-list { display: flex; flex-direction: column; gap: 12px; }
+.tm2-faq-item { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.tm2-faq-q {
+    width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 16px;
+    background: none; border: none; cursor: pointer; text-align: left;
+    padding: 18px 20px; font-size: 0.95rem; font-weight: 600; color: var(--text); font-family: inherit;
+}
+.tm2-faq-q i { color: var(--accent); flex-shrink: 0; transition: transform .2s ease; }
+.tm2-faq-item.open .tm2-faq-q i { transform: rotate(45deg); }
+.tm2-faq-a { max-height: 0; overflow: hidden; transition: max-height .25s ease; }
+.tm2-faq-item.open .tm2-faq-a { max-height: 200px; }
+.tm2-faq-a p { padding: 0 20px 18px; font-size: 0.87rem; color: var(--text-soft); line-height: 1.65; border-top: 1px solid var(--border); padding-top: 14px; margin: 0 20px; }
+
 /* ── Problem section (custom sizes) ─────────────────────── */
 .tm2-problem-title      { font-size: 50px !important; }
 .tm2-problem-sub        { font-size: 17px !important; }
@@ -401,6 +451,12 @@ body.no-announce .tm2-dark-hero { padding-top: 140px; }
     .tm2-links { display: none; }
     .tm2-cta { display: none; }
     .tm2-burger { display: flex; }
+    .tm2-pillars-hero { grid-template-columns: 1fr; }
+    .tm2-pillars-grid { grid-template-columns: repeat(2, 1fr); }
+    .tm2-why-grid { grid-template-columns: 1fr; }
+    .tm2-why-col { border-right: none; border-bottom: 1px solid var(--border); }
+    .tm2-why-col:last-child { border-bottom: none; }
+    .tm2-faq-layout { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 640px) {
@@ -440,6 +496,7 @@ body.no-announce .tm2-dark-hero { padding-top: 140px; }
     .tm2-timeline-step::after { display: none; }
     .tm2-timeline-step { max-width: 280px; }
 
+    .tm2-pillars-grid { grid-template-columns: 1fr; }
     .tm2-marquee { padding: 14px 20px; }
     .tm2-marquee-label { font-size: 10px; margin-right: 28px; }
     .tm2-marquee-track { gap: 36px; }
