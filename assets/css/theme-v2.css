@@ -52,10 +52,14 @@ body {
     transform-origin: center;
 }
 .tm2-marquee-label {
-    font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.7);
+    font-size: 15px; font-weight: 700; color: rgba(255,255,255,0.7);
     text-transform: uppercase; letter-spacing: 0.8px;
     flex-shrink: 0; min-width: fit-content; margin-right: 70px;
     padding-left: 378px;
+    line-height: 1.25;
+}
+.tm2-marquee-label-big {
+    font-size: 26px; color: #fff;
 }
 .tm2-marquee-viewport {
     flex: 1; overflow: hidden; position: relative; height: 100%;

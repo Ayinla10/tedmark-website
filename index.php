@@ -54,7 +54,7 @@ require_once __DIR__ . '/includes/header.php';
 
 <!-- ===== TRUST MARQUEE (separates hero from Problem section) ===== -->
 <div class="tm2-marquee">
-    <div class="tm2-marquee-label">Our Trusted Partners</div>
+    <div class="tm2-marquee-label">Our Trusted<br><span class="tm2-marquee-label-big">Partners</span></div>
     <div class="tm2-marquee-viewport">
         <div class="tm2-marquee-track">
             <?php
