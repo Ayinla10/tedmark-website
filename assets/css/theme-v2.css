@@ -44,27 +44,26 @@ body {
 
 /* ── Trust Marquee (green band, scrolling logos, separates hero from next section) ── */
 .tm2-marquee {
-    background: #16a34a; overflow: hidden; position: relative;
-    display: flex !important; align-items: center !important; justify-content: flex-start !important;
-    text-align: left !important; padding: 16px 16px !important; width: 100% !important;
-    box-sizing: border-box;
+    width: 100%; background: #16a34a; min-height: 64px;
+    padding: 18px 44px; box-sizing: border-box;
+    display: flex; align-items: center;
+    position: relative; overflow: hidden;
 }
 .tm2-marquee-label {
-    flex: 0 0 auto !important; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.85);
-    text-transform: uppercase; letter-spacing: .04em; padding: 0 28px 0 8px; text-align: left !important;
-    border-right: 1px solid rgba(255,255,255,0.25); line-height: 1.4; white-space: nowrap;
-    margin-right: auto;
+    font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.7);
+    text-transform: uppercase; letter-spacing: 0.8px;
+    flex-shrink: 0; min-width: fit-content; margin-right: 70px;
 }
 .tm2-marquee-viewport {
-    flex: 1 1 auto; overflow: hidden; position: relative; min-width: 0;
-    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 64px, #000 calc(100% - 64px), transparent 100%);
-            mask-image: linear-gradient(90deg, transparent 0, #000 64px, #000 calc(100% - 64px), transparent 100%);
+    flex: 1; overflow: hidden; position: relative; height: 100%;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
+            mask-image: linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
 }
 .tm2-marquee-track {
-    display: flex; align-items: center; gap: 56px; white-space: nowrap;
-    width: max-content;
-    animation: tm2-marquee-scroll 22s linear infinite;
-    padding-left: 56px;
+    display: flex; align-items: center; gap: 70px; white-space: nowrap;
+    width: max-content; padding: 0;
+    animation: tm2-marquee-scroll 28s linear infinite;
+    will-change: transform;
     pointer-events: none; user-select: none;
 }
 .tm2-marquee-track span {
@@ -432,8 +431,9 @@ body.no-announce .tm2-dark-hero { padding-top: 140px; }
     .tm2-timeline-step::after { display: none; }
     .tm2-timeline-step { max-width: 280px; }
 
-    .tm2-marquee-label { font-size: 10.5px; padding: 0 16px; max-width: 100px; }
-    .tm2-marquee-track { gap: 36px; padding-left: 36px; }
+    .tm2-marquee { padding: 14px 20px; }
+    .tm2-marquee-label { font-size: 10px; margin-right: 28px; }
+    .tm2-marquee-track { gap: 36px; }
     .tm2-marquee-track span { font-size: 14px; }
 
     .tm2-problem-title { font-size: 30px; }
