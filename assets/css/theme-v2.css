@@ -61,6 +61,7 @@ body {
 .tm2-marquee-label-big {
     font-size: 26px; color: #fff;
     font-family: 'Bricolage Grotesque', serif;
+    font-style: italic;
 }
 .tm2-marquee-viewport {
     flex: 1; overflow: hidden; position: relative; height: 100%;
