@@ -45,7 +45,7 @@ body {
 /* ── Trust Marquee (green band, scrolling logos, separates hero from next section) ── */
 .tm2-marquee {
     width: 100%; background: #16a34a; min-height: 64px;
-    padding: 18px 44px; box-sizing: border-box;
+    padding: 18px 44px; padding-right: 271px; box-sizing: border-box;
     display: flex; align-items: center;
     position: relative; overflow: hidden;
 }
