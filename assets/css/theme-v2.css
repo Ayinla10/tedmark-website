@@ -118,6 +118,7 @@ body.no-announce .tm2-dark-hero { padding-top: 140px; }
     body.no-announce .tm2-hero { padding-top: 110px; }
     body.no-announce .tm2-page-hero { padding-top: 100px; }
     body.no-announce .tm2-dark-hero { padding-top: 100px; }
+    body.no-announce .tm2-pillars-hero-section { padding-top: 100px; }
 }
 
 /* ── Pill Navbar ─────────────────────────────────────── */
@@ -266,6 +267,8 @@ body.no-announce .tm2-dark-hero { padding-top: 140px; }
 .tm2-card p { font-size: 0.875rem; color: var(--text-soft); line-height: 1.6; }
 
 /* ── Services page: pillars hero ────────────────────────── */
+.tm2-pillars-hero-section { padding-top: 178px; }
+body.no-announce .tm2-pillars-hero-section { padding-top: 140px; }
 .tm2-h1 { font-family: 'Geist', sans-serif; font-weight: 800; font-size: clamp(2.1rem, 5vw, 3.4rem); line-height: 1.1; color: var(--text); letter-spacing: -0.02em; margin: 6px 0 18px; }
 .tm2-pillars-hero { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: center; }
 .tm2-pillars-hero-stats { display: flex; flex-direction: column; gap: 28px; }
@@ -471,6 +474,7 @@ body.no-announce .tm2-dark-hero { padding-top: 140px; }
     .tm2-hero p  { font-size: 0.9rem; }
 
     .tm2-page-hero { padding: 146px 16px 40px; }
+    .tm2-pillars-hero-section { padding-top: 146px; }
     .tm2-page-hero h1 { font-size: clamp(1.5rem, 7vw, 2rem); }
     .tm2-page-hero p  { font-size: 0.88rem; }
     .tm2-email-form { flex-direction: column; border-radius: 20px; padding: 8px; }

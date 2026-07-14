@@ -13,7 +13,7 @@ require_once __DIR__ . '/includes/header.php';
 ?>
 
 <!-- ===== HERO: pillars intro + stats ===== -->
-<section class="tm2-section" style="padding-top:56px;">
+<section class="tm2-section tm2-pillars-hero-section">
     <div class="tm2-container">
         <div class="tm2-pillars-hero">
             <div class="tm2-pillars-hero-copy">
