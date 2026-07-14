@@ -38,9 +38,8 @@ require_once __DIR__ . '/includes/header.php';
             $feats = array_filter(array_map('trim', explode(',', $svc['features']??'')));
         ?>
         <div class="tm2-card" style="position:relative;">
-            <?php if(!empty($svc['num'])): ?>
-            <div style="position:absolute;top:20px;right:22px;font-size:0.78rem;font-weight:800;color:var(--muted);letter-spacing:.05em;"><?= htmlspecialchars($svc['num']) ?></div>
-            <?php endif; ?>
+            <?php $num = $svc['num'] ?? str_pad($idx+1, 2, '0', STR_PAD_LEFT); ?>
+            <div style="position:absolute;top:20px;right:22px;font-size:0.78rem;font-weight:800;color:var(--muted);letter-spacing:.05em;"><?= htmlspecialchars($num) ?></div>
             <div class="tm2-card-icon"><i class="<?= htmlspecialchars($svc['icon']??'fa-solid fa-star') ?>"></i></div>
             <h3><?= htmlspecialchars($svc['title']) ?></h3>
             <p style="margin-bottom:16px;"><?= htmlspecialchars($svc['description']??$svc['desc']??'') ?></p>

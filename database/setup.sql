@@ -134,12 +134,12 @@ CREATE TABLE IF NOT EXISTS `services` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `services` (`title`, `slug`, `icon`, `color`, `description`, `features`, `sort_order`) VALUES
-('Business Systems', 'business-systems', 'fa-solid fa-database', '#22c55e', 'Custom ERPs, CRMs, and management systems built for how your business actually works.', 'Custom ERP & CRM,Inventory Management,HR & Payroll Systems,Client Portals', 1),
-('Automation', 'automation', 'fa-solid fa-robot', '#60a5fa', 'Eliminate repetitive tasks. We automate your workflows so your team focuses on what matters.', 'Workflow Automation,Report Generation,API Integrations,Scheduled Tasks', 2),
-('Web Development', 'web-development', 'fa-solid fa-globe', '#a78bfa', 'Fast, modern websites that convert visitors into customers and rank well on Google.', 'Business Websites,Landing Pages,SEO Optimisation,Speed & Performance', 3),
-('E-Commerce', 'ecommerce', 'fa-solid fa-cart-shopping', '#fb923c', 'Online stores built to sell — with payment integration, inventory, and order management.', 'Online Stores,Payment Integration,Order Management,Mobile Commerce', 4),
-('IT Consulting', 'it-consulting', 'fa-solid fa-lightbulb', '#f59e0b', 'Strategic technology advice to help you choose, implement, and scale the right tools.', 'Tech Strategy,Software Selection,System Audits,Digital Roadmap', 5),
-('Branding & Design', 'branding', 'fa-solid fa-palette', '#f43f5e', 'Logo, identity, and brand systems that make your business look credible and professional.', 'Logo Design,Brand Identity,Style Guides,Marketing Assets', 6);
+('AI Agent Development', 'ai-agent-development', 'fa-solid fa-robot', '#22c55e', 'Build intelligent AI agents for customer support, internal operations, documents, voice, chat, and workflow automation.', '', 1),
+('AI Operating System', 'ai-operating-system', 'fa-solid fa-server', '#a78bfa', 'Deploy, manage, monitor, and govern every AI agent, workflow, and business knowledge base from one central platform.', '', 2),
+('AI Marketing', 'ai-marketing', 'fa-solid fa-bullhorn', '#f43f5e', 'Automate lead generation, CRM, outreach, content, and customer engagement with AI-powered marketing systems.', '', 3),
+('AI Strategy & Consulting', 'ai-strategy-consulting', 'fa-solid fa-compass', '#f59e0b', 'Identify high-impact AI opportunities, define implementation roadmaps, and guide your organization from idea to deployment.', '', 4),
+('AI Adoption & Training', 'ai-adoption-training', 'fa-solid fa-graduation-cap', '#14b8a6', 'Equip your teams with practical AI skills, playbooks, and workflows that drive real adoption and measurable productivity.', '', 5),
+('Web/App Development', 'web-app-development', 'fa-solid fa-code', '#60a5fa', 'Design and build AI-powered web and mobile applications using modern technologies like React, Next.js, React Native, etc.', '', 6);
 
 -- ─────────────────────────────────────────
 -- TEAM MEMBERS
