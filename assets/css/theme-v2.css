@@ -42,6 +42,35 @@ body {
 .tm-t-soft { color: var(--text-soft) !important; }
 .tm-t-muted { color: var(--muted) !important; }
 
+/* ── Problem section (custom sizes) ─────────────────────── */
+.tm2-problem-title    { font-size: 50px; }
+.tm2-problem-sub       { font-size: 17px; }
+.tm2-problem-card-title{ font-size: 20px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+.tm2-problem-card-sub  { font-size: 14px; color: var(--text-soft); line-height: 1.6; }
+
+/* ── Trust Marquee (green band, scrolling logos, separates hero from next section) ── */
+.tm2-marquee {
+    background: #16a34a; overflow: hidden; position: relative;
+    display: flex; align-items: center; padding: 16px 0;
+}
+.tm2-marquee-label {
+    flex-shrink: 0; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.85);
+    text-transform: uppercase; letter-spacing: .04em; padding: 0 28px 0 24px;
+    border-right: 1px solid rgba(255,255,255,0.25); line-height: 1.4; max-width: 160px;
+}
+.tm2-marquee-track {
+    display: flex; align-items: center; gap: 56px; white-space: nowrap;
+    animation: tm2-marquee-scroll 22s linear infinite;
+    padding-left: 56px;
+}
+.tm2-marquee-track span {
+    font-size: 17px; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+@keyframes tm2-marquee-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+}
+
 /* ── Announcement Bar (fixed, above nav, animated shine) ── */
 .tm2-announce-bar {
     position: fixed; top: 0; left: 0; right: 0; z-index: 210;
@@ -392,4 +421,11 @@ body.no-announce .tm2-dark-hero { padding-top: 140px; }
     .tm2-timeline { flex-direction: column; gap: 28px; align-items: center; }
     .tm2-timeline-step::after { display: none; }
     .tm2-timeline-step { max-width: 280px; }
+
+    .tm2-marquee-label { font-size: 10.5px; padding: 0 16px; max-width: 100px; }
+    .tm2-marquee-track { gap: 36px; padding-left: 36px; }
+    .tm2-marquee-track span { font-size: 14px; }
+
+    .tm2-problem-title { font-size: 30px; }
+    .tm2-problem-sub    { font-size: 15px; }
 }

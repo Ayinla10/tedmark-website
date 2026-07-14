@@ -50,23 +50,28 @@ require_once __DIR__ . '/includes/header.php';
         <input type="email" name="email" placeholder="your@email.com" required>
         <button type="submit"><?= cfg($cfg,'hero_btn_primary','Book a Free Session') ?></button>
     </form>
+</section>
 
-    <div class="tm2-logos">
+<!-- ===== TRUST MARQUEE (separates hero from Problem section) ===== -->
+<div class="tm2-marquee">
+    <div class="tm2-marquee-label">Trusted by builders, operators &amp; founders</div>
+    <div class="tm2-marquee-track">
         <?php
         $logos = ['RetailPro GH','MediTrack','EduLink','FoodFlow','PropEstate','LogiMove'];
-        foreach($logos as $l): ?>
+        // Duplicate the list so the loop is seamless
+        foreach(array_merge($logos, $logos) as $l): ?>
         <span><?= $l ?></span>
         <?php endforeach; ?>
     </div>
-</section>
+</div>
 
 <!-- ===== PROBLEMS ===== -->
 <section class="tm2-section">
     <div class="tm2-container">
         <div class="tm2-section-head">
             <div class="tm2-eyebrow">The Problem</div>
-            <h2 class="tm2-h2">Sound <em>Familiar</em>?</h2>
-            <p class="tm2-sub">Most growing businesses are held back by the same operational bottlenecks. We fix all of them.</p>
+            <h2 class="tm2-h2 tm2-problem-title">Sound <em>Familiar</em>?</h2>
+            <p class="tm2-sub tm2-problem-sub">Most growing businesses are held back by the same operational bottlenecks. We fix all of them.</p>
         </div>
         <div class="tm2-grid tm2-grid-4">
             <?php
@@ -79,8 +84,8 @@ require_once __DIR__ . '/includes/header.php';
             foreach($problems as $p): ?>
             <div class="tm2-card">
                 <div class="tm2-card-icon"><i class="<?= $p['icon'] ?>"></i></div>
-                <h3><?= $p['title'] ?></h3>
-                <p><?= $p['desc'] ?></p>
+                <h3 class="tm2-problem-card-title"><?= $p['title'] ?></h3>
+                <p class="tm2-problem-card-sub"><?= $p['desc'] ?></p>
             </div>
             <?php endforeach; ?>
         </div>
