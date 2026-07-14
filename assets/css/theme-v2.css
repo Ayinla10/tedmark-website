@@ -53,7 +53,7 @@ body {
     font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.7);
     text-transform: uppercase; letter-spacing: 0.8px;
     flex-shrink: 0; min-width: fit-content; margin-right: 70px;
-    padding-left: 40px;
+    padding-left: 76px;
 }
 .tm2-marquee-viewport {
     flex: 1; overflow: hidden; position: relative; height: 100%;
