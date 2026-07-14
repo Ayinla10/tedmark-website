@@ -54,18 +54,20 @@ require_once __DIR__ . '/includes/header.php';
 
 <!-- ===== TRUST MARQUEE (separates hero from Problem section) ===== -->
 <div class="tm2-marquee">
-    <div class="tm2-marquee-label">Trusted by builders, operators &amp; founders</div>
-    <div class="tm2-marquee-track">
-        <?php
-        $logos = ['RetailPro GH','MediTrack','EduLink','FoodFlow','PropEstate','LogiMove'];
-        // Duplicate the list so the loop is seamless
-        foreach(array_merge($logos, $logos) as $l): ?>
-        <span><?= $l ?></span>
-        <?php endforeach; ?>
+    <div class="tm2-marquee-label">Our Trusted Partners</div>
+    <div class="tm2-marquee-viewport">
+        <div class="tm2-marquee-track">
+            <?php
+            $logos = ['RetailPro GH','MediTrack','EduLink','FoodFlow','PropEstate','LogiMove'];
+            // Duplicate the list so the loop is seamless
+            foreach(array_merge($logos, $logos) as $l): ?>
+            <span><?= $l ?></span>
+            <?php endforeach; ?>
+        </div>
     </div>
 </div>
 
-<!-- ===== PROBLEMS ===== -->
+<!-- ===== PROBLEMS (connected numbered-node layout) ===== -->
 <section class="tm2-section">
     <div class="tm2-container">
         <div class="tm2-section-head">
@@ -73,17 +75,17 @@ require_once __DIR__ . '/includes/header.php';
             <h2 class="tm2-h2 tm2-problem-title">Sound <em>Familiar</em>?</h2>
             <p class="tm2-sub tm2-problem-sub">Most growing businesses are held back by the same operational bottlenecks. We fix all of them.</p>
         </div>
-        <div class="tm2-grid tm2-grid-4">
+        <div class="tm2-timeline">
             <?php
             $problems = [
-                ['icon'=>'fa-solid fa-gears','title'=>'Manual Processes','desc'=>'Hours lost to repetitive tasks that could be automated — data entry, invoicing, reporting.'],
-                ['icon'=>'fa-solid fa-layer-group','title'=>'Scattered Information','desc'=>'Customer data, finances, and operations spread across spreadsheets and paper files.'],
-                ['icon'=>'fa-solid fa-comment-slash','title'=>'Poor Communication','desc'=>'Team silos, missed follow-ups, and inconsistent customer experiences costing you sales.'],
-                ['icon'=>'fa-solid fa-chart-line','title'=>'Lack of Visibility','desc'=>'No real-time dashboards or reports — you\'re making decisions without accurate data.'],
+                ['num'=>'01','title'=>'Manual Processes','desc'=>'Hours lost to repetitive tasks that could be automated — data entry, invoicing, reporting.'],
+                ['num'=>'02','title'=>'Scattered Information','desc'=>'Customer data, finances, and operations spread across spreadsheets and paper files.'],
+                ['num'=>'03','title'=>'Poor Communication','desc'=>'Team silos, missed follow-ups, and inconsistent customer experiences costing you sales.'],
+                ['num'=>'04','title'=>'Lack of Visibility','desc'=>'No real-time dashboards or reports — you\'re making decisions without accurate data.'],
             ];
-            foreach($problems as $p): ?>
-            <div class="tm2-card">
-                <div class="tm2-card-icon"><i class="<?= $p['icon'] ?>"></i></div>
+            foreach($problems as $i => $p): ?>
+            <div class="tm2-timeline-step">
+                <div class="tm2-timeline-num<?= $i===0 ? ' active' : '' ?>"><?= $p['num'] ?></div>
                 <h3 class="tm2-problem-card-title"><?= $p['title'] ?></h3>
                 <p class="tm2-problem-card-sub"><?= $p['desc'] ?></p>
             </div>

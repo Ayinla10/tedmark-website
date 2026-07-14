@@ -42,29 +42,31 @@ body {
 .tm-t-soft { color: var(--text-soft) !important; }
 .tm-t-muted { color: var(--muted) !important; }
 
-/* ── Problem section (custom sizes) ─────────────────────── */
-.tm2-problem-title    { font-size: 50px; }
-.tm2-problem-sub       { font-size: 17px; }
-.tm2-problem-card-title{ font-size: 20px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
-.tm2-problem-card-sub  { font-size: 14px; color: var(--text-soft); line-height: 1.6; }
-
 /* ── Trust Marquee (green band, scrolling logos, separates hero from next section) ── */
 .tm2-marquee {
     background: #16a34a; overflow: hidden; position: relative;
-    display: flex; align-items: center; padding: 16px 0;
+    display: flex; align-items: center; justify-content: flex-start;
+    text-align: left; padding: 16px 0; width: 100%;
 }
 .tm2-marquee-label {
-    flex-shrink: 0; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.85);
-    text-transform: uppercase; letter-spacing: .04em; padding: 0 28px 0 24px;
-    border-right: 1px solid rgba(255,255,255,0.25); line-height: 1.4; max-width: 160px;
+    flex: 0 0 auto; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.85);
+    text-transform: uppercase; letter-spacing: .04em; padding: 0 28px; text-align: left;
+    border-right: 1px solid rgba(255,255,255,0.25); line-height: 1.4; white-space: nowrap;
+}
+.tm2-marquee-viewport {
+    flex: 1 1 auto; overflow: hidden; position: relative; min-width: 0;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 64px, #000 calc(100% - 64px), transparent 100%);
+            mask-image: linear-gradient(90deg, transparent 0, #000 64px, #000 calc(100% - 64px), transparent 100%);
 }
 .tm2-marquee-track {
     display: flex; align-items: center; gap: 56px; white-space: nowrap;
+    width: max-content;
     animation: tm2-marquee-scroll 22s linear infinite;
     padding-left: 56px;
+    pointer-events: none; user-select: none;
 }
 .tm2-marquee-track span {
-    font-size: 17px; font-weight: 700; color: #fff; flex-shrink: 0;
+    font-size: 17px; font-weight: 700; color: #fff; flex: 0 0 auto;
 }
 @keyframes tm2-marquee-scroll {
     from { transform: translateX(0); }
@@ -252,6 +254,12 @@ body.no-announce .tm2-dark-hero { padding-top: 140px; }
 }
 .tm2-card h3 { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 8px; }
 .tm2-card p { font-size: 0.875rem; color: var(--text-soft); line-height: 1.6; }
+
+/* ── Problem section (custom sizes) ─────────────────────── */
+.tm2-problem-title      { font-size: 50px !important; }
+.tm2-problem-sub        { font-size: 17px !important; }
+.tm2-problem-card-title { font-size: 20px !important; }
+.tm2-problem-card-sub   { font-size: 14px !important; }
 
 /* ── Stats row ───────────────────────────────────────── */
 .tm2-stats { display: flex; justify-content: center; gap: 48px; flex-wrap: wrap; text-align: center; }
