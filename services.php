@@ -74,17 +74,17 @@ require_once __DIR__ . '/includes/header.php';
     <div class="tm2-container">
         <div class="tm2-why-head">
             <div>
-                <div class="tm2-eyebrow">Why These Services</div>
+                <div class="tm2-eyebrow">Why Businesses Choose Tedmark</div>
                 <h2 class="tm2-h2">Built for results.<br><em>Built to last.</em></h2>
             </div>
-            <div class="tm2-why-tag">Live in Weeks, Backed for Years</div>
+            <div class="tm2-why-tag">Speed, Result, Support</div>
         </div>
         <div class="tm2-why-grid">
             <?php
             $why = [
-                ['num'=>'01','title'=>'Rapid Implementation','desc'=>'Pre-built frameworks and proven methodologies get your automation live in weeks, not quarters.'],
-                ['num'=>'02','title'=>'Proven Results','desc'=>'Join dozens of businesses that have transformed operations with measurable efficiency and productivity gains.'],
-                ['num'=>'03','title'=>'Expert Support','desc'=>'A team of AI and automation specialists who stay on the hook for outcomes long after we ship.'],
+                ['num'=>'01','title'=>'Practical Implementation','desc'=>'We focus on solutions that solve real business problems — helping you move from ideas to working systems faster.'],
+                ['num'=>'02','title'=>'Business-Focused Results','desc'=>'Our goal is not just implementing technology. We help businesses save time, improve efficiency, serve customers better, and create new opportunities.'],
+                ['num'=>'03','title'=>'Continuous Support','desc'=>'Technology evolves. Your business evolves. We provide ongoing guidance, improvements, and support to ensure your systems continue delivering value.'],
             ];
             foreach($why as $w): ?>
             <div class="tm2-why-col">
