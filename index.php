@@ -99,22 +99,27 @@ require_once __DIR__ . '/includes/header.php';
     <div class="tm2-container">
         <div class="tm2-section-head">
             <div class="tm2-eyebrow">What We Do</div>
-            <h2 class="tm2-h2">Everything Your Business Needs to <em>Thrive</em> Digitally</h2>
-            <p class="tm2-sub">End-to-end digital transformation — from strategy to implementation to ongoing support.</p>
+            <h2 class="tm2-h2">Everything Your Business Needs to Run on <em>AI</em></h2>
+            <p class="tm2-sub">End-to-end AI transformation — from strategy to implementation to ongoing support.</p>
         </div>
         <div class="tm2-grid tm2-grid-4">
             <?php
-            $services = [
-                ['icon'=>'fa-solid fa-gears','title'=>'Business Systems','desc'=>'Custom ERPs, inventory management, HR systems, and operational platforms tailored for your business.'],
-                ['icon'=>'fa-solid fa-robot','title'=>'Automation','desc'=>'Automate invoicing, reporting, communications, and workflows to save 10+ hours per week.'],
-                ['icon'=>'fa-solid fa-code','title'=>'Web Development','desc'=>'Fast, modern websites and web applications that convert visitors into paying customers.'],
-                ['icon'=>'fa-solid fa-cart-shopping','title'=>'E-Commerce','desc'=>'Online stores with payments, inventory, and shipping — ready to sell anywhere in the world.'],
+            $servicesFallback = [
+                ['icon'=>'fa-solid fa-robot','title'=>'AI Agent Development','desc'=>'Build intelligent AI agents for customer support, internal operations, documents, voice, chat, and workflow automation.'],
+                ['icon'=>'fa-solid fa-server','title'=>'AI Operating System','desc'=>'Deploy, manage, monitor, and govern every AI agent, workflow, and business knowledge base from one central platform.'],
+                ['icon'=>'fa-solid fa-bullhorn','title'=>'AI Marketing','desc'=>'Automate lead generation, CRM, outreach, content, and customer engagement with AI-powered marketing systems.'],
+                ['icon'=>'fa-solid fa-code','title'=>'Web/App Development','desc'=>'Design and build AI-powered web and mobile applications using modern technologies like React, Next.js, React Native, etc.'],
             ];
-            foreach($services as $s): ?>
+            try { $dbServices = array_slice(fetchAll("SELECT * FROM services WHERE status='active' ORDER BY sort_order ASC"), 0, 4); }
+            catch(Exception $e) { $dbServices = []; }
+            $services = !empty($dbServices) ? $dbServices : $servicesFallback;
+            foreach($services as $s):
+                $desc = $s['description'] ?? $s['desc'] ?? '';
+            ?>
             <div class="tm2-card">
-                <div class="tm2-card-icon"><i class="<?= $s['icon'] ?>"></i></div>
-                <h3><?= $s['title'] ?></h3>
-                <p><?= $s['desc'] ?></p>
+                <div class="tm2-card-icon"><i class="<?= htmlspecialchars($s['icon']) ?>"></i></div>
+                <h3><?= htmlspecialchars($s['title']) ?></h3>
+                <p><?= htmlspecialchars($desc) ?></p>
                 <a href="<?= SITE_URL ?>/services.php" style="font-size:0.85rem;font-weight:600;color:var(--accent);display:inline-flex;align-items:center;gap:6px;margin-top:14px;text-decoration:none;">
                     Learn more <i class="fa-solid fa-arrow-right fa-2xs"></i>
                 </a>
