@@ -43,7 +43,7 @@ require_once __DIR__ . '/includes/admin-layout.php';
 
 <!-- TABS -->
 <div style="display:flex;gap:4px;margin-bottom:24px;border-bottom:1px solid #1e293b;">
-  <?php foreach(['general'=>'General','announce'=>'Announcement Bar','homepage'=>'Homepage','cta'=>'CTA Band','footer'=>'Footer','social'=>'Social Media'] as $tab=>$label): ?>
+  <?php foreach(['general'=>'General','announce'=>'Announcement Bar','homepage'=>'Homepage','services'=>'Services Page','cta'=>'CTA Band','footer'=>'Footer','social'=>'Social Media'] as $tab=>$label): ?>
   <button type="button" class="tab-btn" data-tab="<?= $tab ?>" style="padding:10px 18px;border:none;background:none;color:#64748b;font-size:0.85rem;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:'Inter',sans-serif;">
     <?= $label ?>
   </button>
@@ -119,6 +119,82 @@ require_once __DIR__ . '/includes/admin-layout.php';
       </div>
       <?php endfor; ?>
     </div>
+  </div>
+</div>
+
+<!-- SERVICES PAGE -->
+<div class="tab-panel" id="tab-services" style="display:none;">
+  <div class="tm-card" style="margin-bottom:20px;">
+    <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-layer-group text-green" style="margin-right:8px;"></i>Hero Section</span></div>
+    <div class="form-group"><label>Eyebrow Tag</label><input type="text" name="settings[svc_hero_eyebrow]" value="<?= si($s,'svc_hero_eyebrow') ?>" placeholder="6 Pillars • One Operating System"></div>
+    <div class="form-row">
+      <div class="form-group"><label>Headline Part 1 (line 1)</label><input type="text" name="settings[svc_hero_h1_pre]" value="<?= si($s,'svc_hero_h1_pre') ?>" placeholder="Pick a pillar."></div>
+      <div class="form-group"><label>Headline Part 2 (before emphasis)</label><input type="text" name="settings[svc_hero_h1_mid]" value="<?= si($s,'svc_hero_h1_mid') ?>" placeholder="Or"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Emphasised Word (italic accent)</label><input type="text" name="settings[svc_hero_h1_em]" value="<?= si($s,'svc_hero_h1_em') ?>" placeholder="combine"></div>
+      <div class="form-group"><label>Headline Part 3 (after emphasis)</label><input type="text" name="settings[svc_hero_h1_post]" value="<?= si($s,'svc_hero_h1_post') ?>" placeholder="them all."></div>
+    </div>
+    <div class="form-group"><label>Subtext</label><textarea name="settings[svc_hero_subtext]" rows="3"><?= si($s,'svc_hero_subtext') ?></textarea></div>
+    <div class="form-row">
+      <div class="form-group"><label>Primary Button Text</label><input type="text" name="settings[svc_hero_btn_primary]" value="<?= si($s,'svc_hero_btn_primary') ?>" placeholder="Get Started Today"></div>
+      <div class="form-group"><label>Secondary Button Text</label><input type="text" name="settings[svc_hero_btn_secondary]" value="<?= si($s,'svc_hero_btn_secondary') ?>" placeholder="Explore the Pillars"></div>
+    </div>
+  </div>
+  <div class="tm-card" style="margin-bottom:20px;">
+    <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-chart-bar text-green" style="margin-right:8px;"></i>Hero Stats (3)</span></div>
+    <div class="tm-grid-3">
+      <?php for($i=1;$i<=3;$i++): ?>
+      <div>
+        <div class="form-group"><label>Stat <?= $i ?> Value</label><input type="text" name="settings[svc_stat_<?= $i ?>_value]" value="<?= si($s,"svc_stat_{$i}_value") ?>"></div>
+        <div class="form-group"><label>Stat <?= $i ?> Label</label><input type="text" name="settings[svc_stat_<?= $i ?>_label]" value="<?= si($s,"svc_stat_{$i}_label") ?>"></div>
+      </div>
+      <?php endfor; ?>
+    </div>
+  </div>
+  <div class="tm-card" style="margin-bottom:20px;">
+    <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-cubes text-green" style="margin-right:8px;"></i>Pillars Grid Heading</span></div>
+    <div class="form-row">
+      <div class="form-group"><label>Heading Line 1</label><input type="text" name="settings[svc_pillars_h2_pre]" value="<?= si($s,'svc_pillars_h2_pre') ?>" placeholder="Six specialised pillars."></div>
+      <div class="form-group"><label>Heading Line 2 (italic accent)</label><input type="text" name="settings[svc_pillars_h2_em]" value="<?= si($s,'svc_pillars_h2_em') ?>" placeholder="Endless combinations."></div>
+    </div>
+    <div class="form-group"><label>Subtext</label><textarea name="settings[svc_pillars_subtext]" rows="2"><?= si($s,'svc_pillars_subtext') ?></textarea></div>
+    <p style="color:#64748b;font-size:0.8rem;">The 6 pillar cards themselves are managed in <a href="<?= SITE_URL ?>/admin/services.php" style="color:#22c55e;">Services</a>.</p>
+  </div>
+  <div class="tm-card" style="margin-bottom:20px;">
+    <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-thumbs-up text-green" style="margin-right:8px;"></i>Why These Services</span></div>
+    <div class="form-row">
+      <div class="form-group"><label>Eyebrow Tag</label><input type="text" name="settings[svc_why_eyebrow]" value="<?= si($s,'svc_why_eyebrow') ?>" placeholder="Why Businesses Choose Tedmark"></div>
+      <div class="form-group"><label>Right-side Tag</label><input type="text" name="settings[svc_why_tag]" value="<?= si($s,'svc_why_tag') ?>" placeholder="Speed, Result, Support"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Heading Line 1</label><input type="text" name="settings[svc_why_h2_pre]" value="<?= si($s,'svc_why_h2_pre') ?>" placeholder="Built for results."></div>
+      <div class="form-group"><label>Heading Line 2 (italic accent)</label><input type="text" name="settings[svc_why_h2_em]" value="<?= si($s,'svc_why_h2_em') ?>" placeholder="Built to last."></div>
+    </div>
+    <?php for($i=1;$i<=3;$i++): ?>
+    <div class="form-row" style="border-top:1px solid #1e293b;padding-top:14px;margin-top:14px;">
+      <div class="form-group"><label>Column <?= $i ?> Title</label><input type="text" name="settings[svc_why_<?= $i ?>_title]" value="<?= si($s,"svc_why_{$i}_title") ?>"></div>
+      <div class="form-group"><label>Column <?= $i ?> Description</label><input type="text" name="settings[svc_why_<?= $i ?>_desc]" value="<?= si($s,"svc_why_{$i}_desc") ?>"></div>
+    </div>
+    <?php endfor; ?>
+  </div>
+  <div class="tm-card">
+    <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-circle-question text-green" style="margin-right:8px;"></i>FAQ Section</span></div>
+    <div class="form-row">
+      <div class="form-group"><label>Eyebrow Tag</label><input type="text" name="settings[svc_faq_eyebrow]" value="<?= si($s,'svc_faq_eyebrow') ?>" placeholder="Frequently Asked"></div>
+      <div class="form-group"><label>Button Text</label><input type="text" name="settings[svc_faq_btn]" value="<?= si($s,'svc_faq_btn') ?>" placeholder="Book a Free Consultation"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Heading (before emphasis)</label><input type="text" name="settings[svc_faq_h2_pre]" value="<?= si($s,'svc_faq_h2_pre') ?>" placeholder="Services,"></div>
+      <div class="form-group"><label>Heading (italic accent)</label><input type="text" name="settings[svc_faq_h2_em]" value="<?= si($s,'svc_faq_h2_em') ?>" placeholder="answered"></div>
+    </div>
+    <div class="form-group"><label>Subtext</label><textarea name="settings[svc_faq_subtext]" rows="2"><?= si($s,'svc_faq_subtext') ?></textarea></div>
+    <?php for($i=1;$i<=4;$i++): ?>
+    <div style="border-top:1px solid #1e293b;padding-top:14px;margin-top:14px;">
+      <div class="form-group"><label>Question <?= $i ?></label><input type="text" name="settings[svc_faq_<?= $i ?>_q]" value="<?= si($s,"svc_faq_{$i}_q") ?>"></div>
+      <div class="form-group"><label>Answer <?= $i ?></label><textarea name="settings[svc_faq_<?= $i ?>_a]" rows="2"><?= si($s,"svc_faq_{$i}_a") ?></textarea></div>
+    </div>
+    <?php endfor; ?>
   </div>
 </div>
 
