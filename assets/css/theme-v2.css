@@ -474,7 +474,6 @@ body.no-announce .tm2-pillars-hero-section { padding-top: 140px; }
     .tm2-hero p  { font-size: 0.9rem; }
 
     .tm2-page-hero { padding: 146px 16px 40px; }
-    .tm2-pillars-hero-section { padding-top: 146px; }
     .tm2-page-hero h1 { font-size: clamp(1.5rem, 7vw, 2rem); }
     .tm2-page-hero p  { font-size: 0.88rem; }
     .tm2-email-form { flex-direction: column; border-radius: 20px; padding: 8px; }
@@ -483,6 +482,7 @@ body.no-announce .tm2-pillars-hero-section { padding-top: 140px; }
 
     .tm2-section { padding: 48px 16px; }
     .tm2-section-head { margin-bottom: 32px; }
+    .tm2-pillars-hero-section { padding-top: 146px !important; }
 
     .tm2-grid-2, .tm2-grid-3, .tm2-grid-4 { grid-template-columns: 1fr !important; }
 
