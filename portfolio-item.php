@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/includes/config.php';
 // Hidden until CMS is ready — redirect to portfolio
-header('Location: ' . SITE_URL . '/portfolio.php');
+header('Location: ' . SITE_URL . '/portfolio');
 exit;
 require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/db.php';
@@ -138,7 +138,7 @@ if (!$project) {
     $isFallback = true;
 }
 
-if (!$project) { header('Location: ' . SITE_URL . '/portfolio.php'); exit; }
+if (!$project) { header('Location: ' . SITE_URL . '/portfolio'); exit; }
 
 $pageTitle       = $project['title'] . ' | Portfolio';
 $pageDesc        = $isFallback ? $project['desc'] : ($project['description'] ?? '');
@@ -153,7 +153,7 @@ require_once __DIR__ . '/includes/header.php';
         <div style="display:flex;align-items:center;gap:8px;font-size:0.8rem;color:#64748b;margin-bottom:28px;">
             <a href="<?= SITE_URL ?>/" style="color:#64748b;text-decoration:none;">Home</a>
             <i class="fa-solid fa-chevron-right fa-2xs"></i>
-            <a href="<?= SITE_URL ?>/portfolio.php" style="color:#64748b;text-decoration:none;">Portfolio</a>
+            <a href="<?= SITE_URL ?>/portfolio" style="color:#64748b;text-decoration:none;">Portfolio</a>
             <i class="fa-solid fa-chevron-right fa-2xs"></i>
             <span style="color:#94a3b8;"><?= htmlspecialchars($project['title']) ?></span>
         </div>
@@ -329,7 +329,7 @@ require_once __DIR__ . '/includes/header.php';
                     <i class="fa-solid fa-rocket" style="font-size:1.8rem;color:#4ade80;margin-bottom:14px;display:block;position:relative;z-index:1;"></i>
                     <h3 style="font-size:1rem;font-weight:800;color:#fff;margin:0 0 8px;position:relative;z-index:1;">Want Similar Results?</h3>
                     <p style="font-size:0.8rem;color:#86efac;margin:0 0 20px;line-height:1.6;position:relative;z-index:1;">Let's talk about what we can build for your business.</p>
-                    <a href="<?= SITE_URL ?>/consultation.php" style="display:block;background:#f59e0b;color:#0f172a;padding:12px;border-radius:10px;font-weight:800;font-size:0.875rem;text-decoration:none;position:relative;z-index:1;">
+                    <a href="<?= SITE_URL ?>/consultation" style="display:block;background:#f59e0b;color:#0f172a;padding:12px;border-radius:10px;font-weight:800;font-size:0.875rem;text-decoration:none;position:relative;z-index:1;">
                         Book a Free Session <i class="fa-solid fa-arrow-right fa-xs"></i>
                     </a>
                 </div>
@@ -348,7 +348,7 @@ require_once __DIR__ . '/includes/header.php';
                 <div style="font-size:0.75rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">Next Project</div>
                 <div style="font-size:1.2rem;font-weight:800;color:#0f172a;"><?= htmlspecialchars($project['next_title']) ?></div>
             </div>
-            <a href="<?= SITE_URL ?>/portfolio-item.php?slug=<?= urlencode($project['next_slug']) ?>" class="tm-btn-primary">
+            <a href="<?= SITE_URL ?>/portfolio-item?slug=<?= urlencode($project['next_slug']) ?>" class="tm-btn-primary">
                 View Project <i class="fa-solid fa-arrow-right fa-xs"></i>
             </a>
         </div>

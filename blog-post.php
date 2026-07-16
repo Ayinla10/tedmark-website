@@ -4,7 +4,7 @@ require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/db.php';
 
 $slug = trim($_GET['slug'] ?? '');
-if (!$slug) { header('Location: ' . SITE_URL . '/blog.php'); exit; }
+if (!$slug) { header('Location: ' . SITE_URL . '/blog'); exit; }
 
 // ── Fallback post (CMS will replace via DB) ───────────────────────────────
 $fallbackPosts = [
@@ -66,7 +66,7 @@ if (!$post) {
     $related    = array_values(array_filter($fallbackPosts, fn($p) => $p['slug'] !== $post['slug']));
 }
 
-if (!$post) { header('Location: ' . SITE_URL . '/blog.php'); exit; }
+if (!$post) { header('Location: ' . SITE_URL . '/blog'); exit; }
 
 // ── Derived values ────────────────────────────────────────────────────────
 $title      = htmlspecialchars($post['title']);
@@ -80,7 +80,7 @@ $views      = number_format($post['views'] ?? 0);
 $hasAudio   = !empty($post['audio_url']) || !empty($post['has_audio']);
 $audioUrl   = $post['audio_url'] ?? '';
 $tags       = array_filter(array_map('trim', explode(',', $post['tags'] ?? '')));
-$postUrl    = SITE_URL . '/blog-post.php?slug=' . urlencode($post['slug'] ?? $slug);
+$postUrl    = SITE_URL . '/blog-post?slug=' . urlencode($post['slug'] ?? $slug);
 
 $pageTitle       = $post['title'] . ' | Blog';
 $pageDesc        = strip_tags($post['excerpt'] ?? '');
@@ -195,7 +195,7 @@ require_once __DIR__ . '/includes/header.php';
             <div style="display:flex;align-items:center;gap:8px;font-size:0.78rem;color:#94a3b8;margin-bottom:32px;">
                 <a href="<?= SITE_URL ?>/" style="color:#94a3b8;text-decoration:none;">Home</a>
                 <i class="fa-solid fa-chevron-right fa-2xs"></i>
-                <a href="<?= SITE_URL ?>/blog.php" style="color:#94a3b8;text-decoration:none;">Blog</a>
+                <a href="<?= SITE_URL ?>/blog" style="color:#94a3b8;text-decoration:none;">Blog</a>
                 <i class="fa-solid fa-chevron-right fa-2xs"></i>
                 <span style="color:#64748b;"><?= $category ?></span>
             </div>
@@ -374,7 +374,7 @@ if (!empty($post['featured_image'])) {
                     <i class="fa-solid fa-rocket" style="font-size:1.5rem;color:#16a34a;margin-bottom:12px;display:block;"></i>
                     <h3 style="font-size:0.95rem;font-weight:800;color:#0f172a;margin:0 0 8px;">Ready to implement this?</h3>
                     <p style="font-size:0.8rem;color:#64748b;margin:0 0 16px;line-height:1.6;">Book a free strategy session and we'll show you exactly how.</p>
-                    <a href="<?= SITE_URL ?>/consultation.php" style="display:block;background:#16a34a;color:#fff;padding:11px;border-radius:10px;font-weight:600;font-size:0.875rem;text-decoration:none;">
+                    <a href="<?= SITE_URL ?>/consultation" style="display:block;background:#16a34a;color:#fff;padding:11px;border-radius:10px;font-weight:600;font-size:0.875rem;text-decoration:none;">
                         Book Free Session <i class="fa-solid fa-arrow-right fa-xs"></i>
                     </a>
                 </div>
@@ -397,7 +397,7 @@ if (!empty($post['featured_image'])) {
                     $rCat     = htmlspecialchars($r['category'] ?? ($r['cat_name'] ?? 'Article'));
                     $rExcerpt = htmlspecialchars(substr(strip_tags($r['excerpt'] ?? ''), 0, 110));
                 ?>
-                <a href="<?= SITE_URL ?>/blog-post.php?slug=<?= urlencode($rSlug) ?>"
+                <a href="<?= SITE_URL ?>/blog-post?slug=<?= urlencode($rSlug) ?>"
                    style="background:#fff;border:1px solid #f1f5f9;border-radius:20px;overflow:hidden;text-decoration:none;display:block;transition:transform .25s,box-shadow .25s;"
                    onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 40px rgba(0,0,0,0.08)'"
                    onmouseout="this.style.transform='';this.style.boxShadow=''">

@@ -73,7 +73,7 @@ require_once __DIR__ . '/includes/header.php';
                         <span style="font-size:0.65rem;font-weight:600;background:#f0fdf4;color:#16a34a;padding:2px 8px;border-radius:10px;white-space:nowrap;margin-left:8px;"><?= $r['badge'] ?></span>
                     </div>
                     <p style="font-size:0.8rem;color:#64748b;line-height:1.5;margin-bottom:10px;"><?= $r['desc'] ?></p>
-                    <a href="<?= SITE_URL ?>/consultation.php" style="font-size:0.78rem;font-weight:600;color:#16a34a;text-decoration:none;">
+                    <a href="<?= SITE_URL ?>/consultation" style="font-size:0.78rem;font-weight:600;color:#16a34a;text-decoration:none;">
                         <i class="fa-solid fa-download fa-2xs"></i> Download <?= $r['type'] ?>
                     </a>
                 </div>

@@ -28,7 +28,7 @@ require_once __DIR__ . '/includes/header.php';
                 <h1 class="tm2-h1"><?= svccfg($cfg,'svc_hero_h1_pre','Pick a pillar.') ?><br><?= svccfg($cfg,'svc_hero_h1_mid','Or') ?> <em><?= svccfg($cfg,'svc_hero_h1_em','combine') ?></em> <?= svccfg($cfg,'svc_hero_h1_post','them all.') ?></h1>
                 <p class="tm2-sub" style="max-width:520px;"><?= svccfg($cfg,'svc_hero_subtext','From AI agent development and operating systems to marketing, consulting, training and enablement, and web and mobile, six pillars that mix into whichever combination actually solves your problem.') ?></p>
                 <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:28px;">
-                    <a href="<?= SITE_URL ?>/consultation.php" class="tm2-btn tm2-btn-primary"><?= svccfg($cfg,'svc_hero_btn_primary','Get Started Today') ?></a>
+                    <a href="<?= SITE_URL ?>/consultation" class="tm2-btn tm2-btn-primary"><?= svccfg($cfg,'svc_hero_btn_primary','Get Started Today') ?></a>
                     <a href="#pillars" class="tm2-btn tm2-btn-outline"><?= svccfg($cfg,'svc_hero_btn_secondary','Explore the Pillars') ?></a>
                 </div>
             </div>
@@ -71,7 +71,7 @@ require_once __DIR__ . '/includes/header.php';
             <div class="tm2-pillar-icon"><i class="<?= htmlspecialchars($svc['icon']??'fa-solid fa-star') ?>"></i></div>
             <h3><?= htmlspecialchars($svc['title']) ?></h3>
             <p><?= htmlspecialchars($svc['description']??$svc['desc']??'') ?></p>
-            <a href="<?= SITE_URL ?>/consultation.php" class="tm2-pillar-link">Explore Service <i class="fa-solid fa-arrow-right fa-xs"></i></a>
+            <a href="<?= SITE_URL ?>/consultation" class="tm2-pillar-link">Explore Service <i class="fa-solid fa-arrow-right fa-xs"></i></a>
         </div>
         <?php endforeach; ?>
         </div>
@@ -114,7 +114,7 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="tm2-eyebrow"><?= svccfg($cfg,'svc_faq_eyebrow','Frequently Asked') ?></div>
                 <h2 class="tm2-h2"><?= svccfg($cfg,'svc_faq_h2_pre','Services,') ?> <em><?= svccfg($cfg,'svc_faq_h2_em','answered') ?></em>.</h2>
                 <p class="tm2-sub" style="max-width:360px;"><?= svccfg($cfg,'svc_faq_subtext',"Anything else, book a free 30-minute call. We'll tell you straight which services fit, and which don't.") ?></p>
-                <a href="<?= SITE_URL ?>/consultation.php" class="tm2-btn tm2-btn-primary" style="margin-top:20px;"><?= svccfg($cfg,'svc_faq_btn','Book a Free Consultation') ?> <i class="fa-solid fa-arrow-right fa-xs"></i></a>
+                <a href="<?= SITE_URL ?>/consultation" class="tm2-btn tm2-btn-primary" style="margin-top:20px;"><?= svccfg($cfg,'svc_faq_btn','Book a Free Consultation') ?> <i class="fa-solid fa-arrow-right fa-xs"></i></a>
             </div>
             <div class="tm2-faq-list">
                 <?php

@@ -17,15 +17,15 @@ $now  = date('Y-m-d');
 // Static pages with priorities
 $staticPages = [
     ['url' => '/',               'priority' => '1.0', 'freq' => 'weekly'],
-    ['url' => '/about.php',      'priority' => '0.8', 'freq' => 'monthly'],
-    ['url' => '/services.php',   'priority' => '0.9', 'freq' => 'monthly'],
-    ['url' => '/portfolio.php',  'priority' => '0.8', 'freq' => 'weekly'],
-    ['url' => '/blog.php',       'priority' => '0.8', 'freq' => 'daily'],
-    ['url' => '/contact.php',    'priority' => '0.7', 'freq' => 'monthly'],
-    ['url' => '/industries.php', 'priority' => '0.7', 'freq' => 'monthly'],
-    ['url' => '/resources.php',  'priority' => '0.6', 'freq' => 'weekly'],
-    ['url' => '/solutions.php',  'priority' => '0.7', 'freq' => 'monthly'],
-    ['url' => '/consultation.php','priority'=> '0.8', 'freq' => 'monthly'],
+    ['url' => '/about',      'priority' => '0.8', 'freq' => 'monthly'],
+    ['url' => '/services',   'priority' => '0.9', 'freq' => 'monthly'],
+    ['url' => '/portfolio',  'priority' => '0.8', 'freq' => 'weekly'],
+    ['url' => '/blog',       'priority' => '0.8', 'freq' => 'daily'],
+    ['url' => '/contact',    'priority' => '0.7', 'freq' => 'monthly'],
+    ['url' => '/industries', 'priority' => '0.7', 'freq' => 'monthly'],
+    ['url' => '/resources',  'priority' => '0.6', 'freq' => 'weekly'],
+    ['url' => '/solutions',  'priority' => '0.7', 'freq' => 'monthly'],
+    ['url' => '/consultation','priority'=> '0.8', 'freq' => 'monthly'],
 ];
 
 // Blog posts
@@ -58,7 +58,7 @@ foreach ($staticPages as $page) {
 foreach ($posts as $p) {
     $lastmod = date('Y-m-d', strtotime($p['updated_at'] ?? $p['published_at']));
     echo "  <url>\n";
-    echo "    <loc>" . htmlspecialchars($base . '/blog-post.php?slug=' . rawurlencode($p['slug'])) . "</loc>\n";
+    echo "    <loc>" . htmlspecialchars($base . '/blog-post?slug=' . rawurlencode($p['slug'])) . "</loc>\n";
     echo "    <lastmod>{$lastmod}</lastmod>\n";
     echo "    <changefreq>monthly</changefreq>\n";
     echo "    <priority>0.7</priority>\n";
@@ -69,7 +69,7 @@ foreach ($posts as $p) {
 foreach ($projects as $pr) {
     $lastmod = date('Y-m-d', strtotime($pr['updated_at']));
     echo "  <url>\n";
-    echo "    <loc>" . htmlspecialchars($base . '/portfolio-item.php?slug=' . rawurlencode($pr['slug'])) . "</loc>\n";
+    echo "    <loc>" . htmlspecialchars($base . '/portfolio-item?slug=' . rawurlencode($pr['slug'])) . "</loc>\n";
     echo "    <lastmod>{$lastmod}</lastmod>\n";
     echo "    <changefreq>monthly</changefreq>\n";
     echo "    <priority>0.6</priority>\n";

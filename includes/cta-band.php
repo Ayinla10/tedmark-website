@@ -21,10 +21,10 @@ $ctaBtn2    = htmlspecialchars($cfg['cta_btn_secondary'] ?? 'Talk to an Expert')
             <h2 class="tm2-h2" style="margin-bottom:10px;"><?= $ctaHeading ?></h2>
             <p class="tm2-sub" style="max-width:480px;margin-left:auto;margin-right:auto;margin-bottom:28px;"><?= $ctaSubtext ?></p>
             <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
-                <a href="<?= SITE_URL ?>/consultation.php" class="tm2-btn tm2-btn-primary">
+                <a href="<?= SITE_URL ?>/consultation" class="tm2-btn tm2-btn-primary">
                     <?= $ctaBtn1 ?> <i class="fa-solid fa-arrow-right fa-xs"></i>
                 </a>
-                <a href="<?= SITE_URL ?>/contact.php" class="tm2-btn tm2-btn-outline">
+                <a href="<?= SITE_URL ?>/contact" class="tm2-btn tm2-btn-outline">
                     <?= $ctaBtn2 ?>
                 </a>
             </div>

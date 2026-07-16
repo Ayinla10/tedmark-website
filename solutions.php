@@ -65,7 +65,7 @@ require_once __DIR__ . '/includes/header.php';
                         </div>
                         <?php endforeach; ?>
                     </div>
-                    <a href="<?= SITE_URL ?>/consultation.php?package=<?= urlencode($pkg['name']) ?>" class="<?= $pkg['popular'] ? 'tm-btn-primary' : 'tm-btn-green' ?>" style="width:100%;justify-content:center;display:flex;">
+                    <a href="<?= SITE_URL ?>/consultation?package=<?= urlencode($pkg['name']) ?>" class="<?= $pkg['popular'] ? 'tm-btn-primary' : 'tm-btn-green' ?>" style="width:100%;justify-content:center;display:flex;">
                         Get Started <i class="fa-solid fa-arrow-right fa-xs"></i>
                     </a>
                 </div>
@@ -77,7 +77,7 @@ require_once __DIR__ . '/includes/header.php';
             <i class="fa-solid fa-circle-question" style="font-size:1.5rem;color:#16a34a;margin-bottom:12px;display:block;"></i>
             <h3 style="font-size:1.1rem;font-weight:800;color:#0f172a;margin-bottom:8px;">Not sure which package is right for you?</h3>
             <p style="font-size:0.9rem;color:#64748b;margin-bottom:20px;">Book a free call. We'll assess your needs and recommend the right fit, no pressure.</p>
-            <a href="<?= SITE_URL ?>/consultation.php" class="tm-btn-green">Book a Free Consultation</a>
+            <a href="<?= SITE_URL ?>/consultation" class="tm-btn-green">Book a Free Consultation</a>
         </div>
     </div>
 </section>

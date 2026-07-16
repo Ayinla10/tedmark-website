@@ -26,7 +26,7 @@ require_once __DIR__ . '/includes/header.php';
         <?php if(!empty($posts)): ?>
         <div class="tm2-grid tm2-grid-3">
             <?php foreach($posts as $post): ?>
-            <a href="<?= SITE_URL ?>/blog-post.php?slug=<?= htmlspecialchars($post['slug']) ?>" style="text-decoration:none;display:block;" class="tm2-card">
+            <a href="<?= SITE_URL ?>/blog-post?slug=<?= htmlspecialchars($post['slug']) ?>" style="text-decoration:none;display:block;" class="tm2-card">
                 <div style="height:160px;border-radius:12px;margin:-24px -24px 18px;overflow:hidden;background:var(--bg-soft);display:flex;align-items:center;justify-content:center;">
                     <?php if(!empty($post['featured_image'])): ?>
                     <img src="<?= htmlspecialchars($post['featured_image']) ?>" style="width:100%;height:100%;object-fit:cover;display:block;" alt="<?= htmlspecialchars($post['title']) ?>">

@@ -21,11 +21,11 @@ $socialFacebook = htmlspecialchars($cfg['social_facebook']  ?? '#');
                 <img src="<?= SITE_URL ?>/assets/images/tedmark-logo-nav.png" alt="Tedmark Digital Agency">
             </a>
             <div class="tm2-footer-links">
-                <a href="<?= SITE_URL ?>/about.php">About</a>
-                <a href="<?= SITE_URL ?>/services.php">Services</a>
-                <a href="<?= SITE_URL ?>/portfolio.php">Portfolio</a>
-                <a href="<?= SITE_URL ?>/blog.php">Blog</a>
-                <a href="<?= SITE_URL ?>/contact.php">Contact</a>
+                <a href="<?= SITE_URL ?>/about">About</a>
+                <a href="<?= SITE_URL ?>/services">Services</a>
+                <a href="<?= SITE_URL ?>/portfolio">Portfolio</a>
+                <a href="<?= SITE_URL ?>/blog">Blog</a>
+                <a href="<?= SITE_URL ?>/contact">Contact</a>
             </div>
             <div class="tm2-social-row">
                 <a href="<?= $socialFacebook ?>" class="tm2-social"><i class="fa-brands fa-facebook-f"></i></a>

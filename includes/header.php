@@ -72,33 +72,33 @@ renderSeoTags($cfg, $seoData);
 
     <div class="tm2-links">
         <a href="<?= SITE_URL ?>/" class="<?= getActivePage('index') ?>">Home</a>
-        <a href="<?= SITE_URL ?>/about.php" class="<?= getActivePage('about') ?>">About</a>
-        <a href="<?= SITE_URL ?>/services.php" class="<?= getActivePage('services') ?>">Services</a>
-        <a href="<?= SITE_URL ?>/industries.php" class="<?= getActivePage('industries') ?>">Industries</a>
-        <a href="<?= SITE_URL ?>/portfolio.php" class="<?= getActivePage('portfolio') ?>">Portfolio</a>
-        <a href="<?= SITE_URL ?>/blog.php" class="<?= getActivePage('blog') ?>">Blog</a>
-        <a href="<?= SITE_URL ?>/resources.php" class="<?= getActivePage('resources') ?>">Resources</a>
-        <a href="<?= SITE_URL ?>/contact.php" class="<?= getActivePage('contact') ?>">Contact</a>
+        <a href="<?= SITE_URL ?>/about" class="<?= getActivePage('about') ?>">About</a>
+        <a href="<?= SITE_URL ?>/services" class="<?= getActivePage('services') ?>">Services</a>
+        <a href="<?= SITE_URL ?>/industries" class="<?= getActivePage('industries') ?>">Industries</a>
+        <a href="<?= SITE_URL ?>/portfolio" class="<?= getActivePage('portfolio') ?>">Portfolio</a>
+        <a href="<?= SITE_URL ?>/blog" class="<?= getActivePage('blog') ?>">Blog</a>
+        <a href="<?= SITE_URL ?>/resources" class="<?= getActivePage('resources') ?>">Resources</a>
+        <a href="<?= SITE_URL ?>/contact" class="<?= getActivePage('contact') ?>">Contact</a>
     </div>
 
     <div class="tm2-nav-right">
         <button class="tm2-toggle" onclick="toggleTheme()" title="Toggle theme">
             <i class="tm2-toggle-icon fa-solid fa-moon"></i>
         </button>
-        <a href="<?= SITE_URL ?>/consultation.php" class="tm2-cta">Book a Call</a>
+        <a href="<?= SITE_URL ?>/consultation" class="tm2-cta">Book a Call</a>
         <button class="tm2-burger" onclick="toggleMobile2()"><i class="fa-solid fa-bars"></i></button>
     </div>
   </div>
 
   <div class="tm2-mobile-menu" id="tm2-mobile-menu" style="max-width:1100px;width:100%;">
     <a href="<?= SITE_URL ?>/">Home</a>
-    <a href="<?= SITE_URL ?>/about.php">About</a>
-    <a href="<?= SITE_URL ?>/services.php">Services</a>
-    <a href="<?= SITE_URL ?>/industries.php">Industries</a>
-    <a href="<?= SITE_URL ?>/portfolio.php">Portfolio</a>
-    <a href="<?= SITE_URL ?>/blog.php">Blog</a>
-    <a href="<?= SITE_URL ?>/resources.php">Resources</a>
-    <a href="<?= SITE_URL ?>/contact.php">Contact</a>
-    <a href="<?= SITE_URL ?>/consultation.php" class="tm2-btn tm2-btn-primary" style="justify-content:center;margin-top:6px;">Book a Consultation</a>
+    <a href="<?= SITE_URL ?>/about">About</a>
+    <a href="<?= SITE_URL ?>/services">Services</a>
+    <a href="<?= SITE_URL ?>/industries">Industries</a>
+    <a href="<?= SITE_URL ?>/portfolio">Portfolio</a>
+    <a href="<?= SITE_URL ?>/blog">Blog</a>
+    <a href="<?= SITE_URL ?>/resources">Resources</a>
+    <a href="<?= SITE_URL ?>/contact">Contact</a>
+    <a href="<?= SITE_URL ?>/consultation" class="tm2-btn tm2-btn-primary" style="justify-content:center;margin-top:6px;">Book a Consultation</a>
   </div>
 </div>

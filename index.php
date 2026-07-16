@@ -120,14 +120,14 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="tm2-card-icon"><i class="<?= htmlspecialchars($s['icon']) ?>"></i></div>
                 <h3><?= htmlspecialchars($s['title']) ?></h3>
                 <p><?= htmlspecialchars($desc) ?></p>
-                <a href="<?= SITE_URL ?>/services.php" style="font-size:0.85rem;font-weight:600;color:var(--accent);display:inline-flex;align-items:center;gap:6px;margin-top:14px;text-decoration:none;">
+                <a href="<?= SITE_URL ?>/services" style="font-size:0.85rem;font-weight:600;color:var(--accent);display:inline-flex;align-items:center;gap:6px;margin-top:14px;text-decoration:none;">
                     Learn more <i class="fa-solid fa-arrow-right fa-2xs"></i>
                 </a>
             </div>
             <?php endforeach; ?>
         </div>
         <div style="text-align:center;margin-top:40px;">
-            <a href="<?= SITE_URL ?>/services.php" class="tm2-btn tm2-btn-primary">
+            <a href="<?= SITE_URL ?>/services" class="tm2-btn tm2-btn-primary">
                 View All Services <i class="fa-solid fa-arrow-right fa-xs"></i>
             </a>
         </div>
@@ -214,7 +214,7 @@ require_once __DIR__ . '/includes/header.php';
             <?php endforeach; ?>
         </div>
         <div style="text-align:center;margin-top:40px;">
-            <a href="<?= SITE_URL ?>/portfolio.php" class="tm2-btn tm2-btn-primary">View Full Portfolio <i class="fa-solid fa-arrow-right fa-xs"></i></a>
+            <a href="<?= SITE_URL ?>/portfolio" class="tm2-btn tm2-btn-primary">View Full Portfolio <i class="fa-solid fa-arrow-right fa-xs"></i></a>
         </div>
     </div>
 </section>
@@ -302,7 +302,7 @@ require_once __DIR__ . '/includes/header.php';
         </div>
         <div class="tm2-grid tm2-grid-3">
             <?php foreach($recentPosts as $post): ?>
-            <a href="<?= SITE_URL ?>/blog-post.php?slug=<?= htmlspecialchars($post['slug']) ?>" class="tm2-card" style="text-decoration:none;display:block;">
+            <a href="<?= SITE_URL ?>/blog-post?slug=<?= htmlspecialchars($post['slug']) ?>" class="tm2-card" style="text-decoration:none;display:block;">
                 <div style="height:140px;background:var(--bg-soft);border-radius:12px;margin:-24px -24px 18px;display:flex;align-items:center;justify-content:center;">
                     <i class="fa-solid fa-newspaper" style="font-size:2rem;color:var(--accent);opacity:0.6;"></i>
                 </div>
@@ -313,7 +313,7 @@ require_once __DIR__ . '/includes/header.php';
             <?php endforeach; ?>
         </div>
         <div style="text-align:center;margin-top:40px;">
-            <a href="<?= SITE_URL ?>/blog.php" class="tm2-btn tm2-btn-outline">View All Articles</a>
+            <a href="<?= SITE_URL ?>/blog" class="tm2-btn tm2-btn-outline">View All Articles</a>
         </div>
     </div>
 </section>

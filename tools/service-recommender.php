@@ -91,10 +91,10 @@ $questions = [
                     <h3 style="font-size:20px;font-weight:800;color:#0f172a;margin:0 0 8px;">Ready to get started?</h3>
                     <p style="color:#64748b;font-size:14px;margin:0 0 24px;">Book a free strategy session and we'll create a custom implementation plan for your business.</p>
                     <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-                        <a href="<?= SITE_URL ?>/consultation.php" class="tm-btn-primary">
+                        <a href="<?= SITE_URL ?>/consultation" class="tm-btn-primary">
                             Book Free Session <i class="fa-solid fa-arrow-right fa-xs"></i>
                         </a>
-                        <a href="<?= SITE_URL ?>/services.php" class="tm-btn-outline">
+                        <a href="<?= SITE_URL ?>/services" class="tm-btn-outline">
                             View All Services
                         </a>
                     </div>

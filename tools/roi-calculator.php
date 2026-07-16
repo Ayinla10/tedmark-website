@@ -152,7 +152,7 @@ require_once __DIR__ . '/../includes/header.php';
                         </p>
                     </div>
 
-                    <a href="<?= SITE_URL ?>/consultation.php" class="tm-btn-primary" style="text-align:center;justify-content:center;">
+                    <a href="<?= SITE_URL ?>/consultation" class="tm-btn-primary" style="text-align:center;justify-content:center;">
                         Get a Custom ROI Analysis <i class="fa-solid fa-arrow-right fa-xs"></i>
                     </a>
                 </div>

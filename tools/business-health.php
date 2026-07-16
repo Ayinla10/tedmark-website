@@ -120,7 +120,7 @@ require_once __DIR__ . '/../includes/header.php';
                     <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:16px;padding:28px;text-align:center;margin-bottom:24px;">
                         <p style="font-weight:800;color:#0f172a;margin:0 0 6px;">Want a detailed analysis and action plan?</p>
                         <p style="color:#64748b;font-size:14px;margin:0 0 20px;">Book a free strategy session and we'll walk through your results together.</p>
-                        <a href="<?= SITE_URL ?>/consultation.php" class="tm-btn-primary">
+                        <a href="<?= SITE_URL ?>/consultation" class="tm-btn-primary">
                             Book Free Session <i class="fa-solid fa-arrow-right fa-xs"></i>
                         </a>
                     </div>
