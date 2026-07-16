@@ -77,6 +77,7 @@ renderSeoTags($cfg, $seoData);
         <a href="<?= SITE_URL ?>/industries.php" class="<?= getActivePage('industries') ?>">Industries</a>
         <a href="<?= SITE_URL ?>/portfolio.php" class="<?= getActivePage('portfolio') ?>">Portfolio</a>
         <a href="<?= SITE_URL ?>/blog.php" class="<?= getActivePage('blog') ?>">Blog</a>
+        <a href="<?= SITE_URL ?>/resources.php" class="<?= getActivePage('resources') ?>">Resources</a>
         <a href="<?= SITE_URL ?>/contact.php" class="<?= getActivePage('contact') ?>">Contact</a>
     </div>
 
