@@ -501,10 +501,14 @@ body.no-announce .tm2-pillars-hero-section { padding-top: 140px; }
     .tm2-timeline-step { max-width: 280px; }
 
     .tm2-pillars-grid { grid-template-columns: 1fr; }
-    .tm2-marquee { padding: 14px 20px; }
-    .tm2-marquee-label { font-size: 10px; margin-right: 28px; }
-    .tm2-marquee-track { gap: 36px; }
-    .tm2-marquee-track span { font-size: 14px; }
+    .tm2-marquee {
+        width: 100%; margin-left: 0; transform: none;
+        min-height: auto; padding: 14px 16px !important;
+    }
+    .tm2-marquee-label { font-size: 10px; padding-left: 0; margin-right: 20px; }
+    .tm2-marquee-label-big { font-size: 15px; }
+    .tm2-marquee-track { gap: 32px; animation-duration: 12s; }
+    .tm2-marquee-track span { font-size: 13px; }
 
     .tm2-problem-title { font-size: 30px; }
     .tm2-problem-sub    { font-size: 15px; }
