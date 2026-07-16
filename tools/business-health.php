@@ -48,11 +48,11 @@ require_once __DIR__ . '/../includes/header.php';
                         ['q'=>'How do you manage your finances and invoicing?', 'options'=>[['l'=>'Manual records / no system','s'=>0],['l'=>'Spreadsheets','s'=>3],['l'=>'Basic accounting software','s'=>7],['l'=>'Full accounting + ERP integration','s'=>10]]],
                         ['q'=>'How do customers find and contact your business?', 'options'=>[['l'=>'Mostly word of mouth','s'=>0],['l'=>'Basic website or social media','s'=>3],['l'=>'Active digital presence','s'=>7],['l'=>'Optimized omni-channel strategy','s'=>10]]],
                         ['q'=>'How do you handle customer service and follow-ups?', 'options'=>[['l'=>'Manually and reactively','s'=>0],['l'=>'Basic contact tracking','s'=>3],['l'=>'CRM with reminders','s'=>7],['l'=>'Automated follow-ups + help desk','s'=>10]]],
-                        ['q'=>'How much of your regular work is automated?', 'options'=>[['l'=>'0% — everything is manual','s'=>0],['l'=>'10–25% automated','s'=>3],['l'=>'25–60% automated','s'=>7],['l'=>'60%+ automated','s'=>10]]],
+                        ['q'=>'How much of your regular work is automated?', 'options'=>[['l'=>'0%, everything is manual','s'=>0],['l'=>'10–25% automated','s'=>3],['l'=>'25–60% automated','s'=>7],['l'=>'60%+ automated','s'=>10]]],
                         ['q'=>'How do you manage your inventory or project pipeline?', 'options'=>[['l'=>'No formal system','s'=>0],['l'=>'Basic spreadsheet tracking','s'=>3],['l'=>'Dedicated software','s'=>7],['l'=>'Real-time automated system','s'=>10]]],
                         ['q'=>'How do you make business decisions?', 'options'=>[['l'=>'Gut feeling','s'=>0],['l'=>'Looking at past records','s'=>3],['l'=>'Regular reports/dashboards','s'=>7],['l'=>'Data-driven with live analytics','s'=>10]]],
                         ['q'=>'How does your business handle employee management?', 'options'=>[['l'=>'Informally / no system','s'=>0],['l'=>'Basic HR admin','s'=>3],['l'=>'HR software in use','s'=>7],['l'=>'Automated HR + payroll system','s'=>10]]],
-                        ['q'=>'How would you describe your overall digital maturity?', 'options'=>[['l'=>'Very early — mostly offline','s'=>0],['l'=>'Some digital tools, not integrated','s'=>3],['l'=>'Good digital presence, room to improve','s'=>7],['l'=>'Highly digital and optimized','s'=>10]]],
+                        ['q'=>'How would you describe your overall digital maturity?', 'options'=>[['l'=>'Very early, mostly offline','s'=>0],['l'=>'Some digital tools, not integrated','s'=>3],['l'=>'Good digital presence, room to improve','s'=>7],['l'=>'Highly digital and optimized','s'=>10]]],
                     ];
                     foreach ($questions as $qi => $q): ?>
                     <div data-step="<?= $qi ?>" style="<?= $qi > 0 ? 'display:none' : '' ?>">
@@ -209,19 +209,19 @@ function calculateHealth() {
 
     let grade, title, desc, color, stroke, icon;
     if (score >= 80) {
-        grade = 'A — Excellent'; title = 'Your business is digitally mature!';
+        grade = 'A: Excellent'; title = 'Your business is digitally mature!';
         color = 'background:#dcfce7;color:#15803d;'; stroke = '#16a34a';
         icon = 'fa-trophy'; desc = 'You\'re running a well-organized digital operation. Focus on optimization and advanced automation to stay ahead.';
     } else if (score >= 60) {
-        grade = 'B — Good'; title = 'Solid foundation, room to optimize';
+        grade = 'B: Good'; title = 'Solid foundation, room to optimize';
         color = 'background:#dbeafe;color:#1d4ed8;'; stroke = '#2563eb';
         icon = 'fa-thumbs-up'; desc = 'You have good systems in place. Strategic improvements in automation and integration will significantly boost your efficiency.';
     } else if (score >= 40) {
-        grade = 'C — Fair'; title = 'Significant gaps to address';
+        grade = 'C: Fair'; title = 'Significant gaps to address';
         color = 'background:#fef3c7;color:#b45309;'; stroke = '#d97706';
         icon = 'fa-triangle-exclamation'; desc = 'Your business has potential but manual processes are creating bottlenecks. Targeted technology investment will pay off quickly.';
     } else {
-        grade = 'D — Needs Work'; title = 'Your business needs digital help now';
+        grade = 'D: Needs Work'; title = 'Your business needs digital help now';
         color = 'background:#fee2e2;color:#b91c1c;'; stroke = '#dc2626';
         icon = 'fa-circle-exclamation'; desc = 'You\'re leaving significant money and time on the table. The good news: even small improvements will have an immediate impact.';
     }
@@ -235,10 +235,10 @@ function calculateHealth() {
 
     const recs = [
         {title:'Implement a CRM System', desc:'Start tracking every customer interaction automatically.', icon:'fa-users'},
-        {title:'Automate Your Invoicing', desc:'Stop sending manual invoices — automate billing and follow-ups.', icon:'fa-file-invoice-dollar'},
+        {title:'Automate Your Invoicing', desc:'Stop sending manual invoices. Automate billing and follow-ups.', icon:'fa-file-invoice-dollar'},
         {title:'Set Up Communication Tools', desc:'Centralize your team communication in one platform.', icon:'fa-comments'},
         {title:'Build a Proper Website', desc:'Get a professional digital presence that generates leads 24/7.', icon:'fa-globe'},
-        {title:'Deploy a Business Dashboard', desc:'See your key metrics in real-time — stop guessing.', icon:'fa-chart-line'},
+        {title:'Deploy a Business Dashboard', desc:'See your key metrics in real-time. Stop guessing.', icon:'fa-chart-line'},
         {title:'Automate Reporting', desc:'Get weekly performance reports without manual compilation.', icon:'fa-clipboard-list'},
     ];
     const show = score < 60 ? recs : recs.slice(0, 3);

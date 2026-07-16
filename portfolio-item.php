@@ -19,7 +19,7 @@ $fallbackProjects = [
         'color'      => '#60a5fa',
         'bg'         => 'linear-gradient(135deg,#0f172a,#1e3a5f)',
         'headline'   => 'A modern e-commerce platform that tripled sales in 90 days.',
-        'desc'       => 'RetailPro GH came to us with an outdated website that was losing customers daily. We rebuilt it from scratch — fast, mobile-first, and conversion-optimised — with an integrated inventory system and seamless checkout.',
+        'desc'       => 'RetailPro GH came to us with an outdated website that was losing customers daily. We rebuilt it from scratch (fast, mobile-first, and conversion-optimised) with an integrated inventory system and seamless checkout.',
         'challenge'  => 'RetailPro had no online presence worth speaking of. Their old website was slow, unresponsive on mobile, and had no e-commerce functionality. They were losing potential customers to competitors every day.',
         'solution'   => 'We designed and built a modern, blazing-fast e-commerce website with product management, cart, checkout, and integration with mobile money payment APIs. We also built a simple admin panel for managing orders and stock.',
         'result'     => '+340% online sales',
@@ -46,9 +46,9 @@ $fallbackProjects = [
         'color'      => '#22c55e',
         'bg'         => 'linear-gradient(135deg,#0f172a,#1a2e1a)',
         'headline'   => 'A unified hospital management system across 3 clinic locations.',
-        'desc'       => 'MediTrack needed a system that could connect their 3 clinic branches — patient records, staff, billing, and appointments — all in one place. We delivered a custom ERP tailored for Ghanaian healthcare operations.',
+        'desc'       => 'MediTrack needed a system that could connect their 3 clinic branches: patient records, staff, billing, and appointments, all in one place. We delivered a custom ERP tailored for Ghanaian healthcare operations.',
         'challenge'  => 'Each clinic branch was running independently with paper records and Excel files. Patient data was duplicated, billing was error-prone, and there was no central visibility for management.',
-        'solution'   => 'We built a custom multi-branch ERP system with patient management, appointment scheduling, billing, and real-time reporting dashboards — all accessible from any branch.',
+        'solution'   => 'We built a custom multi-branch ERP system with patient management, appointment scheduling, billing, and real-time reporting dashboards, all accessible from any branch.',
         'result'     => '3 clinics unified',
         'metrics'    => [
             ['value'=>'3','label'=>'Clinics Unified'],
@@ -74,8 +74,8 @@ $fallbackProjects = [
         'bg'         => 'linear-gradient(135deg,#0f172a,#2d1a0f)',
         'headline'   => 'An online food ordering platform processing 500+ orders daily.',
         'desc'       => 'FoodFlow needed a robust ordering platform with real-time kitchen and delivery tracking. We built an end-to-end system that handles ordering, payments, kitchen dispatch, and last-mile delivery coordination.',
-        'challenge'  => 'FoodFlow was taking orders over WhatsApp and phone calls — chaotic, error-prone, and impossible to scale. They had no way to track delivery status or kitchen load.',
-        'solution'   => 'We built a custom food ordering platform with customer-facing ordering, kitchen dashboard, rider app integration, and a management console — all talking to each other in real-time.',
+        'challenge'  => 'FoodFlow was taking orders over WhatsApp and phone calls: chaotic, error-prone, and impossible to scale. They had no way to track delivery status or kitchen load.',
+        'solution'   => 'We built a custom food ordering platform with customer-facing ordering, kitchen dashboard, rider app integration, and a management console, all talking to each other in real-time.',
         'result'     => '500+ daily orders',
         'metrics'    => [
             ['value'=>'500+','label'=>'Orders Processed Daily'],
@@ -99,10 +99,10 @@ $fallbackProjects = [
         'icon'       => 'fa-solid fa-chart-bar',
         'color'      => '#f59e0b',
         'bg'         => 'linear-gradient(135deg,#0f172a,#2d2200)',
-        'headline'   => 'Real-time fleet tracking and dispatch management — 40% faster.',
+        'headline'   => 'Real-time fleet tracking and dispatch management, 40% faster.',
         'desc'       => 'LogiMove needed full visibility over their fleet and dispatch operations. We built a real-time tracking dashboard with custom analytics, route optimisation, and a driver mobile app.',
         'challenge'  => 'Dispatching was done via phone calls. There was no visibility on driver locations, delivery status, or performance metrics. Clients were frustrated by lack of updates.',
-        'solution'   => 'A web-based fleet dashboard with real-time GPS tracking, automated dispatch, delivery confirmation, and a simple driver app — all synced live.',
+        'solution'   => 'A web-based fleet dashboard with real-time GPS tracking, automated dispatch, delivery confirmation, and a simple driver app, all synced live.',
         'result'     => '40% faster dispatch',
         'metrics'    => [
             ['value'=>'40%','label'=>'Faster Dispatch Time'],
@@ -140,7 +140,7 @@ if (!$project) {
 
 if (!$project) { header('Location: ' . SITE_URL . '/portfolio.php'); exit; }
 
-$pageTitle       = $project['title'] . ' — Portfolio';
+$pageTitle       = $project['title'] . ' | Portfolio';
 $pageDesc        = $isFallback ? $project['desc'] : ($project['description'] ?? '');
 $pageHasDarkHero = true;
 require_once __DIR__ . '/includes/header.php';

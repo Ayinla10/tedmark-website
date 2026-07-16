@@ -26,7 +26,7 @@ require_once __DIR__ . '/includes/header.php';
             <div class="tm2-pillars-hero-copy">
                 <div class="tm2-eyebrow"><?= svccfg($cfg,'svc_hero_eyebrow','6 Pillars • One Operating System') ?></div>
                 <h1 class="tm2-h1"><?= svccfg($cfg,'svc_hero_h1_pre','Pick a pillar.') ?><br><?= svccfg($cfg,'svc_hero_h1_mid','Or') ?> <em><?= svccfg($cfg,'svc_hero_h1_em','combine') ?></em> <?= svccfg($cfg,'svc_hero_h1_post','them all.') ?></h1>
-                <p class="tm2-sub" style="max-width:520px;"><?= svccfg($cfg,'svc_hero_subtext','From AI agent development and operating systems to marketing, consulting, training and enablement, and web and mobile — six pillars that mix into whichever combination actually solves your problem.') ?></p>
+                <p class="tm2-sub" style="max-width:520px;"><?= svccfg($cfg,'svc_hero_subtext','From AI agent development and operating systems to marketing, consulting, training and enablement, and web and mobile, six pillars that mix into whichever combination actually solves your problem.') ?></p>
                 <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:28px;">
                     <a href="<?= SITE_URL ?>/consultation.php" class="tm2-btn tm2-btn-primary"><?= svccfg($cfg,'svc_hero_btn_primary','Get Started Today') ?></a>
                     <a href="#pillars" class="tm2-btn tm2-btn-outline"><?= svccfg($cfg,'svc_hero_btn_secondary','Explore the Pillars') ?></a>
@@ -91,7 +91,7 @@ require_once __DIR__ . '/includes/header.php';
         <div class="tm2-why-grid">
             <?php
             $whyDefault = [
-                ['Practical Implementation','We focus on solutions that solve real business problems — helping you move from ideas to working systems faster.'],
+                ['Practical Implementation','We focus on solutions that solve real business problems, helping you move from ideas to working systems faster.'],
                 ['Business-Focused Results','Our goal is not just implementing technology. We help businesses save time, improve efficiency, serve customers better, and create new opportunities.'],
                 ['Continuous Support','Technology evolves. Your business evolves. We provide ongoing guidance, improvements, and support to ensure your systems continue delivering value.'],
             ];

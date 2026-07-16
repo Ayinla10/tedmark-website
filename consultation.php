@@ -39,7 +39,7 @@ require_once __DIR__ . '/includes/header.php';
 <section class="tm2-dark-hero">
     <div class="tm2-dark-badge"><i class="fa-solid fa-calendar-check"></i> 100% Free · No Obligation</div>
     <h1>Let's Map Out Your<br><em>Digital Transformation</em></h1>
-    <p>One focused 30-minute call. No pitch deck, no pressure — just a clear plan for what your business needs next.</p>
+    <p>One focused 30-minute call. No pitch deck, no pressure, just a clear plan for what your business needs next.</p>
 </section>
 
 <!-- TIMELINE -->
@@ -48,9 +48,9 @@ require_once __DIR__ . '/includes/header.php';
         <div class="tm2-timeline">
             <?php
             $steps = [
-                ['icon'=>'fa-solid fa-pen','title'=>'1. You Book','desc'=>'Fill in the short form below — takes under 2 minutes.'],
+                ['icon'=>'fa-solid fa-pen','title'=>'1. You Book','desc'=>'Fill in the short form below. Takes under 2 minutes.'],
                 ['icon'=>'fa-solid fa-phone','title'=>'2. We Call You','desc'=>'We confirm a time within 2 hours and call at your convenience.'],
-                ['icon'=>'fa-solid fa-map','title'=>'3. Get Your Roadmap','desc'=>'Walk away with a clear, prioritised plan — yours to keep either way.'],
+                ['icon'=>'fa-solid fa-map','title'=>'3. Get Your Roadmap','desc'=>'Walk away with a clear, prioritised plan, yours to keep either way.'],
             ];
             foreach($steps as $i => $s): ?>
             <div class="tm2-timeline-step">
@@ -150,7 +150,7 @@ require_once __DIR__ . '/includes/header.php';
             </div>
             <div>
                 <p style="font-size:0.9rem;color:var(--text);line-height:1.6;font-style:italic;margin-bottom:8px;">"The free consultation alone gave us more clarity than 6 months of trying to figure it out ourselves."</p>
-                <div style="font-size:0.82rem;font-weight:600;color:var(--text);">Ama Boateng <span style="color:var(--muted);font-weight:400;">— Founder, StyleHouse GH</span></div>
+                <div style="font-size:0.82rem;font-weight:600;color:var(--text);">Ama Boateng <span style="color:var(--muted);font-weight:400;">Founder, StyleHouse GH</span></div>
             </div>
         </div>
     </div>

@@ -2,7 +2,7 @@
 require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/functions.php';
 $pageTitle = 'Solutions';
-$pageDesc  = 'Tailored technology packages for businesses at every stage of growth — starter, growth, and enterprise solutions.';
+$pageDesc  = 'Tailored technology packages for businesses at every stage of growth: starter, growth, and enterprise solutions.';
 require_once __DIR__ . '/includes/header.php';
 ?>
 
@@ -76,7 +76,7 @@ require_once __DIR__ . '/includes/header.php';
         <div style="text-align:center;margin-top:48px;padding:28px;background:#fff;border-radius:16px;border:1.5px solid #f1f5f9;">
             <i class="fa-solid fa-circle-question" style="font-size:1.5rem;color:#16a34a;margin-bottom:12px;display:block;"></i>
             <h3 style="font-size:1.1rem;font-weight:800;color:#0f172a;margin-bottom:8px;">Not sure which package is right for you?</h3>
-            <p style="font-size:0.9rem;color:#64748b;margin-bottom:20px;">Book a free call. We'll assess your needs and recommend the right fit — no pressure.</p>
+            <p style="font-size:0.9rem;color:#64748b;margin-bottom:20px;">Book a free call. We'll assess your needs and recommend the right fit, no pressure.</p>
             <a href="<?= SITE_URL ?>/consultation.php" class="tm-btn-green">Book a Free Consultation</a>
         </div>
     </div>
@@ -92,7 +92,7 @@ require_once __DIR__ . '/includes/header.php';
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;">
             <?php
             $whys = [
-                ['icon'=>'fa-solid fa-map-location-dot','color'=>'#22c55e','title'=>'Local Context','desc'=>'We understand local payment systems, infrastructure, and business culture — no guesswork.'],
+                ['icon'=>'fa-solid fa-map-location-dot','color'=>'#22c55e','title'=>'Local Context','desc'=>'We understand local payment systems, infrastructure, and business culture, no guesswork.'],
                 ['icon'=>'fa-solid fa-lock-open','color'=>'#60a5fa','title'=>'No Lock-in','desc'=>'You own everything we build. Full source code, full data. No vendor lock-in.'],
                 ['icon'=>'fa-solid fa-gauge-high','color'=>'#f59e0b','title'=>'Fast Delivery','desc'=>'Most projects launched within 4–8 weeks. We move fast without cutting corners.'],
                 ['icon'=>'fa-solid fa-headset','color'=>'#a78bfa','title'=>'Local Support','desc'=>'Dedicated support in your timezone. Real people who know your system.'],

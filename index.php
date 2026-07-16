@@ -78,10 +78,10 @@ require_once __DIR__ . '/includes/header.php';
         <div class="tm2-timeline">
             <?php
             $problems = [
-                ['num'=>'01','title'=>'Manual Processes','desc'=>'Hours lost to repetitive tasks that could be automated — data entry, invoicing, reporting.'],
+                ['num'=>'01','title'=>'Manual Processes','desc'=>'Hours lost to repetitive tasks that could be automated, like data entry, invoicing, and reporting.'],
                 ['num'=>'02','title'=>'Scattered Information','desc'=>'Customer data, finances, and operations spread across spreadsheets and paper files.'],
                 ['num'=>'03','title'=>'Poor Communication','desc'=>'Team silos, missed follow-ups, and inconsistent customer experiences costing you sales.'],
-                ['num'=>'04','title'=>'Lack of Visibility','desc'=>'No real-time dashboards or reports — you\'re making decisions without accurate data.'],
+                ['num'=>'04','title'=>'Lack of Visibility','desc'=>'No real-time dashboards or reports, so you\'re making decisions without accurate data.'],
             ];
             foreach($problems as $i => $p): ?>
             <div class="tm2-timeline-step">
@@ -100,7 +100,7 @@ require_once __DIR__ . '/includes/header.php';
         <div class="tm2-section-head">
             <div class="tm2-eyebrow">What We Do</div>
             <h2 class="tm2-h2">Everything Your Business Needs to Run on <em>AI</em></h2>
-            <p class="tm2-sub">End-to-end AI transformation — from strategy to implementation to ongoing support.</p>
+            <p class="tm2-sub">End-to-end AI transformation, from strategy to implementation to ongoing support.</p>
         </div>
         <div class="tm2-grid tm2-grid-4">
             <?php
@@ -225,7 +225,7 @@ require_once __DIR__ . '/includes/header.php';
         <div class="tm2-section-head">
             <div class="tm2-eyebrow">The Process</div>
             <h2 class="tm2-h2">How We Work With You</h2>
-            <p class="tm2-sub">From first call to launch and beyond — a simple, proven process.</p>
+            <p class="tm2-sub">From first call to launch and beyond, a simple, proven process.</p>
         </div>
         <div class="tm2-grid tm2-grid-4">
             <?php
@@ -257,7 +257,7 @@ require_once __DIR__ . '/includes/header.php';
             <?php
             $fallbackTest = [
                 ['name'=>'Kofi Asante','role'=>'CEO, RetailPro Ghana','rating'=>5,'text'=>'Tedmark transformed our business completely. The new inventory system alone saves us 15 hours a week and we have zero stockouts now.'],
-                ['name'=>'Ama Owusu','role'=>'Director, MediTrack Clinics','rating'=>5,'text'=>'The ERP system they built handles our 3 clinic locations flawlessly. Patient records, billing, staff management — all in one place.'],
+                ['name'=>'Ama Owusu','role'=>'Director, MediTrack Clinics','rating'=>5,'text'=>'The ERP system they built handles our 3 clinic locations flawlessly. Patient records, billing, and staff management are all in one place.'],
                 ['name'=>'David Mensah','role'=>'Founder, FoodFlow','rating'=>5,'text'=>'From idea to a fully operational online store in 6 weeks. We went from 50 orders/day to over 500. Tedmark is the real deal.'],
             ];
             $display = !empty($testimonials) ? $testimonials : $fallbackTest;

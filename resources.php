@@ -11,7 +11,7 @@ require_once __DIR__ . '/includes/header.php';
     <div class="tm-container" style="text-align:center;position:relative;z-index:2;">
         <div class="tm-label" style="justify-content:center;">Free Resources</div>
         <h1 style="font-size:clamp(2rem,5vw,3rem);font-weight:900;color:#fff;margin:16px 0 20px;line-height:1.15;">Tools &amp; Resources to Help<br>Your Business Grow</h1>
-        <p style="font-size:1.1rem;color:#94a3b8;max-width:560px;margin:0 auto;line-height:1.7;">Everything here is free. No email required, no catch — just practical tools for business owners.</p>
+        <p style="font-size:1.1rem;color:#94a3b8;max-width:560px;margin:0 auto;line-height:1.7;">Everything here is free. No email required, no catch, just practical tools for business owners.</p>
     </div>
 </section>
 
