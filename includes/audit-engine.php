@@ -287,20 +287,31 @@ function runWebsiteAudit(string $inputUrl): array {
         ? auditCheck('contact_info','Visible Contact Info','Content','pass','Found a phone number or email address on the page.',1)
         : auditCheck('contact_info','Visible Contact Info','Content','warn','No obvious phone number or email address found on the page.',1);
 
-    // ── Score ────────────────────────────────────────────
+    // ── Score (overall + per category) ─────────────────────
+    $score = auditScoreChecks($checks);
+    $categoryScores = [];
+    $byCategory = [];
+    foreach ($checks as $c) { $byCategory[$c['category']][] = $c; }
+    foreach ($byCategory as $catName => $catChecks) {
+        $categoryScores[$catName] = auditScoreChecks($catChecks);
+    }
+
+    return [
+        'ok'        => true,
+        'url'       => $res['final_url'],
+        'score'     => $score,
+        'category_scores' => $categoryScores,
+        'checks'    => $checks,
+        'meta'      => ['time_ms' => $res['time_ms'], 'size_bytes' => $res['size_bytes'], 'checked_at' => date('c')],
+    ];
+}
+
+function auditScoreChecks(array $checks): int {
     $totalWeight = array_sum(array_column($checks, 'weight'));
     $earned = 0;
     foreach ($checks as $c) {
         if ($c['status'] === 'pass') $earned += $c['weight'];
         elseif ($c['status'] === 'warn') $earned += $c['weight'] * 0.5;
     }
-    $score = $totalWeight > 0 ? (int) round(100 * $earned / $totalWeight) : 0;
-
-    return [
-        'ok'     => true,
-        'url'    => $res['final_url'],
-        'score'  => $score,
-        'checks' => $checks,
-        'meta'   => ['time_ms' => $res['time_ms'], 'size_bytes' => $res['size_bytes'], 'checked_at' => date('c')],
-    ];
+    return $totalWeight > 0 ? (int) round(100 * $earned / $totalWeight) : 0;
 }
