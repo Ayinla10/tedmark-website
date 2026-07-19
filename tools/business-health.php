@@ -5,6 +5,13 @@ require_once __DIR__ . '/../includes/db.php';
 $pageTitle = 'Business Health Checker';
 $pageDesc  = 'Take our free 10-question business health assessment and get a personalized score and recommendations for your business.';
 $pageHasDarkHero = true;
+
+try {
+    $settingsRows = fetchAll("SELECT `key`, `value` FROM settings");
+    $cfg = array_column($settingsRows, 'value', 'key');
+} catch(Exception $e) { $cfg = []; }
+function toolcfg($cfg, $key, $default='') { return htmlspecialchars($cfg[$key] ?? $default); }
+
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
@@ -15,9 +22,9 @@ require_once __DIR__ . '/../includes/header.php';
             <div class="tm-badge tm-fade" style="animation-delay:.05s">
                 <i class="fa-solid fa-heart-pulse"></i> Free Assessment
             </div>
-            <h1 class="tm-page-hero-title tm-fade" style="animation-delay:.1s">Business Health<br>Checker</h1>
+            <h1 class="tm-page-hero-title tm-fade" style="animation-delay:.1s"><?= toolcfg($cfg,'tool_health_h1','Business Health Checker') ?></h1>
             <p class="tm-page-hero-desc tm-fade" style="animation-delay:.15s">
-                10 questions. 3 minutes. Get a detailed score of how your business is performing and where to improve.
+                <?= toolcfg($cfg,'tool_health_subtext','10 questions. 3 minutes. Get a detailed score of how your business is performing and where to improve.') ?>
             </p>
         </div>
     </div>

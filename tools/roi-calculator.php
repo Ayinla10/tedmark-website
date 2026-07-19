@@ -1,9 +1,17 @@
 <?php
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../includes/db.php';
 $pageTitle = 'ROI Calculator: How Much Can You Save?';
 $pageDesc  = 'Calculate exactly how much time and money your business is losing to manual processes, and the ROI of automating them.';
 $pageHasDarkHero = true;
+
+try {
+    $settingsRows = fetchAll("SELECT `key`, `value` FROM settings");
+    $cfg = array_column($settingsRows, 'value', 'key');
+} catch(Exception $e) { $cfg = []; }
+function toolcfg($cfg, $key, $default='') { return htmlspecialchars($cfg[$key] ?? $default); }
+
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
@@ -14,9 +22,9 @@ require_once __DIR__ . '/../includes/header.php';
             <div class="tm-badge tm-fade" style="animation-delay:.05s">
                 <i class="fa-solid fa-calculator"></i> Free Calculator
             </div>
-            <h1 class="tm-page-hero-title tm-fade" style="animation-delay:.1s">Calculate Your<br>Hidden Losses</h1>
+            <h1 class="tm-page-hero-title tm-fade" style="animation-delay:.1s"><?= toolcfg($cfg,'tool_roi_h1','Calculate Your Hidden Losses') ?></h1>
             <p class="tm-page-hero-desc tm-fade" style="animation-delay:.15s">
-                Find out exactly how much your manual processes are costing you, and what automation would save.
+                <?= toolcfg($cfg,'tool_roi_subtext','Find out exactly how much your manual processes are costing you, and what automation would save.') ?>
             </p>
         </div>
     </div>

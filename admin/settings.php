@@ -399,8 +399,8 @@ require_once __DIR__ . '/includes/admin-layout.php';
   </div>
   <div class="tm-card">
     <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-wand-magic-sparkles text-green" style="margin-right:8px;"></i>Solution Recommender</span></div>
-    <div class="form-group"><label>Headline</label><input type="text" name="settings[tool_reco_h1]" value="<?= si($s,'tool_reco_h1') ?>" placeholder="Find Your Perfect Solution"></div>
-    <div class="form-group"><label>Subtext</label><input type="text" name="settings[tool_reco_subtext]" value="<?= si($s,'tool_reco_subtext') ?>"></div>
+    <div class="form-group"><label>Headline</label><input type="text" name="settings[tool_reco_h1]" value="<?= si($s,'tool_reco_h1') ?>" placeholder="Find Exactly What Your Business Needs"></div>
+    <div class="form-group"><label>Subtext</label><input type="text" name="settings[tool_reco_subtext]" value="<?= si($s,'tool_reco_subtext') ?>" placeholder="Answer 6 quick questions and get personalized service recommendations based on your situation."></div>
     <p style="color:#64748b;font-size:0.8rem;margin-top:10px;">Only the hero headline/subtext is editable here. The questions, scoring, and recommendation logic are intentionally left in code since editing them safely requires matching logic changes, not just text.</p>
   </div>
 </div>

@@ -1,9 +1,17 @@
 <?php
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../includes/db.php';
 $pageTitle = 'Smart Service Recommender';
 $pageDesc  = 'Answer 6 questions about your business and get personalized Tedmark service recommendations.';
 $pageHasDarkHero = true;
+
+try {
+    $settingsRows = fetchAll("SELECT `key`, `value` FROM settings");
+    $cfg = array_column($settingsRows, 'value', 'key');
+} catch(Exception $e) { $cfg = []; }
+function toolcfg($cfg, $key, $default='') { return htmlspecialchars($cfg[$key] ?? $default); }
+
 require_once __DIR__ . '/../includes/header.php';
 
 $questions = [
@@ -29,9 +37,9 @@ $questions = [
             <div class="tm-badge tm-fade" style="animation-delay:.05s">
                 <i class="fa-solid fa-wand-magic-sparkles"></i> Free Tool
             </div>
-            <h1 class="tm-page-hero-title tm-fade" style="animation-delay:.1s">Find Exactly What<br>Your Business Needs</h1>
+            <h1 class="tm-page-hero-title tm-fade" style="animation-delay:.1s"><?= toolcfg($cfg,'tool_reco_h1','Find Exactly What Your Business Needs') ?></h1>
             <p class="tm-page-hero-desc tm-fade" style="animation-delay:.15s">
-                Answer 6 quick questions and get personalized service recommendations based on your situation.
+                <?= toolcfg($cfg,'tool_reco_subtext','Answer 6 quick questions and get personalized service recommendations based on your situation.') ?>
             </p>
         </div>
     </div>
