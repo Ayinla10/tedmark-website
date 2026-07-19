@@ -358,13 +358,16 @@ require_once __DIR__ . '/includes/admin-layout.php';
 <div class="tab-panel" id="tab-consultation" style="display:none;">
   <div class="tm-card" style="margin-bottom:20px;">
     <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-calendar-check text-green" style="margin-right:8px;"></i>Hero Section</span></div>
-    <div class="form-group"><label>Headline</label><input type="text" name="settings[cons_hero_h1]" value="<?= si($s,'cons_hero_h1') ?>"></div>
+    <div class="form-row">
+      <div class="form-group"><label>Headline (before emphasis)</label><input type="text" name="settings[cons_hero_h1_pre]" value="<?= si($s,'cons_hero_h1_pre') ?>" placeholder="Let's Map Out Your"></div>
+      <div class="form-group"><label>Headline Emphasis (italic)</label><input type="text" name="settings[cons_hero_h1_em]" value="<?= si($s,'cons_hero_h1_em') ?>" placeholder="Digital Transformation"></div>
+    </div>
     <div class="form-group"><label>Subtext</label><textarea name="settings[cons_hero_subtext]" rows="2"><?= si($s,'cons_hero_subtext') ?></textarea></div>
   </div>
   <div class="tm-card" style="margin-bottom:20px;">
     <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-list-ol text-green" style="margin-right:8px;"></i>3-Step Explainer</span></div>
     <?php
-    $consStepDefaults = [1=>['1. You Book','Fill in the short form below. Takes under 2 minutes.'],2=>['2. We Prepare','We review your business and prepare tailored recommendations before the call.'],3=>['3. Get Your Roadmap','Walk away with a clear, prioritised plan, yours to keep either way.']];
+    $consStepDefaults = [1=>['1. You Book','Fill in the short form below. Takes under 2 minutes.'],2=>['2. We Call You','We confirm a time within 2 hours and call at your convenience.'],3=>['3. Get Your Roadmap','Walk away with a clear, prioritised plan, yours to keep either way.']];
     foreach($consStepDefaults as $i=>$d): ?>
     <div class="form-row" style="border-top:1px solid #1e293b;padding-top:14px;margin-top:14px;">
       <div class="form-group"><label>Step <?= $i ?> Title</label><input type="text" name="settings[cons_step_<?= $i ?>_title]" value="<?= si($s,"cons_step_{$i}_title") ?>" placeholder="<?= $d[0] ?>"></div>

@@ -32,14 +32,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Please fill in your name, email, and phone number.';
     }
 }
+try {
+    $settingsRows = fetchAll("SELECT `key`, `value` FROM settings");
+    $cfg = array_column($settingsRows, 'value', 'key');
+} catch(Exception $e) { $cfg = []; }
+function conscfg($cfg, $key, $default='') { return htmlspecialchars($cfg[$key] ?? $default); }
+
 require_once __DIR__ . '/includes/header.php';
 ?>
 
 <!-- DARK HERO (always dark — distinct from every other page hero on the site) -->
 <section class="tm2-dark-hero">
     <div class="tm2-dark-badge"><i class="fa-solid fa-calendar-check"></i> 100% Free · No Obligation</div>
-    <h1>Let's Map Out Your<br><em>Digital Transformation</em></h1>
-    <p>One focused 30-minute call. No pitch deck, no pressure, just a clear plan for what your business needs next.</p>
+    <h1><?= conscfg($cfg,'cons_hero_h1_pre',"Let's Map Out Your") ?><br><em><?= conscfg($cfg,'cons_hero_h1_em','Digital Transformation') ?></em></h1>
+    <p><?= conscfg($cfg,'cons_hero_subtext','One focused 30-minute call. No pitch deck, no pressure, just a clear plan for what your business needs next.') ?></p>
 </section>
 
 <!-- TIMELINE -->
@@ -47,16 +53,16 @@ require_once __DIR__ . '/includes/header.php';
     <div class="tm2-container">
         <div class="tm2-timeline">
             <?php
-            $steps = [
-                ['icon'=>'fa-solid fa-pen','title'=>'1. You Book','desc'=>'Fill in the short form below. Takes under 2 minutes.'],
-                ['icon'=>'fa-solid fa-phone','title'=>'2. We Call You','desc'=>'We confirm a time within 2 hours and call at your convenience.'],
-                ['icon'=>'fa-solid fa-map','title'=>'3. Get Your Roadmap','desc'=>'Walk away with a clear, prioritised plan, yours to keep either way.'],
+            $stepsDefault = [
+                1 => ['icon'=>'fa-solid fa-pen','title'=>'1. You Book','desc'=>'Fill in the short form below. Takes under 2 minutes.'],
+                2 => ['icon'=>'fa-solid fa-phone','title'=>'2. We Call You','desc'=>'We confirm a time within 2 hours and call at your convenience.'],
+                3 => ['icon'=>'fa-solid fa-map','title'=>'3. Get Your Roadmap','desc'=>'Walk away with a clear, prioritised plan, yours to keep either way.'],
             ];
-            foreach($steps as $i => $s): ?>
+            foreach($stepsDefault as $i => $s): ?>
             <div class="tm2-timeline-step">
                 <div class="tm2-timeline-num"><i class="<?= $s['icon'] ?>"></i></div>
-                <h3><?= $s['title'] ?></h3>
-                <p><?= $s['desc'] ?></p>
+                <h3><?= conscfg($cfg,"cons_step_{$i}_title",$s['title']) ?></h3>
+                <p><?= conscfg($cfg,"cons_step_{$i}_desc",$s['desc']) ?></p>
             </div>
             <?php endforeach; ?>
         </div>
@@ -149,8 +155,8 @@ require_once __DIR__ . '/includes/header.php';
                 <?php for($i=0;$i<5;$i++): ?><i class="fa-solid fa-star" style="color:var(--accent);font-size:0.9rem;"></i><?php endfor; ?>
             </div>
             <div>
-                <p style="font-size:0.9rem;color:var(--text);line-height:1.6;font-style:italic;margin-bottom:8px;">"The free consultation alone gave us more clarity than 6 months of trying to figure it out ourselves."</p>
-                <div style="font-size:0.82rem;font-weight:600;color:var(--text);">Ama Boateng <span style="color:var(--muted);font-weight:400;">Founder, StyleHouse GH</span></div>
+                <p style="font-size:0.9rem;color:var(--text);line-height:1.6;font-style:italic;margin-bottom:8px;">"<?= conscfg($cfg,'cons_testimonial_quote','The free consultation alone gave us more clarity than 6 months of trying to figure it out ourselves.') ?>"</p>
+                <div style="font-size:0.82rem;font-weight:600;color:var(--text);"><?= conscfg($cfg,'cons_testimonial_name','Ama Boateng') ?> <span style="color:var(--muted);font-weight:400;"><?= conscfg($cfg,'cons_testimonial_role','Founder, StyleHouse GH') ?></span></div>
             </div>
         </div>
     </div>
