@@ -99,10 +99,35 @@ function auditShortPath(string $url, string $origin): string {
     return $path === '' ? '/' : '/' . $path;
 }
 
+/** Pull normalized, in-scope internal links out of a parsed page. */
+function auditExtractLinks(DOMXPath $xpath, string $origin, string $scheme, string $selfUrl): array {
+    $found = [];
+    $skipExt = ['.pdf','.jpg','.jpeg','.png','.gif','.svg','.zip','.doc','.docx','.xls','.xlsx','.mp4','.mp3','.css','.js','.ico','.webp'];
+    foreach ($xpath->query('//a[@href]') as $a) {
+        $href = $a->getAttribute('href');
+        if (!$href || str_starts_with($href, '#') || str_starts_with($href, 'mailto:') || str_starts_with($href, 'tel:') || str_starts_with($href, 'javascript:')) continue;
+        $resolved = $href;
+        if (str_starts_with($href, '//')) $resolved = $scheme . ':' . $href;
+        elseif (str_starts_with($href, '/')) $resolved = $origin . $href;
+        elseif (!preg_match('#^https?://#i', $href)) $resolved = rtrim($origin,'/') . '/' . ltrim($href,'/');
+        $resolved = strtok($resolved, '#'); // drop fragments
+        if (!str_starts_with($resolved, $origin)) continue;
+        $resolved = rtrim($resolved, '/');
+        if ($resolved === rtrim($selfUrl, '/')) continue;
+        $lower = strtolower($resolved);
+        $skip = false;
+        foreach ($skipExt as $ext) { if (str_ends_with(strtok($lower,'?'), $ext)) { $skip = true; break; } }
+        if ($skip) continue;
+        if (!in_array($resolved, $found, true)) $found[] = $resolved;
+    }
+    return $found;
+}
+
 /**
  * Run the full audit. Returns ['ok'=>bool, 'error'=>?, 'score'=>int, 'checks'=>[...], 'meta'=>[...]]
  */
 function runWebsiteAudit(string $inputUrl): array {
+    if (function_exists('set_time_limit')) { @set_time_limit(75); }
     $url = auditNormalizeUrl($inputUrl);
     if (!$url) {
         return ['ok'=>false, 'error'=>'That URL looks invalid, or points to a private/internal address we can\'t scan.'];
@@ -249,73 +274,94 @@ function runWebsiteAudit(string $inputUrl): array {
         ? auditCheck('render_blocking','Render-Blocking Scripts','Technical','pass','No render-blocking scripts detected in <head>.',2)
         : auditCheck('render_blocking','Render-Blocking Scripts','Technical','warn',"{$scripts->length} script(s) in <head> without async/defer, may slow page rendering.",2);
 
-    // Discover internal links (used for both broken-link sampling and key-page scanning)
-    $linkNodes = $xpath->query('//a[@href]');
-    $internalLinks = [];
-    foreach ($linkNodes as $a) {
-        $href = $a->getAttribute('href');
-        if (!$href || str_starts_with($href, '#') || str_starts_with($href, 'mailto:') || str_starts_with($href, 'tel:') || str_starts_with($href, 'javascript:')) continue;
-        $resolved = $href;
-        if (str_starts_with($href, '//')) $resolved = ($parts['scheme'] ?? 'https') . ':' . $href;
-        elseif (str_starts_with($href, '/')) $resolved = $origin . $href;
-        elseif (!preg_match('#^https?://#i', $href)) $resolved = rtrim($origin,'/') . '/' . ltrim($href,'/');
-        $resolved = strtok($resolved, '#'); // drop fragments
-        if (str_starts_with($resolved, $origin) && rtrim($resolved,'/') !== rtrim($url,'/') && !in_array($resolved, $internalLinks, true)) {
-            $internalLinks[] = $resolved;
-        }
-        if (count($internalLinks) >= 12) break;
-    }
+    // ── Site-wide crawl (breadth-first) ─────────────────────
+    // Bounded by page count AND wall-clock time so shared hosting never times out.
+    $crawlStart   = microtime(true);
+    $crawlBudget  = 22; // seconds
+    $maxPages     = 12; // including the homepage
 
-    // Broken internal links (sample up to 3)
-    $linkSample = array_slice($internalLinks, 0, 3);
-    $brokenCount = 0;
-    foreach ($linkSample as $link) {
-        $code = auditQuickHead($link);
-        if ($code === 0 || $code >= 400) $brokenCount++;
-    }
-    if (!empty($linkSample)) {
-        $checks[] = $brokenCount === 0
-            ? auditCheck('broken_links','Internal Links Sample','Technical','pass','Checked '.count($linkSample).' internal links, all resolved fine.',2)
-            : auditCheck('broken_links','Internal Links Sample','Technical','fail',"$brokenCount of ".count($linkSample)." sampled internal links returned an error.",2);
-    }
-
-    // ── Key pages (beyond the homepage) ────────────────────
-    $priorityPatterns = ['about','services','service','products','pricing','contact','shop','blog'];
-    $priorityLinks = [];
-    $otherLinks = [];
-    foreach ($internalLinks as $link) {
-        $isPriority = false;
-        foreach ($priorityPatterns as $p) { if (stripos($link, $p) !== false) { $isPriority = true; break; } }
-        if ($isPriority) $priorityLinks[] = $link; else $otherLinks[] = $link;
-    }
-    $keyPages = array_slice(array_merge($priorityLinks, $otherLinks), 0, 4);
+    $scheme = $parts['scheme'] ?? 'https';
+    $visited = [rtrim($url, '/')];
+    $queue = auditExtractLinks($xpath, $origin, $scheme, $url);
+    $allLinksSeen = $queue; // full inventory for dead-link checking
     $pagesScanned = 1;
-    foreach ($keyPages as $pageUrl) {
+
+    while (!empty($queue) && $pagesScanned < $maxPages && (microtime(true) - $crawlStart) < $crawlBudget) {
+        $pageUrl = array_shift($queue);
+        $normalized = rtrim($pageUrl, '/');
+        if (in_array($normalized, $visited, true)) continue;
+        $visited[] = $normalized;
+
         $pageRes = auditFetch($pageUrl, 6);
         if (!$pageRes['ok'] || $pageRes['code'] < 200 || $pageRes['code'] >= 400) {
-            $checks[] = auditCheck('page_'.md5($pageUrl),'Page: '.auditShortPath($pageUrl,$origin),'Additional Pages','fail','Page could not be loaded (broken link).',2);
+            $checks[] = auditCheck('page_'.md5($pageUrl), 'Page: '.auditShortPath($pageUrl,$origin), 'Additional Pages', 'fail', 'Page could not be loaded (broken link).', 2);
             continue;
         }
         $pagesScanned++;
+
         libxml_use_internal_errors(true);
         $pDom = new DOMDocument();
         $pDom->loadHTML('<?xml encoding="utf-8" ?>' . $pageRes['body']);
         libxml_clear_errors();
         $pXpath = new DOMXPath($pDom);
+
         $pTitleNode = $pXpath->query('//title')->item(0);
         $pTitle = $pTitleNode ? trim($pTitleNode->textContent) : '';
         $pMeta = '';
         foreach ($pXpath->query('//meta[@name="description"]') as $m) { $pMeta = trim($m->getAttribute('content')); break; }
         $pH1 = $pXpath->query('//h1')->length;
+        $pBody = $pXpath->query('//body')->item(0);
+        $pText = $pBody ? preg_replace('/\s+/', ' ', trim($pBody->textContent)) : '';
+        $pWords = $pText ? str_word_count($pText) : 0;
+        $pPlaceholder = null;
+        foreach (['coming soon','lorem ipsum','under construction','placeholder text'] as $pp) {
+            if (stripos($pText, $pp) !== false) { $pPlaceholder = $pp; break; }
+        }
+
         $label = 'Page: ' . auditShortPath($pageUrl, $origin);
         $issues = [];
         if (!$pTitle) $issues[] = 'missing title';
         if (!$pMeta) $issues[] = 'missing meta description';
         if ($pH1 === 0) $issues[] = 'no H1';
+        if ($pWords < 100) $issues[] = 'thin content (~'.$pWords.' words)';
+        if ($pPlaceholder) $issues[] = "placeholder text (\"$pPlaceholder\")";
+
         if (empty($issues)) {
-            $checks[] = auditCheck('page_'.md5($pageUrl), $label, 'Additional Pages', 'pass', 'Title, meta description, and H1 all present.', 2);
+            $checks[] = auditCheck('page_'.md5($pageUrl), $label, 'Additional Pages', 'pass', "All good: title, meta description, H1 present, ~$pWords words.", 2);
         } else {
-            $checks[] = auditCheck('page_'.md5($pageUrl), $label, 'Additional Pages', 'warn', ucfirst(implode(', ', $issues)).'.', 2);
+            $status = $pPlaceholder ? 'fail' : 'warn';
+            $checks[] = auditCheck('page_'.md5($pageUrl), $label, 'Additional Pages', $status, ucfirst(implode(', ', $issues)).'.', $pPlaceholder ? 3 : 2);
+        }
+
+        // queue up this page's own links for further crawling
+        $pageLinks = auditExtractLinks($pXpath, $origin, $scheme, $pageUrl);
+        foreach ($pageLinks as $pl) {
+            if (!in_array($pl, $allLinksSeen, true)) $allLinksSeen[] = $pl;
+            if (!in_array(rtrim($pl,'/'), $visited, true) && !in_array($pl, $queue, true)) $queue[] = $pl;
+        }
+    }
+
+    $crawlTruncated = !empty($queue) && $pagesScanned >= $maxPages;
+
+    // ── Site-wide dead-link check (every unique internal link found, not a sample) ──
+    $linkCheckStart = microtime(true);
+    $linkCheckBudget = 18; // seconds
+    $linksToCheck = array_slice($allLinksSeen, 0, 60);
+    $brokenLinks = [];
+    $checkedCount = 0;
+    foreach ($linksToCheck as $link) {
+        if ((microtime(true) - $linkCheckStart) > $linkCheckBudget) break;
+        $checkedCount++;
+        $code = auditQuickHead($link, 4);
+        if ($code === 0 || $code >= 400) $brokenLinks[] = ['url' => $link, 'code' => $code];
+    }
+    if ($checkedCount > 0) {
+        if (empty($brokenLinks)) {
+            $checks[] = auditCheck('broken_links', 'Dead URLs (Site-Wide)', 'Technical', 'pass', "Checked all $checkedCount internal links found across $pagesScanned pages, none were broken.", 3);
+        } else {
+            $examples = array_slice(array_map(fn($b) => auditShortPath($b['url'], $origin) . ' (' . ($b['code'] ?: 'no response') . ')', $brokenLinks), 0, 6);
+            $checks[] = auditCheck('broken_links', 'Dead URLs (Site-Wide)', 'Technical', 'fail',
+                count($brokenLinks) . " of $checkedCount internal links are broken: " . implode(', ', $examples) . (count($brokenLinks) > 6 ? ', and more' : '') . '.', 3);
         }
     }
 
@@ -397,6 +443,10 @@ function runWebsiteAudit(string $inputUrl): array {
         'meta_desc'   => $metaDesc,
         'word_count'  => $wordCount,
         'pages_scanned' => $pagesScanned,
+        'pages_discovered' => count($visited) + count($queue),
+        'crawl_truncated' => $crawlTruncated,
+        'links_checked' => $checkedCount ?? 0,
+        'links_broken'  => count($brokenLinks ?? []),
         'meta'      => ['time_ms' => $res['time_ms'], 'size_bytes' => $res['size_bytes'], 'checked_at' => date('c')],
     ];
 }

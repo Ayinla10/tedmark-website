@@ -146,7 +146,7 @@ function auditSeverityBadge($c) {
             </div>
             <h1 class="tm-page-hero-title tm-fade" style="animation-delay:.1s"><?= toolcfg($cfg,'tool_audit_h1','Find Out What\'s Costing You Customers') ?></h1>
             <p class="tm-page-hero-desc tm-fade" style="animation-delay:.15s">
-                <?= toolcfg($cfg,'tool_audit_subtext','A real, live scan of your site\'s SEO, performance, and security, in about 10 seconds.') ?>
+                <?= toolcfg($cfg,'tool_audit_subtext','A real, live crawl of your entire site\'s SEO, performance, and security, checking every page we can find.') ?>
             </p>
         </div>
     </div>
@@ -168,13 +168,13 @@ function auditSeverityBadge($c) {
                     <span id="audit-submit-label">Start Free AI Audit</span> <i class="fa-solid fa-arrow-right fa-xs"></i>
                 </button>
             </div>
-            <p style="font-size:0.78rem;color:var(--muted);margin-top:12px;">We scan your homepage plus key linked pages (about, services, contact, and more), not just one page.</p>
+            <p style="font-size:0.78rem;color:var(--muted);margin-top:12px;">We crawl your whole site (up to 12 pages), checking every one and testing every internal link for dead URLs. Usually takes 20-40 seconds.</p>
         </form>
     </div>
 </section>
 <script>
 document.getElementById('audit-form').addEventListener('submit', function(){
-    document.getElementById('audit-submit-label').textContent = 'Scanning...';
+    document.getElementById('audit-submit-label').textContent = 'Crawling your site...';
     document.getElementById('audit-submit').disabled = true;
 });
 </script>
