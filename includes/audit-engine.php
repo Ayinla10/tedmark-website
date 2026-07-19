@@ -5,6 +5,26 @@
  * checks against it. No third-party APIs, no fabricated results.
  */
 
+/**
+ * Simple per-IP rate limiter backed by the audit_rate_limits table.
+ * Returns true if the action is allowed (and records it); false if the limit was hit.
+ * Fails open (allows the request) if the DB is unreachable, so a DB hiccup never
+ * blocks legitimate traffic, it just means the limit isn't enforced that moment.
+ */
+function auditRateLimit(string $ip, string $action, int $maxCount, int $windowMinutes): bool {
+    try {
+        $count = fetchOne(
+            "SELECT COUNT(*) AS c FROM audit_rate_limits WHERE ip_address = ? AND action = ? AND created_at > (NOW() - INTERVAL ? MINUTE)",
+            [$ip, $action, $windowMinutes]
+        )['c'] ?? 0;
+        if ((int)$count >= $maxCount) return false;
+        insert('audit_rate_limits', ['ip_address' => $ip, 'action' => $action]);
+        return true;
+    } catch (Exception $e) {
+        return true;
+    }
+}
+
 /** Block SSRF: reject anything that doesn't resolve to a public IP. */
 function auditIsSafeHost(string $host): bool {
     $ip = gethostbyname($host);
@@ -285,6 +305,7 @@ function runWebsiteAudit(string $inputUrl): array {
     $queue = auditExtractLinks($xpath, $origin, $scheme, $url);
     $allLinksSeen = $queue; // full inventory for dead-link checking
     $pagesScanned = 1;
+    $pageReports = [];
 
     while (!empty($queue) && $pagesScanned < $maxPages && (microtime(true) - $crawlStart) < $crawlBudget) {
         $pageUrl = array_shift($queue);
@@ -295,6 +316,11 @@ function runWebsiteAudit(string $inputUrl): array {
         $pageRes = auditFetch($pageUrl, 6);
         if (!$pageRes['ok'] || $pageRes['code'] < 200 || $pageRes['code'] >= 400) {
             $checks[] = auditCheck('page_'.md5($pageUrl), 'Page: '.auditShortPath($pageUrl,$origin), 'Additional Pages', 'fail', 'Page could not be loaded (broken link).', 2);
+            $pageReports[] = [
+                'path' => auditShortPath($pageUrl, $origin), 'score' => 0,
+                'strengths' => ['N/A'], 'issues' => ['Page failed to load'],
+                'priority_fix' => 'Fix or remove this broken link',
+            ];
             continue;
         }
         $pagesScanned++;
@@ -332,6 +358,20 @@ function runWebsiteAudit(string $inputUrl): array {
             $status = $pPlaceholder ? 'fail' : 'warn';
             $checks[] = auditCheck('page_'.md5($pageUrl), $label, 'Additional Pages', $status, ucfirst(implode(', ', $issues)).'.', $pPlaceholder ? 3 : 2);
         }
+
+        $pStrengths = [];
+        $pTitle ? $pStrengths[] = 'Title present' : null;
+        $pMeta ? $pStrengths[] = 'Meta description present' : null;
+        $pH1 === 1 ? $pStrengths[] = 'Clean H1 structure' : null;
+        $pWords >= 100 ? $pStrengths[] = "Good content depth (~$pWords words)" : null;
+        $pIssuesReadable = array_map('ucfirst', $issues);
+        $pScore = (int) round(100 * count($pStrengths) / max(1, count($pStrengths) + count($issues)));
+        $pageReports[] = [
+            'path' => auditShortPath($pageUrl, $origin), 'score' => $pScore,
+            'strengths' => $pStrengths ?: ['No major strengths found'],
+            'issues' => $pIssuesReadable ?: ['No major issues found'],
+            'priority_fix' => $pIssuesReadable[0] ?? 'Keep up the good work',
+        ];
 
         // queue up this page's own links for further crawling
         $pageLinks = auditExtractLinks($pXpath, $origin, $scheme, $pageUrl);
@@ -424,6 +464,23 @@ function runWebsiteAudit(string $inputUrl): array {
         ? auditCheck('schema', 'Structured Data (Schema.org)', 'SEO', 'pass', ($jsonLd->length + $microdata->length) . ' structured data block(s) found.', 2)
         : auditCheck('schema', 'Structured Data (Schema.org)', 'SEO', 'fail', 'No JSON-LD or Microdata found. Missing rich-result opportunities (Organization, LocalBusiness, FAQ, etc.).', 2);
 
+    // Homepage's own row in the page-by-page report (reuses checks already computed above)
+    $homeStrengths = []; $homeIssues = [];
+    $title ? $homeStrengths[] = 'Good page title' : $homeIssues[] = 'Missing/weak title';
+    $metaDesc ? $homeStrengths[] = 'Meta description present' : $homeIssues[] = 'Missing meta description';
+    $h1s->length === 1 ? $homeStrengths[] = 'Clean H1 structure' : $homeIssues[] = 'H1 tag missing or duplicated';
+    $wordCount >= 200 ? $homeStrengths[] = 'Good content depth' : $homeIssues[] = "Thin content (~$wordCount words)";
+    ($jsonLd->length > 0 || $microdata->length > 0) ? $homeStrengths[] = 'Structured data present' : $homeIssues[] = 'No schema markup';
+    $deadHrefCount > 0 ? $homeIssues[] = "$deadHrefCount dead link(s) (href=\"#\")" : $homeStrengths[] = 'No dead-end links';
+    if ($foundPlaceholder) $homeIssues[] = 'Placeholder text still live';
+    $homeScore = (int) round(100 * count($homeStrengths) / max(1, count($homeStrengths) + count($homeIssues)));
+    array_unshift($pageReports, [
+        'path' => '/ (Homepage)', 'score' => $homeScore,
+        'strengths' => $homeStrengths ?: ['No major strengths found'],
+        'issues' => $homeIssues ?: ['No major issues found'],
+        'priority_fix' => $homeIssues[0] ?? 'Keep up the good work',
+    ]);
+
     // ── Score (overall + per category) ─────────────────────
     $score = auditScoreChecks($checks);
     $categoryScores = [];
@@ -443,6 +500,7 @@ function runWebsiteAudit(string $inputUrl): array {
         'meta_desc'   => $metaDesc,
         'word_count'  => $wordCount,
         'pages_scanned' => $pagesScanned,
+        'page_reports' => $pageReports,
         'pages_discovered' => count($visited) + count($queue),
         'crawl_truncated' => $crawlTruncated,
         'links_checked' => $checkedCount ?? 0,

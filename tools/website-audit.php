@@ -3,6 +3,7 @@ require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/audit-engine.php';
+require_once __DIR__ . '/../includes/email-templates.php';
 
 try {
     $settingsRows = fetchAll("SELECT `key`, `value` FROM settings");
@@ -23,11 +24,15 @@ if (isset($_GET['reset'])) {
     exit;
 }
 
+$clientIp = getClientIp();
+
 // ── Step 1: run the scan ──────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scan_url'])) {
     $inputUrl = trim($_POST['scan_url'] ?? '');
     if ($inputUrl === '') {
         $error = 'Please enter a website URL.';
+    } elseif (!auditRateLimit($clientIp, 'scan', 5, 60)) {
+        $error = "You've hit the limit of 5 scans per hour. Please try again later.";
     } else {
         $audit = runWebsiteAudit($inputUrl);
         if (!$audit['ok']) {
@@ -45,6 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['request_code']) && !e
     $name  = trim($_POST['unlock_name'] ?? '');
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = 'Please enter a valid business email address.';
+    } elseif (!auditRateLimit($clientIp, 'otp_request', 5, 60)) {
+        $error = "You've requested too many codes. Please try again in an hour.";
     } else {
         $code = (string) random_int(100000, 999999);
         $_SESSION['audit_otp_code']     = $code;
@@ -54,10 +61,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['request_code']) && !e
         $_SESSION['audit_otp_attempts'] = 0;
         $_SESSION['audit_otp_pending']  = true;
 
-        $sent = sendMail($email, "Your verification code: $code",
-            "<p>Your Tedmark Digital website audit verification code is:</p>
-             <p style='font-size:28px;font-weight:600;letter-spacing:4px;'>$code</p>
-             <p>This code expires in 10 minutes. If you didn't request this, you can ignore this email.</p>");
+        $otpBody = '
+<h1 style="margin:0 0 12px;color:#0f172a;font-size:20px;font-weight:700;">Verify your email</h1>
+<p style="margin:0 0 24px;color:#64748b;font-size:14px;line-height:1.6;">Enter this code to unlock your free website audit report.</p>
+<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 24px;"><tr><td style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:20px 32px;">
+<span style="color:#16a34a;font-size:34px;font-weight:800;letter-spacing:8px;">' . htmlspecialchars($code) . '</span>
+</td></tr></table>
+<p style="margin:0;color:#94a3b8;font-size:13px;line-height:1.6;">This code expires in 10 minutes. If you didn\'t request this, you can safely ignore this email.</p>';
+        $sent = sendMail($email, "Your verification code: $code", auditEmailWrap("Your verification code is $code", $otpBody));
         if (!$sent) {
             $lastErr = error_get_last();
             error_log('Audit OTP mail() failed for ' . $email . ': ' . ($lastErr['message'] ?? 'unknown mail() failure'));
@@ -78,6 +89,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verify_code']) && !em
     } elseif (!hash_equals((string)$_SESSION['audit_otp_code'], $entered)) {
         $_SESSION['audit_otp_attempts'] = ($_SESSION['audit_otp_attempts'] ?? 0) + 1;
         $error = 'That code is incorrect. Please check your email and try again.';
+    } elseif (!auditRateLimit($clientIp, 'ai_report', 8, 60)) {
+        $error = "You've unlocked too many reports this hour. Please try again later.";
     } else {
         $results = $_SESSION['audit_results'];
         $email   = $_SESSION['audit_otp_email'];
@@ -112,11 +125,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verify_code']) && !em
         $reportUrl = SITE_URL . '/tools/audit-report?token=' . $token;
         $domain = parse_url($results['url'], PHP_URL_HOST);
         $summarySnippet = $aiReport['executive_summary'] ?? "Your {$results['score']}/100 audit for $domain is ready.";
-        sendMail($email, "Your website audit report for $domain",
-            "<p>Your full website audit report is ready.</p>
-             <p style='background:#f8fafc;border-radius:8px;padding:16px;color:#334155;'>$summarySnippet</p>
-             <p><a href='" . htmlspecialchars($reportUrl) . "' style='background:#16a34a;color:#fff;padding:12px 20px;border-radius:8px;text-decoration:none;display:inline-block;'>Open Full Report</a></p>
-             <p style='color:#94a3b8;font-size:13px;'>Or copy this link: " . htmlspecialchars($reportUrl) . "</p>");
+        $rScore = $results['score'];
+        $rScoreColor = $rScore >= 80 ? '#16a34a' : ($rScore >= 55 ? '#f59e0b' : '#ef4444');
+        $rFail = count(array_filter($results['checks'], fn($c) => $c['status'] === 'fail'));
+        $rPages = $results['pages_scanned'] ?? 1;
+
+        $reportBody = '
+<h1 style="margin:0 0 6px;color:#0f172a;font-size:20px;font-weight:700;">Your audit is ready</h1>
+<p style="margin:0 0 22px;color:#64748b;font-size:14px;line-height:1.6;">We crawled <strong>' . htmlspecialchars($domain) . '</strong> and finished the full report.</p>
+
+<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:0 0 22px;">
+<tr>
+<td width="33%" align="center" style="background:#f8fafc;border-radius:10px 0 0 10px;padding:16px 8px;border:1px solid #eceef1;border-right:none;">
+<div style="color:' . $rScoreColor . ';font-size:24px;font-weight:800;">' . $rScore . '</div>
+<div style="color:#94a3b8;font-size:11px;text-transform:uppercase;letter-spacing:.03em;">Score /100</div>
+</td>
+<td width="34%" align="center" style="background:#f8fafc;padding:16px 8px;border-top:1px solid #eceef1;border-bottom:1px solid #eceef1;">
+<div style="color:#0f172a;font-size:24px;font-weight:800;">' . $rPages . '</div>
+<div style="color:#94a3b8;font-size:11px;text-transform:uppercase;letter-spacing:.03em;">Pages Scanned</div>
+</td>
+<td width="33%" align="center" style="background:#f8fafc;border-radius:0 10px 10px 0;padding:16px 8px;border:1px solid #eceef1;border-left:none;">
+<div style="color:#ef4444;font-size:24px;font-weight:800;">' . $rFail . '</div>
+<div style="color:#94a3b8;font-size:11px;text-transform:uppercase;letter-spacing:.03em;">Critical Issues</div>
+</td>
+</tr>
+</table>
+
+<p style="margin:0 0 4px;color:#16a34a;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;">Executive Summary</p>
+<p style="margin:0 0 8px;color:#334155;font-size:14px;line-height:1.65;">' . htmlspecialchars($summarySnippet) . '</p>
+
+' . auditEmailButton('Open Full Report', $reportUrl) . '
+
+<p style="margin:0;color:#94a3b8;font-size:12px;line-height:1.6;">Or copy this link: <a href="' . htmlspecialchars($reportUrl) . '" style="color:#16a34a;">' . htmlspecialchars($reportUrl) . '</a></p>';
+
+        sendMail($email, "Your website audit report for $domain", auditEmailWrap("Your $rScore/100 audit report for $domain is ready", $reportBody));
     }
 }
 
@@ -195,21 +237,6 @@ document.getElementById('audit-form').addEventListener('submit', function(){
 ?>
 <section class="audit-page tm2-pillars-hero-section" style="background:var(--bg-soft);">
 
-    <!-- ===== MINI NAV ===== -->
-    <div style="background:var(--card);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
-        <div style="display:flex;align-items:center;gap:8px;font-weight:500;color:var(--text);font-size:0.9rem;">
-            <span style="width:22px;height:22px;border-radius:6px;background:var(--accent);color:var(--accent-ink);display:inline-flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:600;">A</span>
-            Audit / <?= htmlspecialchars($domain) ?>
-        </div>
-        <div style="display:flex;gap:20px;margin-left:auto;flex-wrap:wrap;">
-            <a href="#scorecard" style="color:var(--text-soft);font-size:0.85rem;text-decoration:none;">Scorecard</a>
-            <a href="#findings" style="color:var(--text-soft);font-size:0.85rem;text-decoration:none;">Findings</a>
-            <a href="#checked" style="color:var(--text-soft);font-size:0.85rem;text-decoration:none;">Contents</a>
-            <a href="#roadmap" style="color:var(--text-soft);font-size:0.85rem;text-decoration:none;">Roadmap</a>
-        </div>
-        <a href="#unlock" style="background:var(--text);color:var(--bg);font-size:0.8rem;font-weight:500;padding:8px 16px;border-radius:99px;text-decoration:none;white-space:nowrap;">Read report <i class="fa-solid fa-arrow-right fa-2xs"></i></a>
-    </div>
-
     <!-- ===== HERO / COVER ===== -->
     <div style="padding:56px 24px 40px;max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1.3fr 1fr;gap:32px;align-items:start;">
         <div>
@@ -254,16 +281,14 @@ document.getElementById('audit-form').addEventListener('submit', function(){
     <div id="unlock" style="background:linear-gradient(120deg,#0f172a 0%,#1e1029 100%);padding:40px 24px;">
         <div style="max-width:560px;margin:0 auto;text-align:center;">
             <?php if ($unlocked): ?>
-            <?php $reportLink = SITE_URL . '/tools/audit-report' . (!empty($_SESSION['audit_token']) ? '?token=' . $_SESSION['audit_token'] : ''); ?>
             <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.3);color:#4ade80;font-size:0.82rem;font-weight:500;padding:8px 16px;border-radius:99px;margin-bottom:16px;">
-                <i class="fa-solid fa-envelope-circle-check"></i> Sent to your email &mdash; check your inbox for the report link
+                <i class="fa-solid fa-envelope-circle-check"></i> Sent to your email
             </div>
-            <p style="color:#e2e8f0;font-size:0.95rem;font-weight:500;margin-bottom:16px;">Verified. Your full report is ready.</p>
+            <p style="color:#e2e8f0;font-size:0.95rem;font-weight:500;margin-bottom:8px;">Verified. Your full report is on its way.</p>
+            <p style="color:#94a3b8;font-size:0.85rem;font-weight:300;margin-bottom:16px;">For your security, the full report only opens from the link in that email, not here on the page.</p>
             <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-                <a href="<?= htmlspecialchars($reportLink) ?>" target="_blank" rel="noopener" class="tm-btn-primary" style="font-weight:500;background:#f472b6;">Open full report <i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i></a>
                 <a href="<?= SITE_URL ?>/tools/website-audit?reset=1" style="color:#94a3b8;font-size:0.85rem;font-weight:400;align-self:center;text-decoration:underline;">Scan another site</a>
             </div>
-            <?php if ($justUnlocked): ?><script>window.open('<?= htmlspecialchars($reportLink) ?>', '_blank');</script><?php endif; ?>
 
             <?php elseif ($otpPending): ?>
             <p style="color:#e2e8f0;font-size:0.9rem;font-weight:500;margin-bottom:6px;">Check your inbox</p>

@@ -4,16 +4,14 @@ require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/audit-ai.php';
 
-// Load by persistent token (emailed link) if present, otherwise fall back to session.
+// The full report is only reachable via the token link emailed to the user,
+// never directly from the same browsing session.
 $results = null;
 if (!empty($_GET['token'])) {
     try {
         $row = fetchOne("SELECT * FROM website_audits WHERE token = ? AND unlocked = 1", [$_GET['token']]);
         if ($row) $results = json_decode($row['results'], true);
     } catch (Exception $e) {}
-}
-if (!$results && !empty($_SESSION['audit_unlocked']) && !empty($_SESSION['audit_results'])) {
-    $results = $_SESSION['audit_results'];
 }
 if (!$results) {
     header('Location: ' . SITE_URL . '/tools/website-audit');
@@ -101,14 +99,18 @@ $catIcons = ['SEO'=>'fa-magnifying-glass','Technical'=>'fa-gear','Security'=>'fa
     </div>
 
     <!-- ===== TOC ===== -->
+    <?php
+    $tocEntries = ['Executive Summary'];
+    foreach (array_keys($catScores) as $cat) { if ($cat !== 'Additional Pages') $tocEntries[] = $cat; }
+    $tocEntries[] = 'Page-by-Page Findings';
+    $tocEntries[] = 'Priority Action Plan';
+    ?>
     <div class="audit-print-area" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:26px 28px;margin-bottom:24px;box-shadow:var(--shadow);">
         <h2 style="font-size:0.95rem;font-weight:600;color:var(--text);margin-bottom:14px;"><i class="fa-solid fa-list-ol" style="color:var(--accent);"></i> Report Contents</h2>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:6px 28px;">
-            <div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px dashed var(--border);color:var(--text-soft);font-size:0.82rem;"><span style="background:#16213e;color:#fff;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:600;flex-shrink:0;">1</span> Executive Summary</div>
-            <?php foreach (array_keys($catScores) as $i => $cat): ?>
-            <div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px dashed var(--border);color:var(--text-soft);font-size:0.82rem;"><span style="background:#16213e;color:#fff;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:600;flex-shrink:0;"><?= $i+2 ?></span> <?= htmlspecialchars($cat) ?></div>
+            <?php foreach ($tocEntries as $i => $entry): ?>
+            <div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px dashed var(--border);color:var(--text-soft);font-size:0.82rem;"><span style="background:#16213e;color:#fff;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:600;flex-shrink:0;"><?= $i+1 ?></span> <?= htmlspecialchars($entry) ?></div>
             <?php endforeach; ?>
-            <div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px dashed var(--border);color:var(--text-soft);font-size:0.82rem;"><span style="background:#16213e;color:#fff;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:600;flex-shrink:0;"><?= count($catScores)+2 ?></span> Priority Action Plan</div>
         </div>
     </div>
 
@@ -152,7 +154,9 @@ $catIcons = ['SEO'=>'fa-magnifying-glass','Technical'=>'fa-gear','Security'=>'fa
     </div>
 
     <!-- ===== CATEGORY SECTIONS ===== -->
-    <?php $sectionNum = 1; foreach ($categories as $catName => $catChecks): $sectionNum++;
+    <?php $sectionNum = 1; foreach ($categories as $catName => $catChecks):
+        if ($catName === 'Additional Pages') continue; // covered in detail by the Page-by-Page Findings table below
+        $sectionNum++;
         $catPass = array_filter($catChecks, fn($c)=>$c['status']==='pass');
         $catIssues = array_filter($catChecks, fn($c)=>$c['status']!=='pass');
         $catNarrative = $aiReport['category_narratives'][$catName] ?? null;
@@ -206,6 +210,41 @@ $catIcons = ['SEO'=>'fa-magnifying-glass','Technical'=>'fa-gear','Security'=>'fa
         <?php endif; ?>
     </div>
     <?php endforeach; ?>
+
+    <!-- ===== PAGE-BY-PAGE FINDINGS ===== -->
+    <?php $sectionNum++; $pageReports = $results['page_reports'] ?? []; ?>
+    <div class="audit-print-area" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:28px;margin-bottom:24px;box-shadow:var(--shadow);">
+        <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid var(--border);">
+            <div style="width:38px;height:38px;border-radius:10px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fa-solid fa-copy" style="color:var(--accent);"></i></div>
+            <div><h2 style="font-size:1.05rem;font-weight:600;color:var(--text);"><?= $sectionNum ?>. Page-by-Page Findings</h2><p style="font-size:0.8rem;color:var(--muted);font-weight:300;">Individual assessment of all <?= count($pageReports) ?> audited pages</p></div>
+        </div>
+        <?php if (!empty($pageReports)): ?>
+        <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;font-size:0.8rem;">
+            <thead><tr>
+                <th style="text-align:left;padding:8px 10px;background:var(--bg-soft);color:var(--muted);font-weight:600;font-size:0.66rem;text-transform:uppercase;letter-spacing:.03em;border-bottom:2px solid var(--border);">Page</th>
+                <th style="text-align:left;padding:8px 10px;background:var(--bg-soft);color:var(--muted);font-weight:600;font-size:0.66rem;text-transform:uppercase;letter-spacing:.03em;border-bottom:2px solid var(--border);">Score</th>
+                <th style="text-align:left;padding:8px 10px;background:var(--bg-soft);color:var(--muted);font-weight:600;font-size:0.66rem;text-transform:uppercase;letter-spacing:.03em;border-bottom:2px solid var(--border);">Key Strengths</th>
+                <th style="text-align:left;padding:8px 10px;background:var(--bg-soft);color:var(--muted);font-weight:600;font-size:0.66rem;text-transform:uppercase;letter-spacing:.03em;border-bottom:2px solid var(--border);">Key Issues</th>
+                <th style="text-align:left;padding:8px 10px;background:var(--bg-soft);color:var(--muted);font-weight:600;font-size:0.66rem;text-transform:uppercase;letter-spacing:.03em;border-bottom:2px solid var(--border);">Priority Fix</th>
+            </tr></thead>
+            <tbody>
+            <?php foreach ($pageReports as $p): ?>
+            <tr>
+                <td style="padding:10px;border-bottom:1px solid var(--border);vertical-align:top;font-weight:500;color:var(--text);white-space:nowrap;"><?= htmlspecialchars($p['path']) ?></td>
+                <td style="padding:10px;border-bottom:1px solid var(--border);vertical-align:top;font-weight:700;color:<?= auditBarColor($p['score']) ?>;white-space:nowrap;"><?= $p['score'] ?>/100</td>
+                <td style="padding:10px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--text-soft);"><?= htmlspecialchars(implode('; ', $p['strengths'])) ?></td>
+                <td style="padding:10px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--text-soft);"><?= htmlspecialchars(implode('; ', $p['issues'])) ?></td>
+                <td style="padding:10px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--accent);font-weight:500;"><?= htmlspecialchars($p['priority_fix']) ?></td>
+            </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        </div>
+        <?php else: ?>
+        <p style="color:var(--muted);font-size:0.85rem;">No additional pages were crawled.</p>
+        <?php endif; ?>
+    </div>
 
     <!-- ===== PRIORITY ACTION PLAN ===== -->
     <div class="audit-print-area" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:28px;margin-bottom:24px;box-shadow:var(--shadow);">
