@@ -153,12 +153,13 @@ require_once __DIR__ . '/includes/header.php';
             <h2 class="tm2-h2"><?= cfg($cfg,'hp_tools_h2','Try Our Free Business Tools') ?></h2>
             <p class="tm2-sub"><?= cfg($cfg,'hp_tools_subtext','Get insights about your business and discover opportunities for growth.') ?></p>
         </div>
-        <div class="tm2-grid tm2-grid-3">
+        <div class="tm2-grid tm2-grid-4">
             <?php
             $toolsDefault = [
                 ['icon'=>'fa-solid fa-heart-pulse',       'title'=>'Business Health Checker','desc'=>'Answer a few questions and get a personalized report on your business health.',  'cta'=>'Try Now',              'link'=>'/tools/business-health'],
                 ['icon'=>'fa-solid fa-calculator',         'title'=>'ROI Calculator',          'desc'=>'Calculate how much time and money your business can save with automation.',      'cta'=>'Calculate Now',        'link'=>'/tools/roi-calculator'],
                 ['icon'=>'fa-solid fa-wand-magic-sparkles','title'=>'Solution Recommender',    'desc'=>'Tell us about your business and we\'ll recommend the right solutions for you.','cta'=>'Get Recommendations',  'link'=>'/tools/service-recommender'],
+                ['icon'=>'fa-solid fa-magnifying-glass-chart','title'=>'Free Website Audit',   'desc'=>'Get a real, live audit of your site\'s SEO, performance, and security.',       'cta'=>'Run Free Audit',       'link'=>'/tools/website-audit'],
             ];
             foreach($toolsDefault as $i => $t): $n=$i+1; ?>
             <div class="tm2-card">

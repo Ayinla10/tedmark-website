@@ -170,7 +170,7 @@ require_once __DIR__ . '/includes/admin-layout.php';
     </div>
     <div class="form-group"><label>Subtext</label><input type="text" name="settings[hp_tools_subtext]" value="<?= si($s,'hp_tools_subtext') ?>"></div>
     <?php
-    $toolDefaults = [1=>['Business Health Checker','Answer a few questions and get a personalized report on your business health.','Try Now'],2=>['ROI Calculator','Calculate how much time and money your business can save with automation.','Calculate Now'],3=>['Solution Recommender','Tell us about your business and we\'ll recommend the right solutions for you.','Get Recommendations']];
+    $toolDefaults = [1=>['Business Health Checker','Answer a few questions and get a personalized report on your business health.','Try Now'],2=>['ROI Calculator','Calculate how much time and money your business can save with automation.','Calculate Now'],3=>['Solution Recommender','Tell us about your business and we\'ll recommend the right solutions for you.','Get Recommendations'],4=>['Free Website Audit','Get a real, live audit of your site\'s SEO, performance, and security.','Run Free Audit']];
     foreach($toolDefaults as $i=>$d): ?>
     <div style="border-top:1px solid #1e293b;padding-top:14px;margin-top:14px;">
       <div class="form-row">
@@ -397,11 +397,17 @@ require_once __DIR__ . '/includes/admin-layout.php';
     <div class="form-group"><label>Headline</label><input type="text" name="settings[tool_roi_h1]" value="<?= si($s,'tool_roi_h1') ?>" placeholder="Calculate Your Hidden Losses"></div>
     <div class="form-group"><label>Subtext</label><input type="text" name="settings[tool_roi_subtext]" value="<?= si($s,'tool_roi_subtext') ?>" placeholder="Find out exactly how much your manual processes are costing you, and what automation would save."></div>
   </div>
-  <div class="tm-card">
+  <div class="tm-card" style="margin-bottom:20px;">
     <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-wand-magic-sparkles text-green" style="margin-right:8px;"></i>Solution Recommender</span></div>
     <div class="form-group"><label>Headline</label><input type="text" name="settings[tool_reco_h1]" value="<?= si($s,'tool_reco_h1') ?>" placeholder="Find Exactly What Your Business Needs"></div>
     <div class="form-group"><label>Subtext</label><input type="text" name="settings[tool_reco_subtext]" value="<?= si($s,'tool_reco_subtext') ?>" placeholder="Answer 6 quick questions and get personalized service recommendations based on your situation."></div>
     <p style="color:#64748b;font-size:0.8rem;margin-top:10px;">Only the hero headline/subtext is editable here. The questions, scoring, and recommendation logic are intentionally left in code since editing them safely requires matching logic changes, not just text.</p>
+  </div>
+  <div class="tm-card">
+    <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-magnifying-glass-chart text-green" style="margin-right:8px;"></i>Free Website Audit</span></div>
+    <div class="form-group"><label>Headline</label><input type="text" name="settings[tool_audit_h1]" value="<?= si($s,'tool_audit_h1') ?>" placeholder="Find Out What's Costing You Customers"></div>
+    <div class="form-group"><label>Subtext</label><input type="text" name="settings[tool_audit_subtext]" value="<?= si($s,'tool_audit_subtext') ?>" placeholder="A real, live scan of your site's SEO, performance, and security, in about 10 seconds."></div>
+    <p style="color:#64748b;font-size:0.8rem;margin-top:10px;">Captured leads (email + audited site + score) are viewable in <a href="<?= SITE_URL ?>/admin/website-audits.php" style="color:#22c55e;">Website Audits</a>. The checks themselves run live against the submitted URL and aren't editable text.</p>
   </div>
 </div>
 
