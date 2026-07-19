@@ -43,7 +43,7 @@ require_once __DIR__ . '/includes/admin-layout.php';
 
 <!-- TABS -->
 <div style="display:flex;gap:4px;margin-bottom:24px;border-bottom:1px solid #1e293b;">
-  <?php foreach(['general'=>'General','announce'=>'Announcement Bar','homepage'=>'Homepage','services'=>'Services Page','cta'=>'CTA Band','footer'=>'Footer','social'=>'Social Media'] as $tab=>$label): ?>
+  <?php foreach(['general'=>'General','announce'=>'Announcement Bar','homepage'=>'Homepage','services'=>'Services Page','solutions'=>'Solutions Page','consultation'=>'Consultation Page','tools'=>'Tools Pages','cta'=>'CTA Band','footer'=>'Footer','social'=>'Social Media'] as $tab=>$label): ?>
   <button type="button" class="tab-btn" data-tab="<?= $tab ?>" style="padding:10px 18px;border:none;background:none;color:#64748b;font-size:0.85rem;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:'Inter',sans-serif;">
     <?= $label ?>
   </button>
@@ -302,6 +302,103 @@ require_once __DIR__ . '/includes/admin-layout.php';
       <div class="form-group"><label>Answer <?= $i ?></label><textarea name="settings[svc_faq_<?= $i ?>_a]" rows="2"><?= si($s,"svc_faq_{$i}_a") ?></textarea></div>
     </div>
     <?php endfor; ?>
+  </div>
+</div>
+
+<!-- SOLUTIONS PAGE -->
+<div class="tab-panel" id="tab-solutions" style="display:none;">
+  <div class="tm-card" style="margin-bottom:20px;">
+    <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-boxes-stacked text-green" style="margin-right:8px;"></i>Hero Section</span></div>
+    <div class="form-group"><label>Label</label><input type="text" name="settings[sol_hero_label]" value="<?= si($s,'sol_hero_label') ?>" placeholder="Solutions"></div>
+    <div class="form-group"><label>Headline</label><input type="text" name="settings[sol_hero_h1]" value="<?= si($s,'sol_hero_h1') ?>" placeholder="Tailored Packages for Every Stage of Growth"></div>
+    <div class="form-group"><label>Subtext</label><textarea name="settings[sol_hero_subtext]" rows="2"><?= si($s,'sol_hero_subtext') ?></textarea></div>
+  </div>
+  <?php
+  $pkgDefaults = [
+    1=>['Starter','From $1,200','Perfect for small businesses ready to establish their digital presence and streamline core operations.','Professional business website, Basic CRM setup, WhatsApp Business integration, 1 automation workflow, Google My Business setup, 30-day support','Small businesses, sole traders, startups'],
+    2=>['Growth','From $3,500','For growing businesses that need robust systems, an online presence, and automation to scale without adding headcount.','Custom business website or web app, Full CRM & inventory system, E-commerce store, Up to 5 automation workflows, Digital marketing setup, Staff training & onboarding, 60-day support','SMEs, retail, service businesses'],
+    3=>['Enterprise','Custom pricing','End-to-end digital transformation for established businesses with complex operations and multiple locations.','Custom ERP or enterprise platform, Full automation infrastructure, Multi-location management, Advanced analytics & dashboards, Dedicated account manager, Ongoing development retainer, Priority support SLA','Multi-branch businesses, corporates'],
+  ];
+  foreach($pkgDefaults as $i=>$d): ?>
+  <div class="tm-card" style="margin-bottom:20px;">
+    <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-box text-green" style="margin-right:8px;"></i>Package <?= $i ?><?= $i==2 ? ' (marked Most Popular)' : '' ?></span></div>
+    <div class="form-row">
+      <div class="form-group"><label>Name</label><input type="text" name="settings[sol_pkg_<?= $i ?>_name]" value="<?= si($s,"sol_pkg_{$i}_name") ?>" placeholder="<?= $d[0] ?>"></div>
+      <div class="form-group"><label>Price</label><input type="text" name="settings[sol_pkg_<?= $i ?>_price]" value="<?= si($s,"sol_pkg_{$i}_price") ?>" placeholder="<?= $d[1] ?>"></div>
+    </div>
+    <div class="form-group"><label>Ideal For</label><input type="text" name="settings[sol_pkg_<?= $i ?>_ideal]" value="<?= si($s,"sol_pkg_{$i}_ideal") ?>" placeholder="<?= $d[5] ?>"></div>
+    <div class="form-group"><label>Description</label><textarea name="settings[sol_pkg_<?= $i ?>_desc]" rows="2"><?= si($s,"sol_pkg_{$i}_desc") ?></textarea></div>
+    <div class="form-group"><label>What's Included (comma separated)</label><textarea name="settings[sol_pkg_<?= $i ?>_includes]" rows="3"><?= si($s,"sol_pkg_{$i}_includes") ?></textarea><small style="color:#64748b;">e.g. <?= htmlspecialchars($d[3]) ?></small></div>
+  </div>
+  <?php endforeach; ?>
+  <div class="tm-card" style="margin-bottom:20px;">
+    <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-circle-question text-green" style="margin-right:8px;"></i>"Not Sure Which Package" Callout</span></div>
+    <div class="form-group"><label>Heading</label><input type="text" name="settings[sol_callout_h3]" value="<?= si($s,'sol_callout_h3') ?>" placeholder="Not sure which package is right for you?"></div>
+    <div class="form-group"><label>Subtext</label><input type="text" name="settings[sol_callout_desc]" value="<?= si($s,'sol_callout_desc') ?>"></div>
+    <div class="form-group"><label>Button Text</label><input type="text" name="settings[sol_callout_btn]" value="<?= si($s,'sol_callout_btn') ?>" placeholder="Book a Free Consultation"></div>
+  </div>
+  <div class="tm-card">
+    <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-thumbs-up text-green" style="margin-right:8px;"></i>Why Businesses Choose Us</span></div>
+    <div class="form-row">
+      <div class="form-group"><label>Eyebrow Tag</label><input type="text" name="settings[sol_why_eyebrow]" value="<?= si($s,'sol_why_eyebrow') ?>" placeholder="Why Tedmark"></div>
+      <div class="form-group"><label>Heading</label><input type="text" name="settings[sol_why_h2]" value="<?= si($s,'sol_why_h2') ?>" placeholder="Why Businesses Choose Us"></div>
+    </div>
+    <?php
+    $solWhyDefaults = [1=>['Local Context','We understand local payment systems, infrastructure, and business culture, no guesswork.'],2=>['No Lock-in','You own everything we build. Full source code, full data. No vendor lock-in.'],3=>['Fast Delivery','Most projects launched within 4-8 weeks. We move fast without cutting corners.'],4=>['Local Support','Dedicated support in your timezone. Real people who know your system.']];
+    foreach($solWhyDefaults as $i=>$d): ?>
+    <div class="form-row" style="border-top:1px solid #1e293b;padding-top:14px;margin-top:14px;">
+      <div class="form-group"><label>Item <?= $i ?> Title</label><input type="text" name="settings[sol_why_<?= $i ?>_title]" value="<?= si($s,"sol_why_{$i}_title") ?>" placeholder="<?= $d[0] ?>"></div>
+      <div class="form-group"><label>Item <?= $i ?> Description</label><input type="text" name="settings[sol_why_<?= $i ?>_desc]" value="<?= si($s,"sol_why_{$i}_desc") ?>" placeholder="<?= $d[1] ?>"></div>
+    </div>
+    <?php endforeach; ?>
+  </div>
+</div>
+
+<!-- CONSULTATION PAGE -->
+<div class="tab-panel" id="tab-consultation" style="display:none;">
+  <div class="tm-card" style="margin-bottom:20px;">
+    <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-calendar-check text-green" style="margin-right:8px;"></i>Hero Section</span></div>
+    <div class="form-group"><label>Headline</label><input type="text" name="settings[cons_hero_h1]" value="<?= si($s,'cons_hero_h1') ?>"></div>
+    <div class="form-group"><label>Subtext</label><textarea name="settings[cons_hero_subtext]" rows="2"><?= si($s,'cons_hero_subtext') ?></textarea></div>
+  </div>
+  <div class="tm-card" style="margin-bottom:20px;">
+    <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-list-ol text-green" style="margin-right:8px;"></i>3-Step Explainer</span></div>
+    <?php
+    $consStepDefaults = [1=>['1. You Book','Fill in the short form below. Takes under 2 minutes.'],2=>['2. We Prepare','We review your business and prepare tailored recommendations before the call.'],3=>['3. Get Your Roadmap','Walk away with a clear, prioritised plan, yours to keep either way.']];
+    foreach($consStepDefaults as $i=>$d): ?>
+    <div class="form-row" style="border-top:1px solid #1e293b;padding-top:14px;margin-top:14px;">
+      <div class="form-group"><label>Step <?= $i ?> Title</label><input type="text" name="settings[cons_step_<?= $i ?>_title]" value="<?= si($s,"cons_step_{$i}_title") ?>" placeholder="<?= $d[0] ?>"></div>
+      <div class="form-group"><label>Step <?= $i ?> Description</label><input type="text" name="settings[cons_step_<?= $i ?>_desc]" value="<?= si($s,"cons_step_{$i}_desc") ?>" placeholder="<?= $d[1] ?>"></div>
+    </div>
+    <?php endforeach; ?>
+  </div>
+  <div class="tm-card">
+    <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-quote-left text-green" style="margin-right:8px;"></i>Testimonial Strip</span></div>
+    <div class="form-group"><label>Quote</label><textarea name="settings[cons_testimonial_quote]" rows="2"><?= si($s,'cons_testimonial_quote') ?></textarea></div>
+    <div class="form-row">
+      <div class="form-group"><label>Name</label><input type="text" name="settings[cons_testimonial_name]" value="<?= si($s,'cons_testimonial_name') ?>" placeholder="Ama Boateng"></div>
+      <div class="form-group"><label>Role / Company</label><input type="text" name="settings[cons_testimonial_role]" value="<?= si($s,'cons_testimonial_role') ?>" placeholder="Founder, StyleHouse GH"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TOOLS PAGES -->
+<div class="tab-panel" id="tab-tools" style="display:none;">
+  <div class="tm-card" style="margin-bottom:20px;">
+    <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-heart-pulse text-green" style="margin-right:8px;"></i>Business Health Checker</span></div>
+    <div class="form-group"><label>Headline</label><input type="text" name="settings[tool_health_h1]" value="<?= si($s,'tool_health_h1') ?>" placeholder="Business Health Checker"></div>
+    <div class="form-group"><label>Subtext</label><input type="text" name="settings[tool_health_subtext]" value="<?= si($s,'tool_health_subtext') ?>" placeholder="10 questions. 3 minutes. Get a detailed score of how your business is performing and where to improve."></div>
+  </div>
+  <div class="tm-card" style="margin-bottom:20px;">
+    <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-calculator text-green" style="margin-right:8px;"></i>ROI Calculator</span></div>
+    <div class="form-group"><label>Headline</label><input type="text" name="settings[tool_roi_h1]" value="<?= si($s,'tool_roi_h1') ?>" placeholder="Calculate Your Hidden Losses"></div>
+    <div class="form-group"><label>Subtext</label><input type="text" name="settings[tool_roi_subtext]" value="<?= si($s,'tool_roi_subtext') ?>" placeholder="Find out exactly how much your manual processes are costing you, and what automation would save."></div>
+  </div>
+  <div class="tm-card">
+    <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-wand-magic-sparkles text-green" style="margin-right:8px;"></i>Solution Recommender</span></div>
+    <div class="form-group"><label>Headline</label><input type="text" name="settings[tool_reco_h1]" value="<?= si($s,'tool_reco_h1') ?>" placeholder="Find Your Perfect Solution"></div>
+    <div class="form-group"><label>Subtext</label><input type="text" name="settings[tool_reco_subtext]" value="<?= si($s,'tool_reco_subtext') ?>"></div>
+    <p style="color:#64748b;font-size:0.8rem;margin-top:10px;">Only the hero headline/subtext is editable here. The questions, scoring, and recommendation logic are intentionally left in code since editing them safely requires matching logic changes, not just text.</p>
   </div>
 </div>
 
