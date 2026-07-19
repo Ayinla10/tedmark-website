@@ -340,6 +340,36 @@ function runWebsiteAudit(string $inputUrl): array {
         ? auditCheck('contact_info','Visible Contact Info','Content','pass','Found a phone number or email address on the page.',1)
         : auditCheck('contact_info','Visible Contact Info','Content','warn','No obvious phone number or email address found on the page.',1);
 
+    $placeholderPatterns = ['coming soon', 'lorem ipsum', 'under construction', 'placeholder text'];
+    $foundPlaceholder = null;
+    foreach ($placeholderPatterns as $p) { if (stripos($textContent, $p) !== false) { $foundPlaceholder = $p; break; } }
+    $checks[] = $foundPlaceholder
+        ? auditCheck('placeholder_content','Placeholder Content','Content','fail',"Found placeholder text (\"$foundPlaceholder\") still live on the page.",3)
+        : auditCheck('placeholder_content','Placeholder Content','Content','pass','No leftover placeholder or "coming soon" text found.',2);
+
+    // ── Broken / dead-end links (href="#" on real nav/footer links) ──
+    $deadHrefNodes = $xpath->query('//a[@href="#"]');
+    $deadHrefCount = $deadHrefNodes->length;
+    if ($deadHrefCount > 0) {
+        $sampleLabels = [];
+        foreach ($deadHrefNodes as $a) {
+            $label = trim($a->textContent) ?: trim($a->getAttribute('aria-label')) ?: ($a->getElementsByTagName('i')->length ? 'icon link' : 'link');
+            if (!in_array($label, $sampleLabels, true)) $sampleLabels[] = $label;
+            if (count($sampleLabels) >= 5) break;
+        }
+        $checks[] = auditCheck('dead_links', 'Dead-End Links', 'Technical', 'fail',
+            "$deadHrefCount link(s) point to \"#\" and go nowhere (e.g. " . implode(', ', $sampleLabels) . "). These usually indicate unfinished social/legal links.", 3);
+    } else {
+        $checks[] = auditCheck('dead_links', 'Dead-End Links', 'Technical', 'pass', 'No links pointing to "#" found.', 2);
+    }
+
+    // ── Structured data (schema.org) ────────────────────────
+    $jsonLd = $xpath->query('//script[@type="application/ld+json"]');
+    $microdata = $xpath->query('//*[@itemscope]');
+    $checks[] = ($jsonLd->length > 0 || $microdata->length > 0)
+        ? auditCheck('schema', 'Structured Data (Schema.org)', 'SEO', 'pass', ($jsonLd->length + $microdata->length) . ' structured data block(s) found.', 2)
+        : auditCheck('schema', 'Structured Data (Schema.org)', 'SEO', 'fail', 'No JSON-LD or Microdata found. Missing rich-result opportunities (Organization, LocalBusiness, FAQ, etc.).', 2);
+
     // ── Score (overall + per category) ─────────────────────
     $score = auditScoreChecks($checks);
     $categoryScores = [];

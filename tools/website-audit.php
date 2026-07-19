@@ -80,20 +80,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verify_code']) && !em
         $error = 'That code is incorrect. Please check your email and try again.';
     } else {
         $results = $_SESSION['audit_results'];
+        $email   = $_SESSION['audit_otp_email'];
+        $token   = bin2hex(random_bytes(20));
+
+        require_once __DIR__ . '/../includes/audit-ai.php';
+        $aiReport = auditGenerateFullReport(
+            $results['url'], $results['checks'], $results['category_scores'],
+            $results['page_title'] ?? '', $results['meta_desc'] ?? '', $results['word_count'] ?? 0, $results['pages_scanned'] ?? 1
+        );
+        $results['ai_report'] = $aiReport;
+
         try {
             insert('website_audits', [
                 'target_url' => $results['url'],
-                'email'      => $_SESSION['audit_otp_email'],
+                'email'      => $email,
                 'name'       => $_SESSION['audit_otp_name'] ?? '',
                 'score'      => $results['score'],
+                'token'      => $token,
                 'results'    => json_encode($results),
                 'unlocked'   => 1,
                 'ip_address' => $_SERVER['REMOTE_ADDR'] ?? null,
             ]);
         } catch (Exception $e) {}
+
+        $_SESSION['audit_results']  = $results;
         $_SESSION['audit_unlocked'] = true;
+        $_SESSION['audit_token']    = $token;
         $justUnlocked = true;
         unset($_SESSION['audit_otp_pending'], $_SESSION['audit_otp_code']);
+
+        $reportUrl = SITE_URL . '/tools/audit-report?token=' . $token;
+        $domain = parse_url($results['url'], PHP_URL_HOST);
+        $summarySnippet = $aiReport['executive_summary'] ?? "Your {$results['score']}/100 audit for $domain is ready.";
+        sendMail($email, "Your website audit report for $domain",
+            "<p>Your full website audit report is ready.</p>
+             <p style='background:#f8fafc;border-radius:8px;padding:16px;color:#334155;'>$summarySnippet</p>
+             <p><a href='" . htmlspecialchars($reportUrl) . "' style='background:#16a34a;color:#fff;padding:12px 20px;border-radius:8px;text-decoration:none;display:inline-block;'>Open Full Report</a></p>
+             <p style='color:#94a3b8;font-size:13px;'>Or copy this link: " . htmlspecialchars($reportUrl) . "</p>");
     }
 }
 
@@ -227,6 +250,54 @@ document.getElementById('audit-form').addEventListener('submit', function(){
         </div>
     </div>
 
+    <!-- ===== UNLOCK (right after hero, no scrolling needed) ===== -->
+    <div id="unlock" style="background:linear-gradient(120deg,#0f172a 0%,#1e1029 100%);padding:40px 24px;">
+        <div style="max-width:560px;margin:0 auto;text-align:center;">
+            <?php if ($unlocked): ?>
+            <?php $reportLink = SITE_URL . '/tools/audit-report' . (!empty($_SESSION['audit_token']) ? '?token=' . $_SESSION['audit_token'] : ''); ?>
+            <p style="color:#e2e8f0;font-size:0.95rem;font-weight:500;margin-bottom:16px;">Verified. Your full report is ready.</p>
+            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+                <a href="<?= htmlspecialchars($reportLink) ?>" target="_blank" rel="noopener" class="tm-btn-primary" style="font-weight:500;background:#f472b6;">Open full report <i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i></a>
+                <a href="<?= SITE_URL ?>/tools/website-audit?reset=1" style="color:#94a3b8;font-size:0.85rem;font-weight:400;align-self:center;text-decoration:underline;">Scan another site</a>
+            </div>
+            <p style="color:#64748b;font-size:0.78rem;font-weight:300;margin-top:14px;">We also emailed you a link to it.</p>
+            <?php if ($justUnlocked): ?><script>window.open('<?= htmlspecialchars($reportLink) ?>', '_blank');</script><?php endif; ?>
+
+            <?php elseif ($otpPending): ?>
+            <p style="color:#e2e8f0;font-size:0.9rem;font-weight:500;margin-bottom:6px;">Check your inbox</p>
+            <?php if ($error): ?>
+            <div style="background:rgba(220,38,38,0.15);border:1px solid rgba(220,38,38,0.3);border-radius:10px;padding:12px;margin:10px 0;text-align:left;">
+                <span style="color:#fca5a5;font-size:0.85rem;font-weight:500;"><?= htmlspecialchars($error) ?></span>
+            </div>
+            <?php endif; ?>
+            <p style="color:#94a3b8;font-size:0.82rem;font-weight:300;margin-bottom:14px;">6-digit code sent to <strong style="color:#e2e8f0;"><?= htmlspecialchars($_SESSION['audit_otp_email']) ?></strong></p>
+            <form method="POST" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;align-items:center;">
+                <input type="text" name="otp_code" placeholder="123456" maxlength="6" inputmode="numeric" required autofocus
+                    style="width:150px;text-align:center;letter-spacing:6px;font-size:1.15rem;font-weight:500;padding:12px;border-radius:10px;border:1px solid #334155;background:#1e293b;color:#fff;outline:none;">
+                <button type="submit" name="verify_code" value="1" class="tm-btn-primary" style="font-weight:500;background:#f472b6;">Verify & Unlock</button>
+            </form>
+            <form method="POST" style="margin-top:10px;">
+                <input type="hidden" name="unlock_email" value="<?= htmlspecialchars($_SESSION['audit_otp_email']) ?>">
+                <button type="submit" name="request_code" value="1" style="background:none;border:none;color:#94a3b8;font-size:0.78rem;font-weight:400;cursor:pointer;text-decoration:underline;">Resend code</button>
+            </form>
+
+            <?php else: ?>
+            <p style="color:#fff;font-size:0.95rem;font-weight:500;margin-bottom:4px;">Get the full report + AI summary</p>
+            <p style="color:#94a3b8;font-size:0.8rem;font-weight:300;margin-bottom:14px;">We'll verify your email with a 6-digit code, then send you the report link.</p>
+            <?php if ($error): ?>
+            <div style="background:rgba(220,38,38,0.15);border:1px solid rgba(220,38,38,0.3);border-radius:10px;padding:12px;margin-bottom:14px;text-align:left;">
+                <span style="color:#fca5a5;font-size:0.85rem;font-weight:500;"><?= htmlspecialchars($error) ?></span>
+            </div>
+            <?php endif; ?>
+            <form method="POST" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+                <input type="email" name="unlock_email" placeholder="you@company.com" required autofocus
+                    style="flex:1;min-width:200px;max-width:280px;padding:12px 14px;border-radius:10px;border:1px solid #334155;background:#1e293b;color:#fff;font-size:0.9rem;font-weight:400;outline:none;">
+                <button type="submit" name="request_code" value="1" class="tm-btn-primary" style="font-weight:500;white-space:nowrap;background:#f472b6;">Send Code</button>
+            </form>
+            <?php endif; ?>
+        </div>
+    </div>
+
     <!-- ===== STAT BAND ===== -->
     <div style="background:var(--card);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
         <div style="max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--border);">
@@ -331,52 +402,6 @@ document.getElementById('audit-form').addEventListener('submit', function(){
                 </div>
                 <?php endforeach; ?>
             </div>
-        </div>
-    </div>
-
-    <!-- ===== CLOSING CTA / UNLOCK ===== -->
-    <div id="unlock" style="background:linear-gradient(120deg,#0f172a 0%,#1e1029 100%);padding:64px 24px;">
-        <div style="max-width:640px;margin:0 auto;text-align:center;">
-            <div style="font-size:0.72rem;font-weight:400;color:#f472b6;text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;">&mdash; Read The Report</div>
-            <h2 style="font-size:1.7rem;font-weight:600;color:#fff;line-height:1.3;margin-bottom:14px;"><?= count($checks) ?> checks. Every finding cited.<br><em style="color:#f472b6;font-style:italic;">No fluff.</em></h2>
-            <p style="color:#94a3b8;font-size:0.88rem;font-weight:300;line-height:1.6;margin-bottom:28px;">The full report opens in a new tab, with an AI-written summary and every check we ran.</p>
-
-            <?php if ($unlocked): ?>
-            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-                <a href="<?= SITE_URL ?>/tools/audit-report" target="_blank" rel="noopener" class="tm-btn-primary" style="font-weight:500;background:#f472b6;">Open full report <i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i></a>
-                <a href="<?= SITE_URL ?>/tools/website-audit?reset=1" style="color:#94a3b8;font-size:0.85rem;font-weight:400;align-self:center;text-decoration:underline;">Scan another site</a>
-            </div>
-            <?php if ($justUnlocked): ?><script>window.open('<?= SITE_URL ?>/tools/audit-report', '_blank');</script><?php endif; ?>
-
-            <?php elseif ($otpPending): ?>
-            <?php if ($error): ?>
-            <div style="background:rgba(220,38,38,0.15);border:1px solid rgba(220,38,38,0.3);border-radius:10px;padding:12px;margin-bottom:16px;text-align:left;">
-                <span style="color:#fca5a5;font-size:0.85rem;font-weight:500;"><?= htmlspecialchars($error) ?></span>
-            </div>
-            <?php endif; ?>
-            <p style="color:#e2e8f0;font-size:0.85rem;font-weight:400;margin-bottom:16px;">We sent a 6-digit code to <strong><?= htmlspecialchars($_SESSION['audit_otp_email']) ?></strong>.</p>
-            <form method="POST" style="display:flex;flex-direction:column;gap:12px;align-items:center;">
-                <input type="text" name="otp_code" placeholder="123456" maxlength="6" inputmode="numeric" required
-                    style="width:180px;text-align:center;letter-spacing:8px;font-size:1.3rem;font-weight:500;padding:14px;border-radius:10px;border:1px solid #334155;background:#1e293b;color:#fff;outline:none;">
-                <button type="submit" name="verify_code" value="1" class="tm-btn-primary" style="width:180px;justify-content:center;font-weight:500;background:#f472b6;">Verify & Unlock</button>
-            </form>
-            <form method="POST" style="margin-top:14px;">
-                <input type="hidden" name="unlock_email" value="<?= htmlspecialchars($_SESSION['audit_otp_email']) ?>">
-                <button type="submit" name="request_code" value="1" style="background:none;border:none;color:#94a3b8;font-size:0.82rem;font-weight:400;cursor:pointer;text-decoration:underline;">Resend code</button>
-            </form>
-
-            <?php else: ?>
-            <?php if ($error): ?>
-            <div style="background:rgba(220,38,38,0.15);border:1px solid rgba(220,38,38,0.3);border-radius:10px;padding:12px;margin-bottom:16px;text-align:left;">
-                <span style="color:#fca5a5;font-size:0.85rem;font-weight:500;"><?= htmlspecialchars($error) ?></span>
-            </div>
-            <?php endif; ?>
-            <form method="POST" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
-                <input type="email" name="unlock_email" placeholder="you@company.com" required
-                    style="flex:1;min-width:200px;max-width:280px;padding:14px 16px;border-radius:10px;border:1px solid #334155;background:#1e293b;color:#fff;font-size:0.95rem;font-weight:400;outline:none;">
-                <button type="submit" name="request_code" value="1" class="tm-btn-primary" style="padding:14px 24px;font-weight:500;white-space:nowrap;background:#f472b6;">Send Verification Code</button>
-            </form>
-            <?php endif; ?>
         </div>
     </div>
 
