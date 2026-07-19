@@ -59,7 +59,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['request_code']) && !e
              <p style='font-size:28px;font-weight:600;letter-spacing:4px;'>$code</p>
              <p>This code expires in 10 minutes. If you didn't request this, you can ignore this email.</p>");
         if (!$sent) {
-            $error = "We couldn't send a verification email right now. Please try again in a moment.";
+            $lastErr = error_get_last();
+            error_log('Audit OTP mail() failed for ' . $email . ': ' . ($lastErr['message'] ?? 'unknown mail() failure'));
+            $error = "We couldn't send a verification email right now. Please try again in a moment, or contact us if this keeps happening.";
             unset($_SESSION['audit_otp_pending']);
         }
     }
@@ -102,16 +104,17 @@ $unlocked   = !empty($_SESSION['audit_unlocked']);
 require_once __DIR__ . '/../includes/header.php';
 
 function auditBarColor($score) {
-    return $score >= 80 ? '#16a34a' : ($score >= 55 ? '#f59e0b' : '#dc2626');
+    return $score >= 80 ? '#16a34a' : ($score >= 55 ? '#f59e0b' : '#ef4444');
 }
 function auditSeverityBadge($c) {
-    if ($c['status'] === 'fail') return ['CRITICAL', '#dc2626'];
+    if ($c['status'] === 'fail') return ['CRITICAL', '#ef4444'];
     if ($c['status'] === 'warn' && $c['weight'] >= 2) return ['HIGH', '#f59e0b'];
     return ['MEDIUM', '#94a3b8'];
 }
 ?>
 
-<!-- ===== HERO ===== -->
+<?php if (!$results): ?>
+<!-- ===== HERO (no scan yet) ===== -->
 <section class="tm-page-hero" style="background:linear-gradient(135deg,rgba(6,11,24,0.93) 0%,rgba(10,22,40,0.90) 100%),url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1600&q=80&auto=format&fit=crop') center/cover no-repeat;">
     <div class="tm-container">
         <div class="tm-page-hero-inner" style="text-align:center;max-width:640px;margin:0 auto;">
@@ -126,187 +129,267 @@ function auditSeverityBadge($c) {
     </div>
 </section>
 
-<section class="audit-page" style="padding:60px 0 96px;background:#f8fafc;">
-    <div class="tm-container" style="max-width:900px;">
-
-        <?php if (!$results): ?>
-        <!-- ===== STEP 1: URL SCAN ===== -->
-        <div style="background:#fff;border-radius:20px;box-shadow:0 4px 32px rgba(0,0,0,.06);padding:40px;max-width:640px;margin:0 auto;">
-            <?php if ($error): ?>
-            <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:14px;margin-bottom:20px;">
-                <span style="color:#dc2626;font-size:0.875rem;font-weight:500;"><?= htmlspecialchars($error) ?></span>
-            </div>
-            <?php endif; ?>
-            <form method="POST" id="audit-form">
-                <label style="display:block;font-size:13px;font-weight:500;color:#64748b;margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em;">Website URL</label>
-                <div style="display:flex;gap:10px;flex-wrap:wrap;">
-                    <input type="text" name="scan_url" placeholder="https://www.company.com" required
-                        style="flex:1;min-width:220px;padding:16px 18px;border:2px solid #e2e8f0;border-radius:12px;font-size:16px;font-weight:400;color:#0f172a;box-sizing:border-box;outline:none;">
-                    <button type="submit" id="audit-submit" class="tm-btn-green" style="padding:16px 28px;font-size:1rem;font-weight:500;white-space:nowrap;">
-                        <span id="audit-submit-label">Start Free AI Audit</span> <i class="fa-solid fa-arrow-right fa-xs"></i>
-                    </button>
-                </div>
-                <p style="font-size:0.78rem;color:#94a3b8;margin-top:12px;">We scan your homepage plus key linked pages (about, services, contact, and more), not just one page.</p>
-            </form>
+<section class="audit-page" style="padding:60px 16px 96px;background:var(--bg-soft);">
+    <div style="max-width:640px;margin:0 auto;background:var(--card);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow);padding:40px;">
+        <?php if ($error): ?>
+        <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:14px;margin-bottom:20px;">
+            <span style="color:#dc2626;font-size:0.875rem;font-weight:500;"><?= htmlspecialchars($error) ?></span>
         </div>
-        <script>
-        document.getElementById('audit-form').addEventListener('submit', function(){
-            document.getElementById('audit-submit-label').textContent = 'Scanning...';
-            document.getElementById('audit-submit').disabled = true;
-        });
-        </script>
-
-        <?php else:
-            $score = $results['score'];
-            $checks = $results['checks'];
-            $catScores = $results['category_scores'];
-            $domain = parse_url($results['url'], PHP_URL_HOST);
-            $statusLabel = $score >= 80 ? 'Strong' : ($score >= 55 ? 'Developing' : 'At Risk');
-            $failCount = count(array_filter($checks, fn($c) => $c['status'] === 'fail'));
-            $warnCount = count(array_filter($checks, fn($c) => $c['status'] === 'warn'));
-            $priority  = array_values(array_filter($checks, fn($c) => $c['status'] !== 'pass'));
-            usort($priority, fn($a,$b) => $b['weight'] <=> $a['weight']);
-        ?>
-
-        <!-- ===== FORENSIC HERO CARD ===== -->
-        <div style="background:#0f172a;border-radius:24px;padding:44px;color:#fff;display:grid;grid-template-columns:1.3fr 1fr;gap:32px;align-items:center;margin-bottom:32px;">
-            <div>
-                <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(220,38,38,0.15);color:#fca5a5;font-size:0.7rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border-radius:99px;margin-bottom:16px;">
-                    <i class="fa-solid fa-magnifying-glass"></i> Live Audit
-                </div>
-                <h2 style="font-size:1.8rem;font-weight:600;line-height:1.25;margin-bottom:14px;">A live look at<br><span style="color:#4ade80;"><?= htmlspecialchars($domain) ?></span></h2>
-                <p style="color:#94a3b8;font-size:0.9rem;line-height:1.6;font-weight:300;margin-bottom:24px;">
-                    <?= count($checks) ?> live checks across <?= $results['pages_scanned'] ?> page<?= $results['pages_scanned']==1?'':'s' ?>, covering SEO, technical, security, and content. <?= $failCount ?> critical issue<?= $failCount==1?'':'s' ?> found, <?= $warnCount ?> more worth fixing.
-                </p>
-                <div style="display:flex;gap:12px;flex-wrap:wrap;">
-                    <a href="#full-report" class="tm-btn-primary" style="padding:12px 22px;font-size:0.9rem;font-weight:500;">View Findings <i class="fa-solid fa-arrow-down fa-xs"></i></a>
-                    <a href="<?= SITE_URL ?>/tools/website-audit?reset=1" style="color:#94a3b8;font-size:0.85rem;font-weight:300;align-self:center;text-decoration:underline;">Scan a different site</a>
-                </div>
+        <?php endif; ?>
+        <form method="POST" id="audit-form">
+            <label style="display:block;font-size:13px;font-weight:400;color:var(--text-soft);margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em;">Website URL</label>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                <input type="text" name="scan_url" placeholder="https://www.company.com" required
+                    style="flex:1;min-width:220px;padding:16px 18px;border:2px solid var(--border);border-radius:12px;font-size:16px;font-weight:400;color:var(--text);background:var(--bg);box-sizing:border-box;outline:none;">
+                <button type="submit" id="audit-submit" class="tm-btn-green" style="padding:16px 28px;font-size:1rem;font-weight:500;white-space:nowrap;">
+                    <span id="audit-submit-label">Start Free AI Audit</span> <i class="fa-solid fa-arrow-right fa-xs"></i>
+                </button>
             </div>
-            <div style="background:#1e293b;border-radius:18px;padding:28px;text-align:center;">
-                <div style="font-size:0.7rem;color:#94a3b8;font-weight:400;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;">Overall Score</div>
-                <div style="font-size:3rem;font-weight:600;line-height:1;"><?= $score ?><span style="font-size:1.2rem;color:#64748b;font-weight:300;">/100</span></div>
-                <div style="display:inline-block;margin-top:10px;background:rgba(74,222,128,0.12);color:#4ade80;font-size:0.72rem;font-weight:500;padding:4px 12px;border-radius:99px;"><?= $statusLabel ?></div>
-                <div style="margin-top:20px;display:flex;flex-direction:column;gap:10px;text-align:left;">
-                    <?php foreach ($catScores as $cat => $cs): ?>
-                    <div>
-                        <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:#94a3b8;font-weight:300;margin-bottom:4px;"><span><?= htmlspecialchars($cat) ?></span><span><?= $cs ?>/100</span></div>
-                        <div style="height:5px;background:#334155;border-radius:99px;overflow:hidden;"><div style="height:100%;width:<?= $cs ?>%;background:<?= auditBarColor($cs) ?>;"></div></div>
-                    </div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
+            <p style="font-size:0.78rem;color:var(--muted);margin-top:12px;">We scan your homepage plus key linked pages (about, services, contact, and more), not just one page.</p>
+        </form>
+    </div>
+</section>
+<script>
+document.getElementById('audit-form').addEventListener('submit', function(){
+    document.getElementById('audit-submit-label').textContent = 'Scanning...';
+    document.getElementById('audit-submit').disabled = true;
+});
+</script>
+
+<?php else:
+    $score = $results['score'];
+    $checks = $results['checks'];
+    $catScores = $results['category_scores'];
+    $domain = parse_url($results['url'], PHP_URL_HOST);
+    $statusLabel = $score >= 80 ? 'Strong' : ($score >= 55 ? 'Developing' : 'At Risk');
+    $failCount = count(array_filter($checks, fn($c) => $c['status'] === 'fail'));
+    $warnCount = count(array_filter($checks, fn($c) => $c['status'] === 'warn'));
+    $priority  = array_values(array_filter($checks, fn($c) => $c['status'] !== 'pass'));
+    usort($priority, fn($a,$b) => $b['weight'] <=> $a['weight']);
+    $fixNow    = array_values(array_filter($checks, fn($c) => $c['status'] === 'fail'));
+    $fixSoon   = array_values(array_filter($checks, fn($c) => $c['status'] === 'warn' && $c['weight'] >= 2));
+    $worthIt   = array_values(array_filter($checks, fn($c) => $c['status'] === 'warn' && $c['weight'] < 2));
+?>
+<section class="audit-page" style="background:var(--bg-soft);">
+
+    <!-- ===== MINI NAV ===== -->
+    <div style="background:var(--card);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:8px;font-weight:500;color:var(--text);font-size:0.9rem;">
+            <span style="width:22px;height:22px;border-radius:6px;background:var(--accent);color:var(--accent-ink);display:inline-flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:600;">A</span>
+            Audit / <?= htmlspecialchars($domain) ?>
         </div>
+        <div style="display:flex;gap:20px;margin-left:auto;flex-wrap:wrap;">
+            <a href="#scorecard" style="color:var(--text-soft);font-size:0.85rem;text-decoration:none;">Scorecard</a>
+            <a href="#findings" style="color:var(--text-soft);font-size:0.85rem;text-decoration:none;">Findings</a>
+            <a href="#checked" style="color:var(--text-soft);font-size:0.85rem;text-decoration:none;">Contents</a>
+            <a href="#roadmap" style="color:var(--text-soft);font-size:0.85rem;text-decoration:none;">Roadmap</a>
+        </div>
+        <a href="#unlock" style="background:var(--text);color:var(--bg);font-size:0.8rem;font-weight:500;padding:8px 16px;border-radius:99px;text-decoration:none;white-space:nowrap;">Read report <i class="fa-solid fa-arrow-right fa-2xs"></i></a>
+    </div>
 
-        <!-- ===== STAT ROW ===== -->
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:#e2e8f0;border-radius:16px;overflow:hidden;margin-bottom:40px;">
-            <?php foreach ([[$score.'/100','Overall Score'],[$results['pages_scanned'],'Pages Scanned'],[count($checks),'Checks Run'],[$failCount,'Critical Issues'],[$failCount+$warnCount,'Recommendations']] as $stat): ?>
-            <div style="background:#fff;padding:24px;text-align:center;">
-                <div style="font-size:1.6rem;font-weight:600;color:#0f172a;"><?= $stat[0] ?></div>
-                <div style="font-size:0.75rem;color:#64748b;font-weight:400;margin-top:2px;"><?= $stat[1] ?></div>
+    <!-- ===== HERO / COVER ===== -->
+    <div style="padding:56px 24px 40px;max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1.3fr 1fr;gap:32px;align-items:start;">
+        <div>
+            <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(220,38,38,0.1);color:#ef4444;font-size:0.7rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:5px 14px;border-radius:99px;margin-bottom:20px;">
+                <i class="fa-solid fa-circle-dot fa-2xs"></i> Independent Audit &middot; <?= date('F Y') ?>
             </div>
-            <?php endforeach; ?>
+            <h1 style="font-size:2.1rem;font-weight:600;line-height:1.2;color:var(--text);margin-bottom:14px;">A live look at<br><em style="color:#ef4444;font-style:italic;font-weight:500;"><?= htmlspecialchars($domain) ?></em></h1>
+            <p style="color:var(--text-soft);font-size:0.92rem;font-weight:300;line-height:1.7;margin-bottom:24px;max-width:480px;">
+                <?= count($checks) ?> checks across <?= $results['pages_scanned'] ?> page<?= $results['pages_scanned']==1?'':'s' ?>, <?= $failCount ?> critical issue<?= $failCount==1?'':'s' ?>, <?= $failCount+$warnCount ?> recommendations, costing you leads and search visibility today.
+            </p>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                <a href="#unlock" class="tm-btn-primary" style="font-weight:500;">Read the full report <i class="fa-solid fa-arrow-right fa-xs"></i></a>
+                <a href="<?= SITE_URL ?>/tools/website-audit?reset=1" class="tm-btn-outline">Scan a different site</a>
+            </div>
+            <div style="display:flex;gap:32px;flex-wrap:wrap;border-top:1px solid var(--border);padding-top:20px;margin-top:32px;">
+                <div><div style="font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;">Domain</div><div style="font-size:0.85rem;font-weight:500;color:var(--text);"><?= htmlspecialchars($domain) ?></div></div>
+                <div><div style="font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;">Date</div><div style="font-size:0.85rem;font-weight:500;color:var(--text);"><?= date('F Y') ?></div></div>
+                <div><div style="font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;">Pages Scanned</div><div style="font-size:0.85rem;font-weight:500;color:var(--text);"><?= $results['pages_scanned'] ?></div></div>
+            </div>
         </div>
 
-        <!-- ===== DIMENSION SCORECARD ===== -->
-        <div style="margin-bottom:48px;">
-            <div style="font-size:0.72rem;font-weight:500;color:#16a34a;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Scorecard</div>
-            <h2 style="font-size:1.6rem;font-weight:600;color:#0f172a;margin-bottom:24px;">Every dimension, one honest verdict.</h2>
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
+        <!-- score card (always dark, matches other dark-hero accents on the site) -->
+        <div style="background:#0f172a;border-radius:18px;padding:28px;">
+            <div style="font-size:0.68rem;color:#94a3b8;font-weight:400;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;">Overall Score</div>
+            <div style="display:flex;align-items:center;gap:16px;margin-bottom:18px;">
+                <div style="font-size:2.6rem;font-weight:600;color:#fff;line-height:1;"><?= $score ?><span style="font-size:1.1rem;color:#64748b;font-weight:300;">/100</span></div>
+                <div style="width:50px;height:50px;border-radius:50%;border:4px solid <?= auditBarColor($score) ?>;flex-shrink:0;"></div>
+            </div>
+            <div style="display:inline-block;background:rgba(74,222,128,0.12);color:#4ade80;font-size:0.7rem;font-weight:500;padding:4px 12px;border-radius:99px;margin-bottom:20px;"><?= $statusLabel ?></div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
                 <?php foreach ($catScores as $cat => $cs): ?>
                 <div>
-                    <div style="display:flex;justify-content:space-between;font-size:0.9rem;font-weight:500;color:#0f172a;margin-bottom:8px;"><span><?= htmlspecialchars($cat) ?></span><span style="color:<?= auditBarColor($cs) ?>;"><?= $cs ?>/100</span></div>
-                    <div style="height:8px;background:#e2e8f0;border-radius:99px;overflow:hidden;"><div style="height:100%;width:<?= $cs ?>%;background:<?= auditBarColor($cs) ?>;"></div></div>
+                    <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:#94a3b8;font-weight:300;margin-bottom:4px;"><span><?= htmlspecialchars($cat) ?></span><span><?= $cs ?>/100</span></div>
+                    <div style="height:5px;background:#334155;border-radius:99px;overflow:hidden;"><div style="height:100%;width:<?= $cs ?>%;background:<?= auditBarColor($cs) ?>;"></div></div>
                 </div>
                 <?php endforeach; ?>
             </div>
         </div>
+    </div>
 
-        <!-- ===== PRIORITY FINDINGS ===== -->
-        <div style="background:#0f172a;border-radius:24px;padding:44px;margin-bottom:48px;">
-            <div style="font-size:0.72rem;font-weight:500;color:#4ade80;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Priority Findings</div>
-            <h2 style="font-size:1.5rem;font-weight:600;color:#fff;margin-bottom:24px;"><?= min(6,count($priority)) ?> things worth fixing first.</h2>
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;">
-                <?php foreach (array_slice($priority, 0, 6) as $c): [$sevLabel,$sevColor] = auditSeverityBadge($c); ?>
-                <div style="background:#1e293b;border-radius:14px;padding:20px;">
-                    <span style="display:inline-block;font-size:0.65rem;font-weight:500;letter-spacing:.05em;color:<?= $sevColor ?>;background:<?= $sevColor ?>22;padding:3px 10px;border-radius:99px;margin-bottom:10px;"><?= $sevLabel ?></span>
-                    <div style="font-weight:500;color:#fff;font-size:0.92rem;margin-bottom:6px;"><?= htmlspecialchars($c['label']) ?></div>
+    <!-- ===== STAT BAND ===== -->
+    <div style="background:var(--card);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+        <div style="max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--border);">
+            <?php foreach ([[$score.'/100','Overall Score',$statusLabel],[$results['pages_scanned'],'Pages Scanned','All key pages'],[$failCount,'Critical Issues','Immediate action'],[$failCount+$warnCount,'Recommendations','Prioritised']] as $stat): ?>
+            <div style="background:var(--card);padding:28px 20px;">
+                <div style="font-size:1.7rem;font-weight:600;color:var(--text);"><?= $stat[0] ?></div>
+                <div style="font-size:0.8rem;color:var(--text-soft);font-weight:400;margin-top:2px;"><?= $stat[1] ?></div>
+                <div style="font-size:0.7rem;color:var(--muted);font-weight:300;margin-top:2px;"><?= $stat[2] ?></div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+
+    <!-- ===== SCORECARD ===== -->
+    <div id="scorecard" style="max-width:1000px;margin:0 auto;padding:64px 24px;">
+        <div style="font-size:0.72rem;font-weight:400;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;">&mdash; 01 &middot; Scorecard</div>
+        <h2 style="font-size:1.7rem;font-weight:600;color:var(--text);margin-bottom:10px;">Every dimension, one honest verdict.</h2>
+        <p style="color:var(--text-soft);font-size:0.9rem;font-weight:300;max-width:560px;margin-bottom:32px;">A dimension scores well when most of its checks pass. The fixes below are known, sequenceable, and mostly quick wins.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px 40px;">
+            <?php foreach ($catScores as $cat => $cs): ?>
+            <div>
+                <div style="display:flex;justify-content:space-between;font-size:0.9rem;font-weight:500;color:var(--text);margin-bottom:8px;"><span><?= htmlspecialchars($cat) ?></span><span style="color:<?= auditBarColor($cs) ?>;"><?= $cs ?>/100</span></div>
+                <div style="height:7px;background:var(--border);border-radius:99px;overflow:hidden;"><div style="height:100%;width:<?= $cs ?>%;background:<?= auditBarColor($cs) ?>;"></div></div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+
+    <!-- ===== PRIORITY FINDINGS (always dark) ===== -->
+    <div id="findings" style="background:#0f172a;padding:64px 24px;">
+        <div style="max-width:1000px;margin:0 auto;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px;margin-bottom:28px;">
+                <div>
+                    <div style="font-size:0.72rem;font-weight:400;color:#4ade80;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;">&mdash; 02 &middot; Priority Findings</div>
+                    <h2 style="font-size:1.6rem;font-weight:600;color:#fff;"><?= min(6,count($priority)) ?> things costing you leads.</h2>
+                </div>
+                <div style="color:#64748b;font-size:0.8rem;font-weight:300;"><?= $failCount ?> critical &middot; <?= $warnCount ?> recommendations</div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px 40px;">
+                <?php foreach (array_slice($priority, 0, 6) as $i => $c): [$sevLabel,$sevColor] = auditSeverityBadge($c); ?>
+                <div style="border-bottom:1px solid #1e293b;padding-bottom:20px;">
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+                        <span style="font-size:0.62rem;font-weight:500;letter-spacing:.05em;color:<?= $sevColor ?>;background:<?= $sevColor ?>1a;padding:3px 9px;border-radius:99px;"><?= $sevLabel ?></span>
+                        <span style="font-size:0.68rem;color:#64748b;font-weight:300;">Finding <?= str_pad($i+1,2,'0',STR_PAD_LEFT) ?></span>
+                    </div>
+                    <div style="font-weight:500;color:#fff;font-size:0.95rem;margin-bottom:6px;"><?= htmlspecialchars($c['label']) ?></div>
                     <div style="color:#94a3b8;font-size:0.82rem;font-weight:300;line-height:1.5;"><?= htmlspecialchars($c['detail']) ?></div>
                 </div>
                 <?php endforeach; ?>
             </div>
         </div>
+    </div>
 
-        <div id="full-report"></div>
-
-        <?php if (!$unlocked): ?>
-            <?php if (!$otpPending): ?>
-            <!-- ===== EMAIL GATE ===== -->
-            <div style="background:#fff;border:2px solid #16a34a;border-radius:20px;padding:36px;max-width:560px;margin:0 auto;">
-                <h3 style="font-size:1.15rem;font-weight:600;color:#0f172a;margin-bottom:16px;">Your complete audit contains:</h3>
-                <ul style="list-style:none;padding:0;margin:0 0 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;">
-                    <?php foreach(['All '.count($checks).' live checks, categorised','AI-written executive summary','Complete issue list, prioritised','Printable / PDF report'] as $item): ?>
-                    <li style="display:flex;align-items:flex-start;gap:8px;font-size:0.85rem;font-weight:400;color:#334155;"><i class="fa-solid fa-check" style="color:#16a34a;margin-top:3px;"></i> <?= $item ?></li>
-                    <?php endforeach; ?>
-                </ul>
-                <p style="color:#64748b;font-size:0.85rem;font-weight:400;margin-bottom:16px;">Enter your business email, we'll send a 6-digit code to verify it's really you before unlocking the report.</p>
-                <?php if ($error): ?>
-                <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:12px;margin-bottom:16px;">
-                    <span style="color:#dc2626;font-size:0.85rem;font-weight:500;"><?= htmlspecialchars($error) ?></span>
-                </div>
-                <?php endif; ?>
-                <form method="POST" style="display:flex;gap:10px;flex-wrap:wrap;">
-                    <input type="email" name="unlock_email" placeholder="you@company.com" required
-                        style="flex:1;min-width:200px;padding:14px 16px;border-radius:10px;border:1px solid #e2e8f0;font-size:0.95rem;font-weight:400;outline:none;">
-                    <button type="submit" name="request_code" value="1" class="tm-btn-green" style="padding:14px 24px;font-weight:500;white-space:nowrap;">Send Verification Code</button>
-                </form>
+    <!-- ===== WHAT WE CHECKED (contents-style) ===== -->
+    <div id="checked" style="max-width:1000px;margin:0 auto;padding:64px 24px;">
+        <div style="display:grid;grid-template-columns:1fr 1.3fr;gap:40px;">
+            <div>
+                <div style="font-size:0.72rem;font-weight:400;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;">&mdash; 03 &middot; Contents</div>
+                <h2 style="font-size:1.5rem;font-weight:600;color:var(--text);margin-bottom:10px;">What's inside the report.</h2>
+                <p style="color:var(--text-soft);font-size:0.88rem;font-weight:300;margin-bottom:20px;"><?= count($checks) ?> checks, every finding cited to a specific check. Numbered so you can share and reference clearly.</p>
+                <a href="#findings" class="tm-btn-outline">Start reading</a>
             </div>
-            <?php else: ?>
-            <!-- ===== VERIFY CODE ===== -->
-            <div style="background:#fff;border:2px solid #16a34a;border-radius:20px;padding:36px;max-width:480px;margin:0 auto;text-align:center;">
-                <i class="fa-solid fa-envelope-circle-check" style="font-size:1.8rem;color:#16a34a;margin-bottom:12px;"></i>
-                <h3 style="font-size:1.1rem;font-weight:600;color:#0f172a;margin-bottom:8px;">Check your inbox</h3>
-                <p style="color:#64748b;font-size:0.85rem;font-weight:400;margin-bottom:20px;">We sent a 6-digit code to <strong><?= htmlspecialchars($_SESSION['audit_otp_email']) ?></strong>. Enter it below to unlock your report.</p>
-                <?php if ($error): ?>
-                <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:12px;margin-bottom:16px;">
-                    <span style="color:#dc2626;font-size:0.85rem;font-weight:500;"><?= htmlspecialchars($error) ?></span>
+            <div>
+                <?php $ci=0; foreach ($catScores as $cat => $cs):
+                    $catCount = count(array_filter($checks, fn($c) => $c['category']===$cat));
+                    $ci++;
+                ?>
+                <div style="display:flex;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid var(--border);">
+                    <span style="font-size:0.78rem;color:var(--muted);font-weight:400;width:24px;flex-shrink:0;"><?= str_pad($ci,2,'0',STR_PAD_LEFT) ?></span>
+                    <div style="flex:1;">
+                        <div style="font-weight:500;color:var(--text);font-size:0.9rem;"><?= htmlspecialchars($cat) ?></div>
+                        <div style="color:var(--muted);font-size:0.78rem;font-weight:300;"><?= $catCount ?> checks &middot; score <?= $cs ?>/100</div>
+                    </div>
+                    <i class="fa-solid fa-arrow-right fa-xs" style="color:var(--muted);"></i>
                 </div>
-                <?php endif; ?>
-                <form method="POST" style="display:flex;flex-direction:column;gap:12px;align-items:center;">
-                    <input type="text" name="otp_code" placeholder="123456" maxlength="6" inputmode="numeric" required
-                        style="width:180px;text-align:center;letter-spacing:8px;font-size:1.3rem;font-weight:500;padding:14px;border-radius:10px;border:1px solid #e2e8f0;outline:none;">
-                    <button type="submit" name="verify_code" value="1" class="tm-btn-green" style="width:180px;justify-content:center;font-weight:500;">Verify & Unlock</button>
-                </form>
-                <form method="POST" style="margin-top:14px;">
-                    <input type="hidden" name="unlock_email" value="<?= htmlspecialchars($_SESSION['audit_otp_email']) ?>">
-                    <button type="submit" name="request_code" value="1" style="background:none;border:none;color:#16a34a;font-size:0.82rem;font-weight:500;cursor:pointer;text-decoration:underline;">Resend code</button>
-                </form>
-            </div>
-            <?php endif; ?>
-
-        <?php else: ?>
-        <!-- ===== UNLOCKED ===== -->
-        <div style="background:#fff;border:2px solid #16a34a;border-radius:20px;padding:36px;max-width:560px;margin:0 auto;text-align:center;">
-            <i class="fa-solid fa-circle-check" style="font-size:1.8rem;color:#16a34a;margin-bottom:12px;"></i>
-            <h3 style="font-size:1.15rem;font-weight:600;color:#0f172a;margin-bottom:8px;">Verified. Your full report is ready.</h3>
-            <p style="color:#64748b;font-size:0.85rem;font-weight:400;margin-bottom:20px;">It opens in a new tab, including an AI-written executive summary and every check we ran.</p>
-            <a href="<?= SITE_URL ?>/tools/audit-report" target="_blank" rel="noopener" id="open-report-btn" class="tm-btn-green" style="font-weight:500;">
-                Open Full Report <i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i>
-            </a>
-            <div style="margin-top:16px;">
-                <a href="<?= SITE_URL ?>/tools/website-audit?reset=1" style="color:#94a3b8;font-size:0.82rem;font-weight:400;text-decoration:underline;">Scan another site</a>
+                <?php endforeach; ?>
             </div>
         </div>
-        <?php if ($justUnlocked): ?>
-        <script>window.open('<?= SITE_URL ?>/tools/audit-report', '_blank');</script>
-        <?php endif; ?>
-        <?php endif; ?>
-        <?php endif; ?>
+    </div>
+
+    <!-- ===== PRIORITY ACTION PLAN ===== -->
+    <div id="roadmap" style="background:var(--card);border-top:1px solid var(--border);padding:64px 24px;">
+        <div style="max-width:1000px;margin:0 auto;">
+            <div style="font-size:0.72rem;font-weight:400;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;">&mdash; 04 &middot; Priority Action Plan</div>
+            <h2 style="font-size:1.6rem;font-weight:600;color:var(--text);margin-bottom:28px;">Fix these, in this order.</h2>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;">
+                <?php foreach ([['Fix Now', $fixNow, '#ef4444', 'fa-triangle-exclamation'], ['Fix Soon', $fixSoon, '#f59e0b', 'fa-clock'], ['Worth Considering', $worthIt, '#94a3b8', 'fa-circle-check']] as [$label, $items, $color, $icon]): ?>
+                <div style="background:var(--bg-soft);border:1px solid var(--border);border-radius:14px;padding:24px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+                        <span style="font-size:0.68rem;color:var(--muted);font-weight:400;text-transform:uppercase;letter-spacing:.05em;"><?= count($items) ?> item<?= count($items)==1?'':'s' ?></span>
+                        <i class="fa-solid <?= $icon ?>" style="color:<?= $color ?>;font-size:0.9rem;"></i>
+                    </div>
+                    <div style="font-weight:600;color:var(--text);font-size:1rem;margin-bottom:14px;"><?= $label ?></div>
+                    <?php if (empty($items)): ?>
+                    <div style="color:var(--muted);font-size:0.82rem;font-weight:300;">Nothing here.</div>
+                    <?php else: foreach (array_slice($items,0,5) as $it): ?>
+                    <div style="display:flex;align-items:flex-start;gap:8px;font-size:0.83rem;color:var(--text-soft);font-weight:300;margin-bottom:8px;">
+                        <span style="width:5px;height:5px;border-radius:50%;background:<?= $color ?>;flex-shrink:0;margin-top:7px;"></span>
+                        <?= htmlspecialchars($it['label']) ?>
+                    </div>
+                    <?php endforeach; endif; ?>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== CLOSING CTA / UNLOCK ===== -->
+    <div id="unlock" style="background:linear-gradient(120deg,#0f172a 0%,#1e1029 100%);padding:64px 24px;">
+        <div style="max-width:640px;margin:0 auto;text-align:center;">
+            <div style="font-size:0.72rem;font-weight:400;color:#f472b6;text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;">&mdash; Read The Report</div>
+            <h2 style="font-size:1.7rem;font-weight:600;color:#fff;line-height:1.3;margin-bottom:14px;"><?= count($checks) ?> checks. Every finding cited.<br><em style="color:#f472b6;font-style:italic;">No fluff.</em></h2>
+            <p style="color:#94a3b8;font-size:0.88rem;font-weight:300;line-height:1.6;margin-bottom:28px;">The full report opens in a new tab, with an AI-written summary and every check we ran.</p>
+
+            <?php if ($unlocked): ?>
+            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+                <a href="<?= SITE_URL ?>/tools/audit-report" target="_blank" rel="noopener" class="tm-btn-primary" style="font-weight:500;background:#f472b6;">Open full report <i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i></a>
+                <a href="<?= SITE_URL ?>/tools/website-audit?reset=1" style="color:#94a3b8;font-size:0.85rem;font-weight:400;align-self:center;text-decoration:underline;">Scan another site</a>
+            </div>
+            <?php if ($justUnlocked): ?><script>window.open('<?= SITE_URL ?>/tools/audit-report', '_blank');</script><?php endif; ?>
+
+            <?php elseif ($otpPending): ?>
+            <?php if ($error): ?>
+            <div style="background:rgba(220,38,38,0.15);border:1px solid rgba(220,38,38,0.3);border-radius:10px;padding:12px;margin-bottom:16px;text-align:left;">
+                <span style="color:#fca5a5;font-size:0.85rem;font-weight:500;"><?= htmlspecialchars($error) ?></span>
+            </div>
+            <?php endif; ?>
+            <p style="color:#e2e8f0;font-size:0.85rem;font-weight:400;margin-bottom:16px;">We sent a 6-digit code to <strong><?= htmlspecialchars($_SESSION['audit_otp_email']) ?></strong>.</p>
+            <form method="POST" style="display:flex;flex-direction:column;gap:12px;align-items:center;">
+                <input type="text" name="otp_code" placeholder="123456" maxlength="6" inputmode="numeric" required
+                    style="width:180px;text-align:center;letter-spacing:8px;font-size:1.3rem;font-weight:500;padding:14px;border-radius:10px;border:1px solid #334155;background:#1e293b;color:#fff;outline:none;">
+                <button type="submit" name="verify_code" value="1" class="tm-btn-primary" style="width:180px;justify-content:center;font-weight:500;background:#f472b6;">Verify & Unlock</button>
+            </form>
+            <form method="POST" style="margin-top:14px;">
+                <input type="hidden" name="unlock_email" value="<?= htmlspecialchars($_SESSION['audit_otp_email']) ?>">
+                <button type="submit" name="request_code" value="1" style="background:none;border:none;color:#94a3b8;font-size:0.82rem;font-weight:400;cursor:pointer;text-decoration:underline;">Resend code</button>
+            </form>
+
+            <?php else: ?>
+            <?php if ($error): ?>
+            <div style="background:rgba(220,38,38,0.15);border:1px solid rgba(220,38,38,0.3);border-radius:10px;padding:12px;margin-bottom:16px;text-align:left;">
+                <span style="color:#fca5a5;font-size:0.85rem;font-weight:500;"><?= htmlspecialchars($error) ?></span>
+            </div>
+            <?php endif; ?>
+            <form method="POST" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+                <input type="email" name="unlock_email" placeholder="you@company.com" required
+                    style="flex:1;min-width:200px;max-width:280px;padding:14px 16px;border-radius:10px;border:1px solid #334155;background:#1e293b;color:#fff;font-size:0.95rem;font-weight:400;outline:none;">
+                <button type="submit" name="request_code" value="1" class="tm-btn-primary" style="padding:14px 24px;font-weight:500;white-space:nowrap;background:#f472b6;">Send Verification Code</button>
+            </form>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER META ===== -->
+    <div style="max-width:1000px;margin:0 auto;padding:20px 24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+        <span style="font-size:0.75rem;color:var(--muted);font-weight:300;">Independent audit &middot; Prepared <?= date('F Y') ?> &middot; Not affiliated with the audited domain</span>
+        <span style="font-size:0.75rem;color:var(--muted);font-weight:300;">Report v1.0 &middot; <?= count($catScores) ?> sections &middot; <?= $failCount+$warnCount ?> recommendations</span>
     </div>
 </section>
+<?php endif; ?>
 
 <style>
-.audit-page, .audit-page * { font-family: 'Geist', sans-serif; }
+.audit-report, .audit-report * { font-family: 'Geist', sans-serif; }
 </style>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

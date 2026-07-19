@@ -74,7 +74,13 @@ function sendMail(string $to, string $subject, string $html, string $from = ''):
     $headers .= "Content-type: text/html; charset=utf-8\r\n";
     $headers .= "From: " . SITE_NAME . " <$from>\r\n";
     $headers .= "Reply-To: $from\r\n";
-    return mail($to, $subject, $html, $headers);
+    // Setting the envelope sender (-f) avoids silent rejection on hosts
+    // that require it to match the From address.
+    $ok = mail($to, $subject, $html, $headers, '-f' . $from);
+    if (!$ok) {
+        error_log('sendMail() failed to=' . $to . ' subject=' . $subject);
+    }
+    return $ok;
 }
 
 function paginate(int $total, int $perPage, int $currentPage): array {
