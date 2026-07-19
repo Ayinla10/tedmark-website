@@ -26,9 +26,10 @@ require_once __DIR__ . '/includes/header.php';
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px;margin-bottom:72px;">
             <?php
             $tools = [
-                ['icon'=>'fa-solid fa-heart-pulse','color'=>'#f43f5e','bg'=>'rgba(244,63,94,0.08)','title'=>'Business Health Check','desc'=>'Get a full diagnostic of your business operations in under 5 minutes. Covers systems, processes, digital presence, and more.','link'=>'/tools/business-health.php','badge'=>'Most Popular','time'=>'5 min'],
-                ['icon'=>'fa-solid fa-calculator','color'=>'#60a5fa','bg'=>'rgba(96,165,250,0.08)','title'=>'ROI Calculator','desc'=>'Calculate exactly how much time and money automation could save your business every year.','link'=>'/tools/roi-calculator.php','badge'=>'','time'=>'3 min'],
-                ['icon'=>'fa-solid fa-wand-magic-sparkles','color'=>'#a78bfa','bg'=>'rgba(167,139,250,0.08)','title'=>'Service Recommender','desc'=>'Answer 5 quick questions and get a personalised digital transformation roadmap for your business.','link'=>'/tools/service-recommender.php','badge'=>'New','time'=>'2 min'],
+                ['icon'=>'fa-solid fa-heart-pulse','color'=>'#f43f5e','bg'=>'rgba(244,63,94,0.08)','title'=>'Business Health Check','desc'=>'Get a full diagnostic of your business operations in under 5 minutes. Covers systems, processes, digital presence, and more.','link'=>'/tools/business-health','badge'=>'Most Popular','time'=>'5 min'],
+                ['icon'=>'fa-solid fa-calculator','color'=>'#60a5fa','bg'=>'rgba(96,165,250,0.08)','title'=>'ROI Calculator','desc'=>'Calculate exactly how much time and money automation could save your business every year.','link'=>'/tools/roi-calculator','badge'=>'','time'=>'3 min'],
+                ['icon'=>'fa-solid fa-wand-magic-sparkles','color'=>'#a78bfa','bg'=>'rgba(167,139,250,0.08)','title'=>'Service Recommender','desc'=>'Answer 5 quick questions and get a personalised digital transformation roadmap for your business.','link'=>'/tools/service-recommender','badge'=>'New','time'=>'2 min'],
+                ['icon'=>'fa-solid fa-magnifying-glass-chart','color'=>'#16a34a','bg'=>'rgba(22,163,74,0.08)','title'=>'Free Website Audit','desc'=>'Run a real, live scan of your site\'s SEO, performance, and security in about 10 seconds.','link'=>'/tools/website-audit','badge'=>'New','time'=>'1 min'],
             ];
             foreach($tools as $t): ?>
             <div class="tm-card tm-fade">
