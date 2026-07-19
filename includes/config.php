@@ -24,6 +24,13 @@ if ($_isLive) {
     define('SITE_URL', 'http://localhost:8080');
 }
 
+// Secrets (API keys) live in includes/secrets.php, which is gitignored
+// and never committed. Copy includes/secrets.example.php to set it up.
+if (file_exists(__DIR__ . '/secrets.php')) {
+    require_once __DIR__ . '/secrets.php';
+} else {
+    define('DEEPSEEK_API_KEY', '');
+}
 define('DB_CHARSET', 'utf8mb4');
 define('SITE_NAME', 'Tedmark Digital Agency');
 define('SITE_EMAIL', 'hello@tedmarkdigital.com');

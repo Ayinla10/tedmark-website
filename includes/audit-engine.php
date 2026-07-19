@@ -88,6 +88,12 @@ function auditCheck(string $id, string $label, string $category, string $status,
     return compact('id','label','category','status','detail','weight');
 }
 
+function auditShortPath(string $url, string $origin): string {
+    $path = substr($url, strlen($origin));
+    $path = trim($path, '/');
+    return $path === '' ? '/' : '/' . $path;
+}
+
 /**
  * Run the full audit. Returns ['ok'=>bool, 'error'=>?, 'score'=>int, 'checks'=>[...], 'meta'=>[...]]
  */
@@ -235,27 +241,74 @@ function runWebsiteAudit(string $inputUrl): array {
         ? auditCheck('render_blocking','Render-Blocking Scripts','Technical','pass','No render-blocking scripts detected in <head>.',2)
         : auditCheck('render_blocking','Render-Blocking Scripts','Technical','warn',"{$scripts->length} script(s) in <head> without async/defer, may slow page rendering.",2);
 
-    // Broken internal links (sample up to 3)
-    $links = $xpath->query('//a[@href]');
+    // Discover internal links (used for both broken-link sampling and key-page scanning)
+    $linkNodes = $xpath->query('//a[@href]');
     $internalLinks = [];
-    foreach ($links as $a) {
+    foreach ($linkNodes as $a) {
         $href = $a->getAttribute('href');
         if (!$href || str_starts_with($href, '#') || str_starts_with($href, 'mailto:') || str_starts_with($href, 'tel:') || str_starts_with($href, 'javascript:')) continue;
         $resolved = $href;
-        if (str_starts_with($href, '/')) $resolved = $origin . $href;
+        if (str_starts_with($href, '//')) $resolved = ($parts['scheme'] ?? 'https') . ':' . $href;
+        elseif (str_starts_with($href, '/')) $resolved = $origin . $href;
         elseif (!preg_match('#^https?://#i', $href)) $resolved = rtrim($origin,'/') . '/' . ltrim($href,'/');
-        if (str_starts_with($resolved, $origin) && !in_array($resolved, $internalLinks, true)) $internalLinks[] = $resolved;
-        if (count($internalLinks) >= 3) break;
+        $resolved = strtok($resolved, '#'); // drop fragments
+        if (str_starts_with($resolved, $origin) && rtrim($resolved,'/') !== rtrim($url,'/') && !in_array($resolved, $internalLinks, true)) {
+            $internalLinks[] = $resolved;
+        }
+        if (count($internalLinks) >= 12) break;
     }
+
+    // Broken internal links (sample up to 3)
+    $linkSample = array_slice($internalLinks, 0, 3);
     $brokenCount = 0;
-    foreach ($internalLinks as $link) {
+    foreach ($linkSample as $link) {
         $code = auditQuickHead($link);
         if ($code === 0 || $code >= 400) $brokenCount++;
     }
-    if (!empty($internalLinks)) {
+    if (!empty($linkSample)) {
         $checks[] = $brokenCount === 0
-            ? auditCheck('broken_links','Internal Links Sample','Technical','pass','Checked '.count($internalLinks).' internal links, all resolved fine.',2)
-            : auditCheck('broken_links','Internal Links Sample','Technical','fail',"$brokenCount of ".count($internalLinks)." sampled internal links returned an error.",2);
+            ? auditCheck('broken_links','Internal Links Sample','Technical','pass','Checked '.count($linkSample).' internal links, all resolved fine.',2)
+            : auditCheck('broken_links','Internal Links Sample','Technical','fail',"$brokenCount of ".count($linkSample)." sampled internal links returned an error.",2);
+    }
+
+    // ── Key pages (beyond the homepage) ────────────────────
+    $priorityPatterns = ['about','services','service','products','pricing','contact','shop','blog'];
+    $priorityLinks = [];
+    $otherLinks = [];
+    foreach ($internalLinks as $link) {
+        $isPriority = false;
+        foreach ($priorityPatterns as $p) { if (stripos($link, $p) !== false) { $isPriority = true; break; } }
+        if ($isPriority) $priorityLinks[] = $link; else $otherLinks[] = $link;
+    }
+    $keyPages = array_slice(array_merge($priorityLinks, $otherLinks), 0, 4);
+    $pagesScanned = 1;
+    foreach ($keyPages as $pageUrl) {
+        $pageRes = auditFetch($pageUrl, 6);
+        if (!$pageRes['ok'] || $pageRes['code'] < 200 || $pageRes['code'] >= 400) {
+            $checks[] = auditCheck('page_'.md5($pageUrl),'Page: '.auditShortPath($pageUrl,$origin),'Additional Pages','fail','Page could not be loaded (broken link).',2);
+            continue;
+        }
+        $pagesScanned++;
+        libxml_use_internal_errors(true);
+        $pDom = new DOMDocument();
+        $pDom->loadHTML('<?xml encoding="utf-8" ?>' . $pageRes['body']);
+        libxml_clear_errors();
+        $pXpath = new DOMXPath($pDom);
+        $pTitleNode = $pXpath->query('//title')->item(0);
+        $pTitle = $pTitleNode ? trim($pTitleNode->textContent) : '';
+        $pMeta = '';
+        foreach ($pXpath->query('//meta[@name="description"]') as $m) { $pMeta = trim($m->getAttribute('content')); break; }
+        $pH1 = $pXpath->query('//h1')->length;
+        $label = 'Page: ' . auditShortPath($pageUrl, $origin);
+        $issues = [];
+        if (!$pTitle) $issues[] = 'missing title';
+        if (!$pMeta) $issues[] = 'missing meta description';
+        if ($pH1 === 0) $issues[] = 'no H1';
+        if (empty($issues)) {
+            $checks[] = auditCheck('page_'.md5($pageUrl), $label, 'Additional Pages', 'pass', 'Title, meta description, and H1 all present.', 2);
+        } else {
+            $checks[] = auditCheck('page_'.md5($pageUrl), $label, 'Additional Pages', 'warn', ucfirst(implode(', ', $issues)).'.', 2);
+        }
     }
 
     // ── Security ─────────────────────────────────────────
@@ -302,6 +355,10 @@ function runWebsiteAudit(string $inputUrl): array {
         'score'     => $score,
         'category_scores' => $categoryScores,
         'checks'    => $checks,
+        'page_title'  => $title,
+        'meta_desc'   => $metaDesc,
+        'word_count'  => $wordCount,
+        'pages_scanned' => $pagesScanned,
         'meta'      => ['time_ms' => $res['time_ms'], 'size_bytes' => $res['size_bytes'], 'checked_at' => date('c')],
     ];
 }
