@@ -54,14 +54,15 @@ require_once __DIR__ . '/includes/header.php';
 
 <!-- ===== TRUST MARQUEE (separates hero from Problem section) ===== -->
 <div class="tm2-marquee">
-    <div class="tm2-marquee-label">Our Trusted<br><span class="tm2-marquee-label-big">Partners</span></div>
+    <div class="tm2-marquee-label"><?= cfg($cfg,'hp_marquee_label1','Our Trusted') ?><br><span class="tm2-marquee-label-big"><?= cfg($cfg,'hp_marquee_label2','Partners') ?></span></div>
     <div class="tm2-marquee-viewport">
         <div class="tm2-marquee-track">
             <?php
-            $logos = ['RetailPro GH','MediTrack','EduLink','FoodFlow','PropEstate','LogiMove'];
+            $logosRaw = $cfg['hp_marquee_logos'] ?? 'RetailPro GH, MediTrack, EduLink, FoodFlow, PropEstate, LogiMove';
+            $logos = array_filter(array_map('trim', explode(',', $logosRaw)));
             // Duplicate the list so the loop is seamless
             foreach(array_merge($logos, $logos) as $l): ?>
-            <span><?= $l ?></span>
+            <span><?= htmlspecialchars($l) ?></span>
             <?php endforeach; ?>
         </div>
     </div>
@@ -71,23 +72,23 @@ require_once __DIR__ . '/includes/header.php';
 <section class="tm2-section">
     <div class="tm2-container">
         <div class="tm2-section-head">
-            <div class="tm2-eyebrow">The Problem</div>
-            <h2 class="tm2-h2 tm2-problem-title">Sound <em>Familiar</em>?</h2>
-            <p class="tm2-sub tm2-problem-sub">Most growing businesses are held back by the same operational bottlenecks. We fix all of them.</p>
+            <div class="tm2-eyebrow"><?= cfg($cfg,'hp_problem_eyebrow','The Problem') ?></div>
+            <h2 class="tm2-h2 tm2-problem-title"><?= cfg($cfg,'hp_problem_h2_pre','Sound') ?> <em><?= cfg($cfg,'hp_problem_h2_em','Familiar') ?></em><?= cfg($cfg,'hp_problem_h2_post','?') ?></h2>
+            <p class="tm2-sub tm2-problem-sub"><?= cfg($cfg,'hp_problem_subtext','Most growing businesses are held back by the same operational bottlenecks. We fix all of them.') ?></p>
         </div>
         <div class="tm2-timeline">
             <?php
-            $problems = [
-                ['num'=>'01','title'=>'Manual Processes','desc'=>'Hours lost to repetitive tasks that could be automated, like data entry, invoicing, and reporting.'],
-                ['num'=>'02','title'=>'Scattered Information','desc'=>'Customer data, finances, and operations spread across spreadsheets and paper files.'],
-                ['num'=>'03','title'=>'Poor Communication','desc'=>'Team silos, missed follow-ups, and inconsistent customer experiences costing you sales.'],
-                ['num'=>'04','title'=>'Lack of Visibility','desc'=>'No real-time dashboards or reports, so you\'re making decisions without accurate data.'],
+            $problemsDefault = [
+                ['Manual Processes','Hours lost to repetitive tasks that could be automated, like data entry, invoicing, and reporting.'],
+                ['Scattered Information','Customer data, finances, and operations spread across spreadsheets and paper files.'],
+                ['Poor Communication','Team silos, missed follow-ups, and inconsistent customer experiences costing you sales.'],
+                ['Lack of Visibility','No real-time dashboards or reports, so you\'re making decisions without accurate data.'],
             ];
-            foreach($problems as $i => $p): ?>
+            foreach($problemsDefault as $i => $p): $n=$i+1; ?>
             <div class="tm2-timeline-step">
-                <div class="tm2-timeline-num<?= $i===0 ? ' active' : '' ?>"><?= $p['num'] ?></div>
-                <h3 class="tm2-problem-card-title"><?= $p['title'] ?></h3>
-                <p class="tm2-problem-card-sub"><?= $p['desc'] ?></p>
+                <div class="tm2-timeline-num<?= $i===0 ? ' active' : '' ?>"><?= str_pad($n,2,'0',STR_PAD_LEFT) ?></div>
+                <h3 class="tm2-problem-card-title"><?= cfg($cfg,"hp_problem_{$n}_title",$p[0]) ?></h3>
+                <p class="tm2-problem-card-sub"><?= cfg($cfg,"hp_problem_{$n}_desc",$p[1]) ?></p>
             </div>
             <?php endforeach; ?>
         </div>
@@ -98,9 +99,9 @@ require_once __DIR__ . '/includes/header.php';
 <section class="tm2-section">
     <div class="tm2-container">
         <div class="tm2-section-head">
-            <div class="tm2-eyebrow">What We Do</div>
-            <h2 class="tm2-h2">Everything Your Business Needs to Run on <em>AI</em></h2>
-            <p class="tm2-sub">End-to-end AI transformation, from strategy to implementation to ongoing support.</p>
+            <div class="tm2-eyebrow"><?= cfg($cfg,'hp_services_eyebrow','What We Do') ?></div>
+            <h2 class="tm2-h2"><?= cfg($cfg,'hp_services_h2_pre','Everything Your Business Needs to Run on') ?> <em><?= cfg($cfg,'hp_services_h2_em','AI') ?></em></h2>
+            <p class="tm2-sub"><?= cfg($cfg,'hp_services_subtext','End-to-end AI transformation, from strategy to implementation to ongoing support.') ?></p>
         </div>
         <div class="tm2-grid tm2-grid-4">
             <?php
@@ -148,24 +149,24 @@ require_once __DIR__ . '/includes/header.php';
 <section class="tm2-section">
     <div class="tm2-container">
         <div class="tm2-section-head">
-            <div class="tm2-eyebrow">Free Tools</div>
-            <h2 class="tm2-h2">Try Our Free Business Tools</h2>
-            <p class="tm2-sub">Get insights about your business and discover opportunities for growth.</p>
+            <div class="tm2-eyebrow"><?= cfg($cfg,'hp_tools_eyebrow','Free Tools') ?></div>
+            <h2 class="tm2-h2"><?= cfg($cfg,'hp_tools_h2','Try Our Free Business Tools') ?></h2>
+            <p class="tm2-sub"><?= cfg($cfg,'hp_tools_subtext','Get insights about your business and discover opportunities for growth.') ?></p>
         </div>
         <div class="tm2-grid tm2-grid-3">
             <?php
-            $tools = [
-                ['icon'=>'fa-solid fa-heart-pulse',       'title'=>'Business Health Checker','desc'=>'Answer a few questions and get a personalized report on your business health.',  'cta'=>'Try Now',              'link'=>'/tools/business-health.php'],
-                ['icon'=>'fa-solid fa-calculator',         'title'=>'ROI Calculator',          'desc'=>'Calculate how much time and money your business can save with automation.',      'cta'=>'Calculate Now',        'link'=>'/tools/roi-calculator.php'],
-                ['icon'=>'fa-solid fa-wand-magic-sparkles','title'=>'Solution Recommender',    'desc'=>'Tell us about your business and we\'ll recommend the right solutions for you.','cta'=>'Get Recommendations',  'link'=>'/tools/service-recommender.php'],
+            $toolsDefault = [
+                ['icon'=>'fa-solid fa-heart-pulse',       'title'=>'Business Health Checker','desc'=>'Answer a few questions and get a personalized report on your business health.',  'cta'=>'Try Now',              'link'=>'/tools/business-health'],
+                ['icon'=>'fa-solid fa-calculator',         'title'=>'ROI Calculator',          'desc'=>'Calculate how much time and money your business can save with automation.',      'cta'=>'Calculate Now',        'link'=>'/tools/roi-calculator'],
+                ['icon'=>'fa-solid fa-wand-magic-sparkles','title'=>'Solution Recommender',    'desc'=>'Tell us about your business and we\'ll recommend the right solutions for you.','cta'=>'Get Recommendations',  'link'=>'/tools/service-recommender'],
             ];
-            foreach($tools as $t): ?>
+            foreach($toolsDefault as $i => $t): $n=$i+1; ?>
             <div class="tm2-card">
                 <div class="tm2-card-icon"><i class="<?= $t['icon'] ?>"></i></div>
-                <h3><?= $t['title'] ?></h3>
-                <p><?= $t['desc'] ?></p>
+                <h3><?= cfg($cfg,"hp_tool_{$n}_title",$t['title']) ?></h3>
+                <p><?= cfg($cfg,"hp_tool_{$n}_desc",$t['desc']) ?></p>
                 <a href="<?= SITE_URL . $t['link'] ?>" style="font-size:0.85rem;font-weight:600;color:var(--accent);display:inline-flex;align-items:center;gap:6px;margin-top:14px;text-decoration:none;">
-                    <?= $t['cta'] ?> <i class="fa-solid fa-arrow-right fa-2xs"></i>
+                    <?= cfg($cfg,"hp_tool_{$n}_cta",$t['cta']) ?> <i class="fa-solid fa-arrow-right fa-2xs"></i>
                 </a>
             </div>
             <?php endforeach; ?>
@@ -177,9 +178,9 @@ require_once __DIR__ . '/includes/header.php';
 <section class="tm2-section">
     <div class="tm2-container">
         <div class="tm2-section-head">
-            <div class="tm2-eyebrow">Our Work</div>
-            <h2 class="tm2-h2">Results We've Delivered</h2>
-            <p class="tm2-sub">Real projects, real outcomes for real businesses.</p>
+            <div class="tm2-eyebrow"><?= cfg($cfg,'hp_portfolio_eyebrow','Our Work') ?></div>
+            <h2 class="tm2-h2"><?= cfg($cfg,'hp_portfolio_h2',"Results We've Delivered") ?></h2>
+            <p class="tm2-sub"><?= cfg($cfg,'hp_portfolio_subtext','Real projects, real outcomes for real businesses.') ?></p>
         </div>
         <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;">
             <?php foreach(['all'=>'All Work','web'=>'Web','systems'=>'Systems','ecommerce'=>'E-Commerce','branding'=>'Branding'] as $k=>$v): ?>
@@ -223,23 +224,23 @@ require_once __DIR__ . '/includes/header.php';
 <section class="tm2-section">
     <div class="tm2-container">
         <div class="tm2-section-head">
-            <div class="tm2-eyebrow">The Process</div>
-            <h2 class="tm2-h2">How We Work With You</h2>
-            <p class="tm2-sub">From first call to launch and beyond, a simple, proven process.</p>
+            <div class="tm2-eyebrow"><?= cfg($cfg,'hp_process_eyebrow','The Process') ?></div>
+            <h2 class="tm2-h2"><?= cfg($cfg,'hp_process_h2','How We Work With You') ?></h2>
+            <p class="tm2-sub"><?= cfg($cfg,'hp_process_subtext','From first call to launch and beyond, a simple, proven process.') ?></p>
         </div>
         <div class="tm2-grid tm2-grid-4">
             <?php
-            $steps = [
-                ['num'=>'01','title'=>'Discovery Call','desc'=>'We learn about your business, goals, challenges, and current systems in a free 30-minute consultation.'],
-                ['num'=>'02','title'=>'Digital Roadmap','desc'=>'We create a custom plan showing exactly what to build, the timeline, and expected outcomes.'],
-                ['num'=>'03','title'=>'Build & Launch','desc'=>'Our team builds your solution with weekly updates and your full involvement throughout.'],
-                ['num'=>'04','title'=>'Grow & Scale','desc'=>'Ongoing support, training, and optimisation to ensure you keep getting better results over time.'],
+            $stepsDefault = [
+                ['Discovery Call','We learn about your business, goals, challenges, and current systems in a free 30-minute consultation.'],
+                ['Digital Roadmap','We create a custom plan showing exactly what to build, the timeline, and expected outcomes.'],
+                ['Build & Launch','Our team builds your solution with weekly updates and your full involvement throughout.'],
+                ['Grow & Scale','Ongoing support, training, and optimisation to ensure you keep getting better results over time.'],
             ];
-            foreach($steps as $s): ?>
+            foreach($stepsDefault as $i => $s): $n=$i+1; ?>
             <div class="tm2-card" style="text-align:center;">
-                <div class="tm2-card-icon" style="margin:0 auto 14px;background:var(--accent);color:var(--accent-ink);font-weight:800;font-size:14px;"><?= $s['num'] ?></div>
-                <h3><?= $s['title'] ?></h3>
-                <p><?= $s['desc'] ?></p>
+                <div class="tm2-card-icon" style="margin:0 auto 14px;background:var(--accent);color:var(--accent-ink);font-weight:800;font-size:14px;"><?= str_pad($n,2,'0',STR_PAD_LEFT) ?></div>
+                <h3><?= cfg($cfg,"hp_process_{$n}_title",$s[0]) ?></h3>
+                <p><?= cfg($cfg,"hp_process_{$n}_desc",$s[1]) ?></p>
             </div>
             <?php endforeach; ?>
         </div>
@@ -250,8 +251,8 @@ require_once __DIR__ . '/includes/header.php';
 <section class="tm2-section">
     <div class="tm2-container">
         <div class="tm2-section-head">
-            <div class="tm2-eyebrow">Client Stories</div>
-            <h2 class="tm2-h2">What Our Clients Say</h2>
+            <div class="tm2-eyebrow"><?= cfg($cfg,'hp_testimonials_eyebrow','Client Stories') ?></div>
+            <h2 class="tm2-h2"><?= cfg($cfg,'hp_testimonials_h2','What Our Clients Say') ?></h2>
         </div>
         <div class="tm2-grid tm2-grid-3">
             <?php
@@ -297,8 +298,8 @@ require_once __DIR__ . '/includes/header.php';
 <section class="tm2-section">
     <div class="tm2-container">
         <div class="tm2-section-head">
-            <div class="tm2-eyebrow">Insights</div>
-            <h2 class="tm2-h2">Latest From Our Blog</h2>
+            <div class="tm2-eyebrow"><?= cfg($cfg,'hp_blog_eyebrow','Insights') ?></div>
+            <h2 class="tm2-h2"><?= cfg($cfg,'hp_blog_h2','Latest From Our Blog') ?></h2>
         </div>
         <div class="tm2-grid tm2-grid-3">
             <?php foreach($recentPosts as $post): ?>

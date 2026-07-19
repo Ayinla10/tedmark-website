@@ -109,7 +109,7 @@ require_once __DIR__ . '/includes/admin-layout.php';
       <div class="form-group"><label>Overlay Opacity (0.0 - 1.0)</label><input type="text" name="settings[hero_overlay_opacity]" value="<?= si($s,'hero_overlay_opacity') ?: '0.92' ?>" placeholder="0.92"></div>
     </div>
   </div>
-  <div class="tm-card">
+  <div class="tm-card" style="margin-bottom:20px;">
     <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-chart-bar text-green" style="margin-right:8px;"></i>Stats Bar</span></div>
     <div class="tm-grid-4">
       <?php for($i=1;$i<=4;$i++): ?>
@@ -119,6 +119,113 @@ require_once __DIR__ . '/includes/admin-layout.php';
       </div>
       <?php endfor; ?>
     </div>
+  </div>
+
+  <div class="tm-card" style="margin-bottom:20px;">
+    <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-bars-staggered text-green" style="margin-right:8px;"></i>Trust Marquee (green scrolling band)</span></div>
+    <div class="form-row">
+      <div class="form-group"><label>Label Line 1</label><input type="text" name="settings[hp_marquee_label1]" value="<?= si($s,'hp_marquee_label1') ?>" placeholder="Our Trusted"></div>
+      <div class="form-group"><label>Label Line 2 (bigger, italic)</label><input type="text" name="settings[hp_marquee_label2]" value="<?= si($s,'hp_marquee_label2') ?>" placeholder="Partners"></div>
+    </div>
+    <div class="form-group"><label>Logos / Client Names (comma separated)</label><input type="text" name="settings[hp_marquee_logos]" value="<?= si($s,'hp_marquee_logos') ?>" placeholder="RetailPro GH, MediTrack, EduLink, FoodFlow, PropEstate, LogiMove"></div>
+  </div>
+
+  <div class="tm-card" style="margin-bottom:20px;">
+    <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-triangle-exclamation text-green" style="margin-right:8px;"></i>Problem Section</span></div>
+    <div class="form-row">
+      <div class="form-group"><label>Eyebrow Tag</label><input type="text" name="settings[hp_problem_eyebrow]" value="<?= si($s,'hp_problem_eyebrow') ?>" placeholder="The Problem"></div>
+      <div class="form-group"><label>Heading (before emphasis)</label><input type="text" name="settings[hp_problem_h2_pre]" value="<?= si($s,'hp_problem_h2_pre') ?>" placeholder="Sound"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Heading Emphasis Word</label><input type="text" name="settings[hp_problem_h2_em]" value="<?= si($s,'hp_problem_h2_em') ?>" placeholder="Familiar"></div>
+      <div class="form-group"><label>Heading Suffix (e.g. ?)</label><input type="text" name="settings[hp_problem_h2_post]" value="<?= si($s,'hp_problem_h2_post') ?>" placeholder="?"></div>
+    </div>
+    <div class="form-group"><label>Subtext</label><textarea name="settings[hp_problem_subtext]" rows="2"><?= si($s,'hp_problem_subtext') ?></textarea></div>
+    <?php for($i=1;$i<=4;$i++): ?>
+    <div class="form-row" style="border-top:1px solid #1e293b;padding-top:14px;margin-top:14px;">
+      <div class="form-group"><label>Card <?= $i ?> Title</label><input type="text" name="settings[hp_problem_<?= $i ?>_title]" value="<?= si($s,"hp_problem_{$i}_title") ?>"></div>
+      <div class="form-group"><label>Card <?= $i ?> Description</label><input type="text" name="settings[hp_problem_<?= $i ?>_desc]" value="<?= si($s,"hp_problem_{$i}_desc") ?>"></div>
+    </div>
+    <?php endfor; ?>
+  </div>
+
+  <div class="tm-card" style="margin-bottom:20px;">
+    <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-briefcase text-green" style="margin-right:8px;"></i>Services Section Heading</span></div>
+    <div class="form-row">
+      <div class="form-group"><label>Eyebrow Tag</label><input type="text" name="settings[hp_services_eyebrow]" value="<?= si($s,'hp_services_eyebrow') ?>" placeholder="What We Do"></div>
+      <div class="form-group"><label>Heading (before emphasis)</label><input type="text" name="settings[hp_services_h2_pre]" value="<?= si($s,'hp_services_h2_pre') ?>" placeholder="Everything Your Business Needs to Run on"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Heading Emphasis Word</label><input type="text" name="settings[hp_services_h2_em]" value="<?= si($s,'hp_services_h2_em') ?>" placeholder="AI"></div>
+      <div class="form-group"><label>Subtext</label><input type="text" name="settings[hp_services_subtext]" value="<?= si($s,'hp_services_subtext') ?>" placeholder="End-to-end AI transformation..."></div>
+    </div>
+    <p style="color:#64748b;font-size:0.8rem;">The 4 service cards shown here come from <a href="<?= SITE_URL ?>/admin/services.php" style="color:#22c55e;">Services</a> (first 4 active).</p>
+  </div>
+
+  <div class="tm-card" style="margin-bottom:20px;">
+    <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-wand-magic-sparkles text-green" style="margin-right:8px;"></i>Free Tools Section</span></div>
+    <div class="form-row">
+      <div class="form-group"><label>Eyebrow Tag</label><input type="text" name="settings[hp_tools_eyebrow]" value="<?= si($s,'hp_tools_eyebrow') ?>" placeholder="Free Tools"></div>
+      <div class="form-group"><label>Heading</label><input type="text" name="settings[hp_tools_h2]" value="<?= si($s,'hp_tools_h2') ?>" placeholder="Try Our Free Business Tools"></div>
+    </div>
+    <div class="form-group"><label>Subtext</label><input type="text" name="settings[hp_tools_subtext]" value="<?= si($s,'hp_tools_subtext') ?>"></div>
+    <?php
+    $toolDefaults = [1=>['Business Health Checker','Answer a few questions and get a personalized report on your business health.','Try Now'],2=>['ROI Calculator','Calculate how much time and money your business can save with automation.','Calculate Now'],3=>['Solution Recommender','Tell us about your business and we\'ll recommend the right solutions for you.','Get Recommendations']];
+    foreach($toolDefaults as $i=>$d): ?>
+    <div style="border-top:1px solid #1e293b;padding-top:14px;margin-top:14px;">
+      <div class="form-row">
+        <div class="form-group"><label>Tool <?= $i ?> Title</label><input type="text" name="settings[hp_tool_<?= $i ?>_title]" value="<?= si($s,"hp_tool_{$i}_title") ?>" placeholder="<?= $d[0] ?>"></div>
+        <div class="form-group"><label>Tool <?= $i ?> Button Text</label><input type="text" name="settings[hp_tool_<?= $i ?>_cta]" value="<?= si($s,"hp_tool_{$i}_cta") ?>" placeholder="<?= $d[2] ?>"></div>
+      </div>
+      <div class="form-group"><label>Tool <?= $i ?> Description</label><input type="text" name="settings[hp_tool_<?= $i ?>_desc]" value="<?= si($s,"hp_tool_{$i}_desc") ?>" placeholder="<?= $d[1] ?>"></div>
+    </div>
+    <?php endforeach; ?>
+    <p style="color:#64748b;font-size:0.8rem;margin-top:10px;">Links and icons are fixed (tied to the actual tool pages); only text is editable here.</p>
+  </div>
+
+  <div class="tm-card" style="margin-bottom:20px;">
+    <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-folder-open text-green" style="margin-right:8px;"></i>Portfolio Section Heading</span></div>
+    <div class="form-row">
+      <div class="form-group"><label>Eyebrow Tag</label><input type="text" name="settings[hp_portfolio_eyebrow]" value="<?= si($s,'hp_portfolio_eyebrow') ?>" placeholder="Our Work"></div>
+      <div class="form-group"><label>Heading</label><input type="text" name="settings[hp_portfolio_h2]" value="<?= si($s,'hp_portfolio_h2') ?>" placeholder="Results We've Delivered"></div>
+    </div>
+    <div class="form-group"><label>Subtext</label><input type="text" name="settings[hp_portfolio_subtext]" value="<?= si($s,'hp_portfolio_subtext') ?>"></div>
+    <p style="color:#64748b;font-size:0.8rem;">Project cards come from <a href="<?= SITE_URL ?>/admin/projects.php" style="color:#22c55e;">Projects</a>.</p>
+  </div>
+
+  <div class="tm-card" style="margin-bottom:20px;">
+    <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-diagram-project text-green" style="margin-right:8px;"></i>How It Works (Process)</span></div>
+    <div class="form-row">
+      <div class="form-group"><label>Eyebrow Tag</label><input type="text" name="settings[hp_process_eyebrow]" value="<?= si($s,'hp_process_eyebrow') ?>" placeholder="The Process"></div>
+      <div class="form-group"><label>Heading</label><input type="text" name="settings[hp_process_h2]" value="<?= si($s,'hp_process_h2') ?>" placeholder="How We Work With You"></div>
+    </div>
+    <div class="form-group"><label>Subtext</label><input type="text" name="settings[hp_process_subtext]" value="<?= si($s,'hp_process_subtext') ?>"></div>
+    <?php
+    $stepDefaults = [1=>['Discovery Call','We learn about your business, goals, challenges, and current systems in a free 30-minute consultation.'],2=>['Digital Roadmap','We create a custom plan showing exactly what to build, the timeline, and expected outcomes.'],3=>['Build & Launch','Our team builds your solution with weekly updates and your full involvement throughout.'],4=>['Grow & Scale','Ongoing support, training, and optimisation to ensure you keep getting better results over time.']];
+    foreach($stepDefaults as $i=>$d): ?>
+    <div class="form-row" style="border-top:1px solid #1e293b;padding-top:14px;margin-top:14px;">
+      <div class="form-group"><label>Step <?= $i ?> Title</label><input type="text" name="settings[hp_process_<?= $i ?>_title]" value="<?= si($s,"hp_process_{$i}_title") ?>" placeholder="<?= $d[0] ?>"></div>
+      <div class="form-group"><label>Step <?= $i ?> Description</label><input type="text" name="settings[hp_process_<?= $i ?>_desc]" value="<?= si($s,"hp_process_{$i}_desc") ?>" placeholder="<?= $d[1] ?>"></div>
+    </div>
+    <?php endforeach; ?>
+  </div>
+
+  <div class="tm-card" style="margin-bottom:20px;">
+    <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-star text-green" style="margin-right:8px;"></i>Testimonials Section Heading</span></div>
+    <div class="form-row">
+      <div class="form-group"><label>Eyebrow Tag</label><input type="text" name="settings[hp_testimonials_eyebrow]" value="<?= si($s,'hp_testimonials_eyebrow') ?>" placeholder="Client Stories"></div>
+      <div class="form-group"><label>Heading</label><input type="text" name="settings[hp_testimonials_h2]" value="<?= si($s,'hp_testimonials_h2') ?>" placeholder="What Our Clients Say"></div>
+    </div>
+    <p style="color:#64748b;font-size:0.8rem;">Testimonial cards come from <a href="<?= SITE_URL ?>/admin/testimonials.php" style="color:#22c55e;">Testimonials</a>.</p>
+  </div>
+
+  <div class="tm-card">
+    <div class="tm-card-header"><span class="tm-card-title"><i class="fa-solid fa-newspaper text-green" style="margin-right:8px;"></i>Blog Preview Section Heading</span></div>
+    <div class="form-row">
+      <div class="form-group"><label>Eyebrow Tag</label><input type="text" name="settings[hp_blog_eyebrow]" value="<?= si($s,'hp_blog_eyebrow') ?>" placeholder="Insights"></div>
+      <div class="form-group"><label>Heading</label><input type="text" name="settings[hp_blog_h2]" value="<?= si($s,'hp_blog_h2') ?>" placeholder="Latest From Our Blog"></div>
+    </div>
+    <p style="color:#64748b;font-size:0.8rem;">Only shown when there are published posts. Posts come from <a href="<?= SITE_URL ?>/admin/posts.php" style="color:#22c55e;">Blog Posts</a>.</p>
   </div>
 </div>
 
