@@ -193,7 +193,7 @@ document.getElementById('audit-form').addEventListener('submit', function(){
     $fixSoon   = array_values(array_filter($checks, fn($c) => $c['status'] === 'warn' && $c['weight'] >= 2));
     $worthIt   = array_values(array_filter($checks, fn($c) => $c['status'] === 'warn' && $c['weight'] < 2));
 ?>
-<section class="audit-page" style="background:var(--bg-soft);">
+<section class="audit-page tm2-pillars-hero-section" style="background:var(--bg-soft);">
 
     <!-- ===== MINI NAV ===== -->
     <div style="background:var(--card);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
@@ -255,12 +255,14 @@ document.getElementById('audit-form').addEventListener('submit', function(){
         <div style="max-width:560px;margin:0 auto;text-align:center;">
             <?php if ($unlocked): ?>
             <?php $reportLink = SITE_URL . '/tools/audit-report' . (!empty($_SESSION['audit_token']) ? '?token=' . $_SESSION['audit_token'] : ''); ?>
+            <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.3);color:#4ade80;font-size:0.82rem;font-weight:500;padding:8px 16px;border-radius:99px;margin-bottom:16px;">
+                <i class="fa-solid fa-envelope-circle-check"></i> Sent to your email &mdash; check your inbox for the report link
+            </div>
             <p style="color:#e2e8f0;font-size:0.95rem;font-weight:500;margin-bottom:16px;">Verified. Your full report is ready.</p>
             <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
                 <a href="<?= htmlspecialchars($reportLink) ?>" target="_blank" rel="noopener" class="tm-btn-primary" style="font-weight:500;background:#f472b6;">Open full report <i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i></a>
                 <a href="<?= SITE_URL ?>/tools/website-audit?reset=1" style="color:#94a3b8;font-size:0.85rem;font-weight:400;align-self:center;text-decoration:underline;">Scan another site</a>
             </div>
-            <p style="color:#64748b;font-size:0.78rem;font-weight:300;margin-top:14px;">We also emailed you a link to it.</p>
             <?php if ($justUnlocked): ?><script>window.open('<?= htmlspecialchars($reportLink) ?>', '_blank');</script><?php endif; ?>
 
             <?php elseif ($otpPending): ?>

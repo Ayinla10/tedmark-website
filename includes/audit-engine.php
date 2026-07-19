@@ -36,6 +36,11 @@ function auditFetch(string $url, int $timeout = 8): array {
         CURLOPT_REDIR_PROTOCOLS=> CURLPROTO_HTTP | CURLPROTO_HTTPS,
         CURLOPT_SSL_VERIFYPEER => true,
         CURLOPT_USERAGENT      => 'TedmarkAuditBot/1.0 (+https://tedmarkdigital.com)',
+        CURLOPT_ENCODING       => '',
+        CURLOPT_HTTPHEADER     => [
+            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language: en-US,en;q=0.9',
+        ],
     ]);
     $start = microtime(true);
     $raw = curl_exec($ch);
@@ -108,6 +113,9 @@ function runWebsiteAudit(string $inputUrl): array {
         return ['ok'=>false, 'error'=>'Could not reach that site (' . $res['error'] . '). Check the URL and try again.'];
     }
     if ($res['code'] < 200 || $res['code'] >= 400) {
+        if (in_array($res['code'], [401, 403, 406, 415, 429], true)) {
+            return ['ok'=>false, 'error'=>"That site's security settings ({$res['code']}) are blocking our scanner. This usually means a firewall (like Cloudflare) is set to challenge automated requests. Try again in a moment, or contact us if it keeps happening."];
+        }
         return ['ok'=>false, 'error'=>"That URL returned an HTTP {$res['code']} error, so it can't be audited."];
     }
 
