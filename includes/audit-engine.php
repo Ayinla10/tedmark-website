@@ -120,9 +120,16 @@ function auditShortPath(string $url, string $origin): string {
 }
 
 /** Pull normalized, in-scope internal links out of a parsed page. */
+/** Strip a leading "www." so www/non-www are treated as the same site. */
+function auditBareHost(string $host): string {
+    $host = strtolower($host);
+    return str_starts_with($host, 'www.') ? substr($host, 4) : $host;
+}
+
 function auditExtractLinks(DOMXPath $xpath, string $origin, string $scheme, string $selfUrl): array {
     $found = [];
     $skipExt = ['.pdf','.jpg','.jpeg','.png','.gif','.svg','.zip','.doc','.docx','.xls','.xlsx','.mp4','.mp3','.css','.js','.ico','.webp'];
+    $originBareHost = auditBareHost(parse_url($origin, PHP_URL_HOST) ?: '');
     foreach ($xpath->query('//a[@href]') as $a) {
         $href = $a->getAttribute('href');
         if (!$href || str_starts_with($href, '#') || str_starts_with($href, 'mailto:') || str_starts_with($href, 'tel:') || str_starts_with($href, 'javascript:')) continue;
@@ -131,7 +138,11 @@ function auditExtractLinks(DOMXPath $xpath, string $origin, string $scheme, stri
         elseif (str_starts_with($href, '/')) $resolved = $origin . $href;
         elseif (!preg_match('#^https?://#i', $href)) $resolved = rtrim($origin,'/') . '/' . ltrim($href,'/');
         $resolved = strtok($resolved, '#'); // drop fragments
-        if (!str_starts_with($resolved, $origin)) continue;
+        $resolvedHost = parse_url($resolved, PHP_URL_HOST) ?: '';
+        if (auditBareHost($resolvedHost) !== $originBareHost) continue;
+        // Rewrite to the origin's own host so www/non-www variants of the same
+        // page collapse into one canonical URL instead of being crawled twice.
+        $resolved = str_replace($resolvedHost, parse_url($origin, PHP_URL_HOST), $resolved);
         $resolved = rtrim($resolved, '/');
         if ($resolved === rtrim($selfUrl, '/')) continue;
         $lower = strtolower($resolved);
@@ -301,8 +312,8 @@ function runWebsiteAudit(string $inputUrl): array {
     $maxPages     = 12; // including the homepage
 
     $scheme = $parts['scheme'] ?? 'https';
-    $visited = [rtrim($url, '/')];
-    $queue = auditExtractLinks($xpath, $origin, $scheme, $url);
+    $visited = [rtrim($url, '/'), rtrim($res['final_url'], '/')];
+    $queue = auditExtractLinks($xpath, $origin, $scheme, $res['final_url']);
     $allLinksSeen = $queue; // full inventory for dead-link checking
     $pagesScanned = 1;
     $pageReports = [];
