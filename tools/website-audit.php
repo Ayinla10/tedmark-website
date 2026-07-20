@@ -99,7 +99,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verify_code']) && !em
         require_once __DIR__ . '/../includes/audit-ai.php';
         $aiReport = auditGenerateFullReport(
             $results['url'], $results['checks'], $results['category_scores'],
-            $results['page_title'] ?? '', $results['meta_desc'] ?? '', $results['word_count'] ?? 0, $results['pages_scanned'] ?? 1
+            $results['page_title'] ?? '', $results['meta_desc'] ?? '', $results['word_count'] ?? 0, $results['pages_scanned'] ?? 1,
+            $results['technology_stack'] ?? []
         );
         $results['ai_report'] = $aiReport;
 

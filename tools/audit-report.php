@@ -45,7 +45,7 @@ usort($priority, fn($a,$b) => $b['weight'] <=> $a['weight']);
 $fixNow  = array_values(array_filter($checks, fn($c) => $c['status'] === 'fail'));
 $fixSoon = array_values(array_filter($checks, fn($c) => $c['status'] === 'warn' && $c['weight'] >= 2));
 $fixLast = array_values(array_filter($checks, fn($c) => $c['status'] === 'warn' && $c['weight'] < 2));
-$catIcons = ['SEO'=>'fa-magnifying-glass','Technical'=>'fa-gear','Security'=>'fa-shield-halved','Content'=>'fa-file-lines','Additional Pages'=>'fa-copy'];
+$catIcons = ['SEO'=>'fa-magnifying-glass','Technical'=>'fa-gear','Security'=>'fa-shield-halved','Content'=>'fa-file-lines','Additional Pages'=>'fa-copy','UX'=>'fa-palette','Conversion'=>'fa-bullseye','Authority'=>'fa-link'];
 ?>
 
 <div class="audit-page" style="font-family:'Geist',sans-serif;background:var(--bg-soft);">
@@ -104,6 +104,7 @@ $catIcons = ['SEO'=>'fa-magnifying-glass','Technical'=>'fa-gear','Security'=>'fa
     foreach (array_keys($catScores) as $cat) { if ($cat !== 'Additional Pages') $tocEntries[] = $cat; }
     $tocEntries[] = 'Page-by-Page Findings';
     $tocEntries[] = 'Priority Action Plan';
+    if (!empty($aiReport['tedmark_opportunity'])) $tocEntries[] = 'Growth Opportunity';
     ?>
     <div class="audit-print-area" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:26px 28px;margin-bottom:24px;box-shadow:var(--shadow);">
         <h2 style="font-size:0.95rem;font-weight:600;color:var(--text);margin-bottom:14px;"><i class="fa-solid fa-list-ol" style="color:var(--accent);"></i> Report Contents</h2>
@@ -247,10 +248,11 @@ $catIcons = ['SEO'=>'fa-magnifying-glass','Technical'=>'fa-gear','Security'=>'fa
     </div>
 
     <!-- ===== PRIORITY ACTION PLAN ===== -->
+    <?php $sectionNum++; ?>
     <div class="audit-print-area" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:28px;margin-bottom:24px;box-shadow:var(--shadow);">
         <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid var(--border);">
             <div style="width:38px;height:38px;border-radius:10px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fa-solid fa-list-check" style="color:var(--accent);"></i></div>
-            <div><h2 style="font-size:1.05rem;font-weight:600;color:var(--text);"><?= $sectionNum+1 ?>. Priority Action Plan</h2><p style="font-size:0.8rem;color:var(--muted);font-weight:300;">Fix these, in this order</p></div>
+            <div><h2 style="font-size:1.05rem;font-weight:600;color:var(--text);"><?= $sectionNum ?>. Priority Action Plan</h2><p style="font-size:0.8rem;color:var(--muted);font-weight:300;">Fix these, in this order</p></div>
         </div>
         <?php if ($aiReport && !empty($aiReport['roadmap_narrative'])): ?>
         <p style="color:var(--text-soft);font-size:0.87rem;font-weight:300;line-height:1.65;margin-bottom:20px;"><?= htmlspecialchars($aiReport['roadmap_narrative']) ?></p>
@@ -270,6 +272,29 @@ $catIcons = ['SEO'=>'fa-magnifying-glass','Technical'=>'fa-gear','Security'=>'fa
         <p style="color:var(--text-soft);font-size:0.85rem;font-weight:300;font-style:italic;margin-top:20px;padding-top:16px;border-top:1px solid var(--border);"><?= htmlspecialchars($aiReport['closing_note']) ?></p>
         <?php endif; ?>
     </div>
+
+    <?php $opp = $aiReport['tedmark_opportunity'] ?? null; if ($opp): $sectionNum++; ?>
+    <!-- ===== GROWTH OPPORTUNITY ===== -->
+    <div class="audit-print-area" style="background:linear-gradient(135deg,#0f172a,#0f3460);border-radius:12px;padding:28px;margin-bottom:24px;color:#fff;">
+        <div style="font-size:0.72rem;font-weight:400;color:#4ade80;text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;"><?= $sectionNum ?>. Growth Opportunity</div>
+        <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start;">
+            <div>
+                <div style="font-size:0.68rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;">Opportunity Score</div>
+                <div style="font-size:2.4rem;font-weight:700;color:#f472b6;line-height:1;"><?= (int)($opp['lead_score'] ?? 0) ?><span style="font-size:1rem;color:rgba(255,255,255,0.4);">/10</span></div>
+                <p style="color:rgba(255,255,255,0.6);font-size:0.78rem;font-weight:300;max-width:220px;margin-top:6px;"><?= htmlspecialchars($opp['lead_score_reason'] ?? '') ?></p>
+            </div>
+            <div style="flex:1;min-width:220px;">
+                <div style="font-size:0.68rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">Where We Can Help</div>
+                <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;">
+                    <?php foreach (($opp['services_needed'] ?? []) as $s): ?>
+                    <span style="background:rgba(244,114,182,0.15);border:1px solid rgba(244,114,182,0.35);color:#f9a8d4;padding:4px 12px;border-radius:99px;font-size:0.75rem;font-weight:400;"><?= htmlspecialchars($s) ?></span>
+                    <?php endforeach; ?>
+                </div>
+                <p style="color:rgba(255,255,255,0.75);font-size:0.85rem;font-weight:300;line-height:1.6;margin:0;"><?= htmlspecialchars($opp['summary'] ?? '') ?></p>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
 
     <div class="audit-no-print" style="text-align:center;margin-top:8px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
         <a href="<?= SITE_URL ?>/consultation" class="tm-btn-green" style="font-weight:500;">Get Help Fixing These <i class="fa-solid fa-arrow-right fa-xs"></i></a>

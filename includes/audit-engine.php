@@ -113,6 +113,23 @@ function auditCheck(string $id, string $label, string $category, string $status,
     return compact('id','label','category','status','detail','weight');
 }
 
+/** Informational only, doesn't affect scoring. */
+function auditDetectTech(string $html, array $headers): array {
+    $tech = [];
+    $patterns = [
+        'WordPress' => '/wp-content|wp-includes/i', 'Shopify' => '/shopify/i', 'Wix' => '/wix\.com|wixstatic/i',
+        'Squarespace' => '/squarespace/i', 'Webflow' => '/webflow/i', 'Next.js' => '/next\.js|__next/i',
+        'React' => '/react|__REACT/i', 'Vue.js' => '/vue\.js|__vue/i', 'Bootstrap' => '/bootstrap/i',
+        'Tailwind CSS' => '/tailwind/i',
+    ];
+    foreach ($patterns as $name => $pattern) { if (preg_match($pattern, $html)) $tech[] = $name; }
+    $server = $headers['server'] ?? '';
+    if (stripos($server, 'nginx') !== false) $tech[] = 'Nginx';
+    if (stripos($server, 'apache') !== false) $tech[] = 'Apache';
+    if (stripos($server, 'cloudflare') !== false || isset($headers['cf-ray'])) $tech[] = 'Cloudflare';
+    return array_values(array_unique($tech));
+}
+
 function auditShortPath(string $url, string $origin): string {
     $path = substr($url, strlen($origin));
     $path = trim($path, '/');
@@ -475,6 +492,74 @@ function runWebsiteAudit(string $inputUrl): array {
         ? auditCheck('schema', 'Structured Data (Schema.org)', 'SEO', 'pass', ($jsonLd->length + $microdata->length) . ' structured data block(s) found.', 2)
         : auditCheck('schema', 'Structured Data (Schema.org)', 'SEO', 'fail', 'No JSON-LD or Microdata found. Missing rich-result opportunities (Organization, LocalBusiness, FAQ, etc.).', 2);
 
+    // ── UX ───────────────────────────────────────────────
+    $formCount = $xpath->query('//form')->length;
+    $checks[] = $formCount > 0
+        ? auditCheck('forms', 'Forms Present', 'UX', 'pass', "$formCount form(s) found for lead capture.", 1)
+        : auditCheck('forms', 'Forms Present', 'UX', 'warn', 'No forms found, visitors have no easy way to submit an inquiry.', 2);
+
+    $hasWhatsApp = (bool) preg_match('/wa\.me\/|whatsapp\.com\/send|whatsapp-button/i', $html);
+    $hasLiveChat = (bool) preg_match('/intercom|tawk\.to|crisp\.chat|tidio|freshchat/i', $html);
+    $checks[] = ($hasWhatsApp || $hasLiveChat)
+        ? auditCheck('chat_widget', 'Live Chat / WhatsApp', 'UX', 'pass', $hasWhatsApp ? 'WhatsApp contact link detected.' : 'Live chat widget detected.', 1)
+        : auditCheck('chat_widget', 'Live Chat / WhatsApp', 'UX', 'warn', 'No WhatsApp link or live chat widget detected, a low-friction contact option many visitors expect.', 1);
+
+    $navCount = $xpath->query('//nav')->length;
+    $checks[] = $navCount > 0
+        ? auditCheck('nav_present', 'Navigation Structure', 'UX', 'pass', 'Semantic <nav> element found.', 1)
+        : auditCheck('nav_present', 'Navigation Structure', 'UX', 'warn', 'No semantic <nav> element found, may hurt accessibility and SEO crawlability.', 1);
+
+    // ── Conversion ───────────────────────────────────────
+    $ctaKeywords = ['book a call','get started','contact us','free consultation','request a quote','sign up','subscribe','call now','download'];
+    $ctasFound = [];
+    foreach ($ctaKeywords as $kw) { if (stripos($textContent, $kw) !== false) $ctasFound[] = $kw; }
+    $checks[] = !empty($ctasFound)
+        ? auditCheck('cta_presence', 'Call-to-Action Presence', 'Conversion', 'pass', count($ctasFound).' CTA phrase(s) found: '.implode(', ', array_slice($ctasFound,0,4)).'.', 3)
+        : auditCheck('cta_presence', 'Call-to-Action Presence', 'Conversion', 'fail', 'No clear call-to-action phrases found on the page.', 3);
+
+    $hasPricing = (bool) preg_match('/pricing|packages|plans|\$\d|GHS\s?\d|cedis/i', $textContent);
+    $checks[] = $hasPricing
+        ? auditCheck('pricing_visible', 'Pricing Transparency', 'Conversion', 'pass', 'Pricing or package information is visible.', 1)
+        : auditCheck('pricing_visible', 'Pricing Transparency', 'Conversion', 'warn', 'No pricing or package information visible, visitors must contact you before knowing if you fit their budget.', 1);
+
+    $hasTestimonials = (bool) preg_match('/testimonial|review|what.{0,15}(clients|customers) say/i', $textContent);
+    $checks[] = $hasTestimonials
+        ? auditCheck('testimonials', 'Testimonials Present', 'Conversion', 'pass', 'Testimonial or review content found.', 1)
+        : auditCheck('testimonials', 'Testimonials Present', 'Conversion', 'warn', 'No testimonials or reviews found, a missed trust-building opportunity.', 1);
+
+    $hasCaseStudy = (bool) preg_match('/case study|case studies|success story/i', $textContent);
+    $checks[] = $hasCaseStudy
+        ? auditCheck('case_studies', 'Case Studies Present', 'Conversion', 'pass', 'Case study content found.', 1)
+        : auditCheck('case_studies', 'Case Studies Present', 'Conversion', 'warn', 'No case studies found, detailed proof of results helps close leads.', 1);
+
+    $hasAnalytics = (bool) preg_match('/gtag\(|google-analytics\.com|googletagmanager/i', $html);
+    $checks[] = $hasAnalytics
+        ? auditCheck('analytics', 'Analytics Tracking', 'Conversion', 'pass', 'Google Analytics/Tag Manager detected.', 1)
+        : auditCheck('analytics', 'Analytics Tracking', 'Conversion', 'warn', 'No Google Analytics or Tag Manager detected, you can\'t measure what you don\'t track.', 1);
+
+    // ── Authority ────────────────────────────────────────
+    $privacyCode = auditQuickHead($origin . '/privacy-policy');
+    if ($privacyCode < 200 || $privacyCode >= 400) $privacyCode = auditQuickHead($origin . '/privacy');
+    $termsCode = auditQuickHead($origin . '/terms-of-service');
+    if ($termsCode < 200 || $termsCode >= 400) $termsCode = auditQuickHead($origin . '/terms');
+    $legalOk = ($privacyCode >= 200 && $privacyCode < 400) && ($termsCode >= 200 && $termsCode < 400);
+    $checks[] = $legalOk
+        ? auditCheck('legal_pages', 'Legal Pages (Privacy/Terms)', 'Authority', 'pass', 'Privacy Policy and Terms of Service pages both found.', 2)
+        : auditCheck('legal_pages', 'Legal Pages (Privacy/Terms)', 'Authority', 'fail', 'Privacy Policy and/or Terms of Service page missing or unreachable, a compliance and trust gap.', 2);
+
+    $socialPlatforms = [
+        'Facebook'  => '/facebook\.com\/(?!sharer)[^"\'\s#]+/i',
+        'Instagram' => '/instagram\.com\/[^"\'\s#]+/i',
+        'LinkedIn'  => '/linkedin\.com\/(company|in)\/[^"\'\s#]+/i',
+        'Twitter/X' => '/(twitter|x)\.com\/[^"\'\s#]+/i',
+        'YouTube'   => '/youtube\.com\/(channel|c|@)[^"\'\s#]+/i',
+    ];
+    $socialFound = [];
+    foreach ($socialPlatforms as $name => $pattern) { if (preg_match($pattern, $html)) $socialFound[] = $name; }
+    $checks[] = count($socialFound) >= 2
+        ? auditCheck('social_presence', 'Social Media Presence', 'Authority', 'pass', 'Real links found for: '.implode(', ', $socialFound).'.', 2)
+        : auditCheck('social_presence', 'Social Media Presence', 'Authority', 'warn', count($socialFound) === 0 ? 'No working social media links found.' : 'Only found: '.implode(', ', $socialFound).'. Most agencies benefit from a stronger multi-platform presence.', 2);
+
     // Homepage's own row in the page-by-page report (reuses checks already computed above)
     $homeStrengths = []; $homeIssues = [];
     $title ? $homeStrengths[] = 'Good page title' : $homeIssues[] = 'Missing/weak title';
@@ -512,6 +597,7 @@ function runWebsiteAudit(string $inputUrl): array {
         'word_count'  => $wordCount,
         'pages_scanned' => $pagesScanned,
         'page_reports' => $pageReports,
+        'technology_stack' => auditDetectTech($html, $headers),
         'pages_discovered' => count($visited) + count($queue),
         'crawl_truncated' => $crawlTruncated,
         'links_checked' => $checkedCount ?? 0,
