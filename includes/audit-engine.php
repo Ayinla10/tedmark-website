@@ -55,11 +55,14 @@ function auditFetch(string $url, int $timeout = 8): array {
         CURLOPT_PROTOCOLS      => CURLPROTO_HTTP | CURLPROTO_HTTPS,
         CURLOPT_REDIR_PROTOCOLS=> CURLPROTO_HTTP | CURLPROTO_HTTPS,
         CURLOPT_SSL_VERIFYPEER => true,
-        CURLOPT_USERAGENT      => 'TedmarkAuditBot/1.0 (+https://tedmarkdigital.com)',
+        CURLOPT_USERAGENT      => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
         CURLOPT_ENCODING       => '',
         CURLOPT_HTTPHEADER     => [
-            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
             'Accept-Language: en-US,en;q=0.9',
+            'Sec-Fetch-Mode: navigate',
+            'Sec-Fetch-Dest: document',
+            'Upgrade-Insecure-Requests: 1',
         ],
     ]);
     $start = microtime(true);
@@ -102,7 +105,7 @@ function auditQuickHead(string $url, int $timeout = 4): int {
         CURLOPT_TIMEOUT => $timeout,
         CURLOPT_CONNECTTIMEOUT => 3,
         CURLOPT_PROTOCOLS => CURLPROTO_HTTP | CURLPROTO_HTTPS,
-        CURLOPT_USERAGENT => 'TedmarkAuditBot/1.0',
+        CURLOPT_USERAGENT => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
     ]);
     curl_exec($ch);
     $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -195,6 +198,21 @@ function runWebsiteAudit(string $inputUrl): array {
     $html = $res['body'];
     $headers = $res['headers'];
     $checks = [];
+
+    // Detect bot-challenge / "checking your browser" interstitials (Cloudflare, etc.)
+    // — these return HTTP 200 with almost no real content, so treat them as unscannable rather than
+    // silently reporting a score for a fake page.
+    $challengeSignals = ['checking your browser', 'one moment, please', 'just a moment', 'attention required',
+        'ddos protection by', 'enable javascript and cookies', 'verifying you are human'];
+    $htmlLower = strtolower($html);
+    $looksLikeChallenge = strlen($html) < 15000 && array_reduce(
+        $challengeSignals,
+        fn($found, $signal) => $found || str_contains($htmlLower, $signal),
+        false
+    );
+    if ($looksLikeChallenge) {
+        return ['ok'=>false, 'error'=>"That site is protected by a bot-challenge (e.g. Cloudflare) that blocks automated scanners like ours — it served us a \"checking your browser\" page instead of the real site. This isn't something we can bypass; you'd need to allowlist our scanner in that site's firewall settings, or the site owner can temporarily lower the security level to scan it."];
+    }
 
     libxml_use_internal_errors(true);
     $dom = new DOMDocument();
