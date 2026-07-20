@@ -211,7 +211,7 @@ function runWebsiteAudit(string $inputUrl): array {
         false
     );
     if ($looksLikeChallenge) {
-        return ['ok'=>false, 'error'=>"Can't scan this site — your website's security settings are blocking our scanner. Ask your site admin to allowlist us, or lower the security level temporarily, then try again."];
+        return ['ok'=>false, 'error'=>"Can't scan this site — your website's security settings are blocking our scanner."];
     }
 
     libxml_use_internal_errors(true);
