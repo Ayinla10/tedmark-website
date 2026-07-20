@@ -21,7 +21,10 @@ const AUDIT_MARKET_PRESETS = [
 ];
 
 function auditDeepseekCall(string $systemPrompt, string $userPrompt, int $maxTokens = 350, bool $json = false): ?string {
-    if (!defined('DEEPSEEK_API_KEY') || DEEPSEEK_API_KEY === '') return null;
+    if (!defined('DEEPSEEK_API_KEY') || DEEPSEEK_API_KEY === '') {
+        error_log('DeepSeek call skipped: DEEPSEEK_API_KEY is not set (includes/secrets.php missing on this server?)');
+        return null;
+    }
 
     $payload = [
         'model' => 'deepseek-chat',
@@ -49,7 +52,7 @@ function auditDeepseekCall(string $systemPrompt, string $userPrompt, int $maxTok
     $raw = curl_exec($ch);
     $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     if ($raw === false || $code !== 200) {
-        error_log('DeepSeek call failed, http=' . $code . ' curl_error=' . curl_error($ch));
+        error_log('DeepSeek call failed, http=' . $code . ' curl_error=' . curl_error($ch) . ' body=' . substr((string)$raw, 0, 500));
         return null;
     }
     $data = json_decode($raw, true);

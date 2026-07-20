@@ -333,6 +333,7 @@ function runWebsiteAudit(string $inputUrl): array {
     $queue = auditExtractLinks($xpath, $origin, $scheme, $res['final_url']);
     $allLinksSeen = $queue; // full inventory for dead-link checking
     $pagesScanned = 1;
+    error_log("Audit crawl: origin=$origin found " . count($queue) . " initial links to crawl for $url");
     $pageReports = [];
 
     while (!empty($queue) && $pagesScanned < $maxPages && (microtime(true) - $crawlStart) < $crawlBudget) {
@@ -343,6 +344,7 @@ function runWebsiteAudit(string $inputUrl): array {
 
         $pageRes = auditFetch($pageUrl, 6);
         if (!$pageRes['ok'] || $pageRes['code'] < 200 || $pageRes['code'] >= 400) {
+            error_log('Audit crawl: failed to fetch ' . $pageUrl . ' — ' . ($pageRes['ok'] ? 'HTTP ' . $pageRes['code'] : ('curl error: ' . ($pageRes['error'] ?? 'unknown'))));
             $checks[] = auditCheck('page_'.md5($pageUrl), 'Page: '.auditShortPath($pageUrl,$origin), 'Additional Pages', 'fail', 'Page could not be loaded (broken link).', 2);
             $pageReports[] = [
                 'path' => auditShortPath($pageUrl, $origin), 'score' => 0,
