@@ -190,7 +190,7 @@ function runWebsiteAudit(string $inputUrl): array {
     }
     if ($res['code'] < 200 || $res['code'] >= 400) {
         if (in_array($res['code'], [401, 403, 406, 415, 429], true)) {
-            return ['ok'=>false, 'error'=>"That site's security settings ({$res['code']}) are blocking our scanner. This usually means a firewall (like Cloudflare) is set to challenge automated requests. Try again in a moment, or contact us if it keeps happening."];
+            return ['ok'=>false, 'error'=>"Can't scan this site — your website's security settings are blocking our scanner. Try again in a moment, or contact us if it keeps happening."];
         }
         return ['ok'=>false, 'error'=>"That URL returned an HTTP {$res['code']} error, so it can't be audited."];
     }
@@ -211,7 +211,7 @@ function runWebsiteAudit(string $inputUrl): array {
         false
     );
     if ($looksLikeChallenge) {
-        return ['ok'=>false, 'error'=>"That site is protected by a bot-challenge (e.g. Cloudflare) that blocks automated scanners like ours — it served us a \"checking your browser\" page instead of the real site. This isn't something we can bypass; you'd need to allowlist our scanner in that site's firewall settings, or the site owner can temporarily lower the security level to scan it."];
+        return ['ok'=>false, 'error'=>"Can't scan this site — your website's security settings are blocking our scanner. Ask your site admin to allowlist us, or lower the security level temporarily, then try again."];
     }
 
     libxml_use_internal_errors(true);
