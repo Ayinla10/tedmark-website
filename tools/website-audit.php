@@ -31,8 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scan_url'])) {
     $inputUrl = trim($_POST['scan_url'] ?? '');
     if ($inputUrl === '') {
         $error = 'Please enter a website URL.';
-    } elseif (!auditRateLimit($clientIp, 'scan', 5, 60)) {
-        $error = "You've hit the limit of 5 scans per hour. Please try again later.";
+    // Rate limiting disabled for now — re-enable with: !auditRateLimit($clientIp, 'scan', 3, 1440)
     } else {
         $audit = runWebsiteAudit($inputUrl);
         if (!$audit['ok']) {
@@ -50,8 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['request_code']) && !e
     $name  = trim($_POST['unlock_name'] ?? '');
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = 'Please enter a valid business email address.';
-    } elseif (!auditRateLimit($clientIp, 'otp_request', 5, 60)) {
-        $error = "You've requested too many codes. Please try again in an hour.";
+    // Rate limiting disabled for now — re-enable with: !auditRateLimit($clientIp, 'otp_request', 3, 1440)
     } else {
         $code = (string) random_int(100000, 999999);
         $_SESSION['audit_otp_code']     = $code;
@@ -89,8 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verify_code']) && !em
     } elseif (!hash_equals((string)$_SESSION['audit_otp_code'], $entered)) {
         $_SESSION['audit_otp_attempts'] = ($_SESSION['audit_otp_attempts'] ?? 0) + 1;
         $error = 'That code is incorrect. Please check your email and try again.';
-    } elseif (!auditRateLimit($clientIp, 'ai_report', 8, 60)) {
-        $error = "You've unlocked too many reports this hour. Please try again later.";
+    // Rate limiting disabled for now — re-enable with: !auditRateLimit($clientIp, 'ai_report', 3, 1440)
     } else {
         $results = $_SESSION['audit_results'];
         $email   = $_SESSION['audit_otp_email'];
